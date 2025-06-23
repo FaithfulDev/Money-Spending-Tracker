@@ -6,4 +6,11 @@ public partial class HomePage : ContentPage
     {
         InitializeComponent();
     }
+
+    private static void Button_Clicked(object sender, EventArgs e)
+    {
+#if ANDROID
+        MainApplication.TriggerWidgetUpdate();
+#endif
+    }
 }

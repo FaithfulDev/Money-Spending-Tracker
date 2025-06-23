@@ -20,7 +20,7 @@
 		<ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
 		<DefaultLanguage>en-us</DefaultLanguage>
 	</PropertyGroup>
 
@@ -43,6 +43,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\drawable\monthly_budget_widget_preview.png" />
+	  <None Remove="Platforms\Android\Resources\layout\monthly_budget_widget_layout.xml" />
+	  <None Remove="Platforms\Android\Resources\xml\monthly_budget_widget_info.xml" />
 	  <None Remove="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Brands-Regular-400.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Free-Regular-400.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Free-Solid-900.otf" />
