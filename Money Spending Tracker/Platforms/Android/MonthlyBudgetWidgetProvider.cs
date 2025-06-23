@@ -2,6 +2,7 @@
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
 
 namespace Money_Spending_Tracker;
@@ -11,6 +12,10 @@ namespace Money_Spending_Tracker;
 [MetaData("android.appwidget.provider", Resource = "@xml/monthly_budget_widget_info")]
 public class MonthlyBudgetWidgetProvider : AppWidgetProvider
 {
+    //Approximate cell dimensions in dp
+    const int cellWidthDp = 70;
+    const int cellHeightDp = 50;
+
     public override void OnUpdate(Context? context, AppWidgetManager? appWidgetManager, int[]? appWidgetIds)
     {
         if (context == null || appWidgetManager == null || appWidgetIds == null)
@@ -39,10 +44,12 @@ public class MonthlyBudgetWidgetProvider : AppWidgetProvider
             views.SetTextColor(Resource.Id.budget_number, color);
 
             // Estimate dimensions (fallback when no resize callback is triggered yet)
-            int defaultMinWidthDp = 100;
-            int defaultMinHeightDp = 40;
+            int cellWidth = 2;
+            int cellHeight = 1;
 
-            float textSizeSp = CalculateTextSizeSp(defaultMinWidthDp, defaultMinHeightDp);
+            // Determine the scaled text size based on width or height
+            float textSizeSp = CalculateTextSizeFromCells(cellWidth, cellHeight);
+
             views.SetTextViewTextSize(Resource.Id.budget_number, (int)Android.Util.ComplexUnitType.Sp, textSizeSp);
 
             appWidgetManager.UpdateAppWidget(widgetId, views);
@@ -59,11 +66,16 @@ public class MonthlyBudgetWidgetProvider : AppWidgetProvider
         }
 
         // Get the current widget dimensions
-        int minWidth = newOptions.GetInt(AppWidgetManager.OptionAppwidgetMinWidth);
-        int minHeight = newOptions.GetInt(AppWidgetManager.OptionAppwidgetMinHeight);
+        int minWidthDp = newOptions.GetInt(AppWidgetManager.OptionAppwidgetMinWidth);
+        int minHeightDp = newOptions.GetInt(AppWidgetManager.OptionAppwidgetMinHeight);
+
+        Log.Debug("WidgetDebug", $"Widget dimensions: minWidthDp={minWidthDp}, minHeightDp={minHeightDp}");
+
+        int cellWidth = Math.Max(minWidthDp / cellWidthDp, 1);
+        int cellHeight = Math.Max(minHeightDp / cellHeightDp, 1);
 
         // Determine the scaled text size based on width or height
-        float textSizeSp = CalculateTextSizeSp(minWidth, minHeight);
+        float textSizeSp = CalculateTextSizeFromCells(cellWidth, cellHeight);
 
         // Update the RemoteViews with new text size
         RemoteViews views = new(context.PackageName, Resource.Layout.monthly_budget_widget_layout);
@@ -72,17 +84,21 @@ public class MonthlyBudgetWidgetProvider : AppWidgetProvider
         appWidgetManager.UpdateAppWidget(appWidgetId, views);
     }
 
-    private static float CalculateTextSizeSp(int widthDp, int heightDp)
+    private static float CalculateTextSizeFromCells(int cellWidth, int cellHeight)
     {
-        // Use the smaller dimension to decide the size
-        int smallerSide = Math.Min(widthDp, heightDp);
+        int area = cellWidth * cellHeight;
 
-        return smallerSide switch
+        Log.Debug("WidgetDebug", $"Calculating text size for area: {area} (width: {cellWidth}, height: {cellHeight})");
+
+        return area switch
         {
-            <= 110 => 18f,
-            <= 180 => 24f,
-            <= 250 => 30f,
-            _ => 36f,
+            <= 1 => 14f,
+            <= 2 => 22f,   // e.g. 1x2 or 2x1
+            <= 3 => 34f,
+            <= 4 => 34f,   // e.g. 2x2
+            <= 6 => 50f,   // e.g. 3x2
+            <= 8 => 60f,
+            _ => 60f       // larger widgets
         };
     }
 }
