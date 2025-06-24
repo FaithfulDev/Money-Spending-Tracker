@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18 d17.14
+VisualStudioVersion = 17.14.36212.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Money Spending Tracker", "Money Spending Tracker\Money Spending Tracker.csproj", "{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneySpendingTracker", "Money Spending Tracker\MoneySpendingTracker.csproj", "{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneySpendingTracker.Data", "Money Spending Tracker.Data\MoneySpendingTracker.Data.csproj", "{9C6A4AE9-BE4B-4AB8-B832-60AEC83738B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +15,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AD7430B-7B34-42D7-8BAF-798AE0D2A56D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6A4AE9-BE4B-4AB8-B832-60AEC83738B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6A4AE9-BE4B-4AB8-B832-60AEC83738B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6A4AE9-BE4B-4AB8-B832-60AEC83738B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6A4AE9-BE4B-4AB8-B832-60AEC83738B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

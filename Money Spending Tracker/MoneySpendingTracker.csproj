@@ -20,7 +20,7 @@
 		<ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">28.0</SupportedOSPlatformVersion>
 		<DefaultLanguage>en-us</DefaultLanguage>
 	</PropertyGroup>
 
@@ -55,6 +55,8 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
@@ -69,6 +71,16 @@
 	  <MauiFont Include="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Brands-Regular-400.otf" />
 	  <MauiFont Include="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Free-Regular-400.otf" />
 	  <MauiFont Include="Resources\Fonts\FontAwesome\otfs\Font Awesome 6 Free-Solid-900.otf" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Money Spending Tracker.Data\MoneySpendingTracker.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Features\Start\StartPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

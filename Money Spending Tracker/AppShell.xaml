@@ -4,12 +4,21 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Money_Spending_Tracker"
-    Title="Money_Spending_Tracker">
+    Title="Money Spending Tracker">
 
+    <!--Hidden Pages-->
+    <ShellContent
+        Title="Start"
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate local:Features.Start.StartPage}"
+        Route="StartPage" />
+
+    <!--Menu Items-->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:Features.Home.HomePage}"
-        Route="Home">
+        Route="HomePage">
         <ShellContent.FlyoutIcon>
             <FontImageSource
                 FontFamily="FontAwesomeSolid"
