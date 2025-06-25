@@ -2,6 +2,7 @@
 using Android.Appwidget;
 using Android.Content;
 using Android.Runtime;
+using Money_Spending_Tracker.Platforms.Android.Widgets;
 
 namespace Money_Spending_Tracker
 {
