@@ -27,9 +27,6 @@ public class DatabaseService
 
         var password = await SecureStorage.GetAsync(StorageKeys.DB_PASSWORD);
 
-        //TODO remove debug code
-        password = "test";
-
         if (string.IsNullOrEmpty(password))
         {
             return false;
@@ -47,21 +44,25 @@ public class DatabaseService
     /// </summary>
     public async Task<bool> UnlockAndInitializeAsync(string password)
     {
-        var storedPassword = await SecureStorage.GetAsync(StorageKeys.DB_PASSWORD);
-
-        if (string.IsNullOrEmpty(storedPassword))
+        try
         {
+            _password = password;
+            await InitializeDatabaseAsync();
+        }
+        catch (SqliteException ex) when (ex.SqliteErrorCode == 26) // SQLITE_NOTADB
+        {
+            // This exception indicates that the database file is not a valid SQLite database.
+            // In our case it means the password is incorrect or the database file is corrupted.
+            _password = null;
             return false;
         }
-
-        if (storedPassword != password)
+        catch (Exception)
         {
-            return false;
+            _password = null;
+            throw;
         }
 
-        _password = password;
-
-        await InitializeDatabaseAsync();
+        await SecureStorage.SetAsync(StorageKeys.DB_PASSWORD, password);
 
         return true;
     }

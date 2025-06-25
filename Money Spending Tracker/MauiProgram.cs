@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Home;
 using Money_Spending_Tracker.Features.Start;
@@ -13,6 +14,7 @@ namespace Money_Spending_Tracker
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
