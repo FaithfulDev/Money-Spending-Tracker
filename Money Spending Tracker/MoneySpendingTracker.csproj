@@ -67,6 +67,9 @@
 	  <Compile Update="Features\Home\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Features\Onboarding\OnboardingApiPage.xaml.cs">
+	    <DependentUpon>OnboardingApiPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,6 +83,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Features\Onboarding\OnboardingApiPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Onboarding\OnboardingAuthenticationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Onboarding\OnboardingDatabasePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Onboarding\OnboardingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Features\Start\StartPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

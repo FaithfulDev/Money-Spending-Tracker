@@ -14,7 +14,7 @@
                IsPassword="True"
                Text="{Binding Password}"/>
 
-        <Button Text="Unlock" Margin="10,20" Command="{Binding LoginCommand}" />
+        <Button Text="Unlock" Margin="10,20" Command="{Binding UnlockCommand}" />
 
         <ActivityIndicator 
             x:Name="ActivityIndicator" 

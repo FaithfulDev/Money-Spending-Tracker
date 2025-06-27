@@ -17,13 +17,12 @@ internal class ApiToken
 
     public bool IsRefreshExpired { get => DateTime.Now.AddMinutes(-30) >= ExpireDateTime; }
 
-    public ApiToken(string accessToken, int expiresIn, string refreshToken, int refreshExpiresIn)
+    public ApiToken(string accessToken, DateTime expireDateTime, string refreshToken, DateTime refreshExpireDateTime)
     {
         AccessToken = accessToken;
+        ExpireDateTime = expireDateTime;
         RefreshToken = refreshToken;
-
-        ExpireDateTime = DateTime.Now.AddSeconds(expiresIn);
-        RefreshExpireDateTime = DateTime.Now.AddSeconds(refreshExpiresIn);
+        RefreshExpireDateTime = refreshExpireDateTime;
     }
 
     public void UpdateToken(string accessToken, int expiresIn)

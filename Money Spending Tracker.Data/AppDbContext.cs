@@ -6,6 +6,8 @@ public class AppDbContext : DbContext
 {
     public DbSet<Transaction> Transactions { get; set; }
 
+    public DbSet<Account> Accounts { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -20,11 +22,6 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //var dbPath = Path.Combine(
-        //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        //    "money_spending_tracker.db"
-        //);
-
         optionsBuilder.UseSqlite();
     }
 

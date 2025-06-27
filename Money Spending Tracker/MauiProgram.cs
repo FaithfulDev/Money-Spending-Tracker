@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Home;
+using Money_Spending_Tracker.Features.Onboarding;
 using Money_Spending_Tracker.Features.Start;
 using Plugin.Fingerprint;
 
@@ -34,6 +35,7 @@ namespace Money_Spending_Tracker
 
             builder.Services.AddTransient<StartPage>();
             builder.Services.AddTransient<HomePage>();
+            builder.Services.AddTransient<OnboardingPage>();
 
             return builder.Build();
         }

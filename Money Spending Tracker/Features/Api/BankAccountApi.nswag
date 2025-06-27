@@ -1,10 +1,11 @@
-﻿{
-  "runtime": "NetCore21",
+{
+  "runtime": "Net90",
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
+      "json": "",
       "url": "https://bankaccountdata.gocardless.com/api/swagger.json",
-      "output": "BankAccountDataApi.nswag.json",
+      "output": null,
       "newLineBehavior": "Auto"
     }
   },
@@ -13,7 +14,9 @@
       "clientBaseClass": null,
       "configurationClass": null,
       "generateClientClasses": true,
+      "suppressClientClassesOutput": false,
       "generateClientInterfaces": false,
+      "suppressClientInterfacesOutput": false,
       "clientBaseInterface": null,
       "injectHttpClient": true,
       "disposeHttpClient": true,
@@ -31,6 +34,8 @@
       "exposeJsonSerializerSettings": false,
       "clientClassAccessModifier": "public",
       "typeAccessModifier": "public",
+      "propertySetterAccessModifier": "",
+      "generateNativeRecords": false,
       "generateContractsOutput": false,
       "contractsNamespace": null,
       "contractsOutputFilePath": null,
@@ -41,10 +46,10 @@
       "serializeTypeInformation": false,
       "queryNullValue": "",
       "className": "{controller}Client",
-      "operationGenerationMode": "SingleClientFromPathSegments",
+      "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [],
       "additionalContractNamespaceUsages": [],
-      "generateOptionalParameters": false,
+      "generateOptionalParameters": true,
       "generateJsonMethods": false,
       "enforceFlagEnums": false,
       "parameterArrayType": "System.Collections.Generic.IEnumerable",
@@ -55,7 +60,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "Money_Spending_Tracker.BankAccountDataApi",
+      "namespace": "Money_Spending_Tracker.Features.Api",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
@@ -71,6 +76,7 @@
       "dictionaryBaseType": "System.Collections.Generic.Dictionary",
       "classStyle": "Poco",
       "jsonLibrary": "NewtonsoftJson",
+      "jsonPolymorphicSerializationStyle": "NJsonSchema",
       "generateDefaultValues": true,
       "generateDataAnnotations": true,
       "excludedTypeNames": [],
@@ -87,12 +93,9 @@
       "generateOptionalPropertiesAsNullable": false,
       "generateNullableReferenceTypes": false,
       "templateDirectory": null,
-      "typeNameGeneratorType": null,
-      "propertyNameGeneratorType": null,
-      "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "BankAccountDataApi.cs",
+      "output": "BankAccountApi.cs",
       "newLineBehavior": "Auto"
     }
   }

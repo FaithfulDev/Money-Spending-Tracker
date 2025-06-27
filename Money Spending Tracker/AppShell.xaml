@@ -14,6 +14,13 @@
         ContentTemplate="{DataTemplate local:Features.Start.StartPage}"
         Route="StartPage" />
 
+    <ShellContent
+        Title="Onboarding"
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate local:Features.Onboarding.OnboardingPage}"
+        Route="OnboardingPage" />
+
     <!--Menu Items-->
     <ShellContent
         Title="Home"

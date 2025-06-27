@@ -1,8 +1,7 @@
-﻿using Money_Spending_Tracker.Features.Api;
-using Money_Spending_Tracker.Features.Storage;
+﻿using Money_Spending_Tracker.Features.Storage;
 using System.Text;
 
-namespace Money_Spending_Tracker.BankAccountDataApi;
+namespace Money_Spending_Tracker.Features.Api;
 
 partial class Client
 {
@@ -67,7 +66,12 @@ partial class Client
         }
 
         Client apiClient = new(client);
-        SpectacularJWTRefresh jwtRefresh = await apiClient.ApiV2TokenRefreshAsync(new() { Refresh = apiToken.RefreshToken });
+        SpectacularJWTRefresh jwtRefresh = await apiClient.Get_a_new_access_tokenAsync(
+            new JWTRefreshRequest()
+            {
+                Refresh = apiToken.RefreshToken,
+            }
+        );
 
         apiToken.UpdateToken(jwtRefresh.Access, jwtRefresh.Access_expires);
         await ApiToken.SetToStorageAsync(apiToken);
@@ -79,13 +83,21 @@ partial class Client
     {
         Client apiClient = new(client);
 
-        SpectacularJWTObtain jwt = await apiClient.ApiV2TokenNewAsync(new()
+        var requestBody = new JWTObtainPairRequest()
         {
             Secret_id = await SecureStorage.Default.GetAsync(StorageKeys.API_SECRET_ID),
             Secret_key = await SecureStorage.Default.GetAsync(StorageKeys.API_SECRET_KEY),
-        });
+        };
 
-        ApiToken apiToken = new(jwt.Access, jwt.Access_expires, jwt.Refresh, jwt.Refresh_expires);
+        SpectacularJWTObtain jwt = await apiClient.Obtain_new_access_refresh_token_pairAsync(requestBody);
+
+        ApiToken apiToken = new(
+            jwt.Access,
+            DateTime.Now.AddSeconds(jwt.Access_expires),
+            jwt.Refresh,
+            DateTime.Now.AddSeconds(jwt.Refresh_expires)
+        );
+
         await ApiToken.SetToStorageAsync(apiToken);
 
         return apiToken.AccessToken;

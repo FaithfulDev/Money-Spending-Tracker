@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Onboarding"
+             x:Class="Money_Spending_Tracker.Features.Onboarding.OnboardingApiPage"
+             x:DataType="local:OnboardingApiViewModel"
+             Title="API Credentials">
+
+    <Grid Margin="18,0" RowDefinitions="Auto,Auto,*,Auto,40">
+
+        <VerticalStackLayout Grid.Row="0">
+            
+            <Label 
+                Text="API Secret Id" 
+                Margin="2" 
+                FontAttributes="Bold" />
+
+            <Entry
+               Placeholder="API Secret Id"
+               IsSpellCheckEnabled="False"
+               IsTextPredictionEnabled="False"
+               Text="{Binding ApiSecretId}"/>
+
+            <Label 
+                Text="API Secret Key" 
+                Margin="2" 
+                FontAttributes="Bold" />
+
+            <Entry
+               Placeholder="API Secret Key"
+               IsSpellCheckEnabled="False"
+               IsTextPredictionEnabled="False"
+               Text="{Binding ApiSecretKey}"/>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1">
+            <Label  
+                Grid.Row="1"  
+                Margin="0,20,0,0"
+                FontSize="Body">
+                <Label.Text>
+                    This app uses the bank account API from gocardless.com to securely access your financial data. 
+                </Label.Text>
+            </Label>
+
+            <Label  
+                Grid.Row="1"  
+                Margin="0,20,0,0"
+                FontSize="Body">
+                <Label.Text>
+                    Please enter your API credentials to proceed. 
+                </Label.Text>
+            </Label>
+
+            <Label  
+                Grid.Row="1"  
+                Margin="0,20,0,0"
+                FontSize="Body">
+                <Label.Text>
+                    If you don't know what to enter here, please refer to project readme on github.com/FaithfulDev/Money-Spending-Tracker. 
+                </Label.Text>
+            </Label>
+        </VerticalStackLayout>
+
+        <ActivityIndicator 
+            Grid.Row="2"
+            WidthRequest="200"
+            HeightRequest="150"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsWorking}" 
+            IsRunning="{Binding IsWorking}"/>
+
+        <Button 
+            Grid.Row="3"
+            Text="Check API credentials" 
+            Margin="10,20" 
+            Command="{Binding CheckApiCredentialsCommand}" />
+    </Grid>
+</ContentPage>

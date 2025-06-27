@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Home;
+using Money_Spending_Tracker.Features.Onboarding;
 
 namespace Money_Spending_Tracker.Features.Start;
 
@@ -11,7 +13,7 @@ internal partial class StartViewModel : ObservableObject
     public bool _isWorking = true;
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UnlockCommand))]
     public string? _password;
 
     private readonly DatabaseService _databaseService;
@@ -23,24 +25,25 @@ internal partial class StartViewModel : ObservableObject
 
     public async Task Start()
     {
-        //TODO: Check if onboarding is needed
-        //if (await IsOnboardingNeeded())
-        //{
-        //    //TODO: Navigate to Onboarding page
-        //    //await Shell.Current.GoToAsync("//yourRoute");
-        //}
+        if (!_databaseService.DoesDatabaseExist())
+        {
+            await Shell.Current.GoToAsync($"//{nameof(OnboardingPage)}");
+            return;
+        }
 
+        // Try to unlock the database using fingerprint authentication.
         if (await _databaseService.UnlockAndInitializeAsync())
         {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            await PostUnlock();
+            return;
         }
 
         //Unlock failed. User will need to enter password.
         IsWorking = false;
     }
 
-    [RelayCommand(CanExecute = nameof(IsLoginExecutable))]
-    private async Task Login()
+    [RelayCommand(CanExecute = nameof(IsUnlockExecutable))]
+    private async Task Unlock()
     {
         if (string.IsNullOrEmpty(Password))
         {
@@ -63,23 +66,43 @@ internal partial class StartViewModel : ObservableObject
             return;
         }
 
-        if (isUnlocked)
+        if (!isUnlocked)
         {
-            // Navigate to the HomePage after successful unlock
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            IsWorking = false;
+            await Shell.Current.DisplayAlert("Error", "Invalid password. Please try again.", "OK");
             return;
         }
-        else
-        {
-            // Show an error message if the unlock failed
-            await Shell.Current.DisplayAlert("Error", "Invalid password. Please try again.", "OK");
-        }
 
-        IsWorking = false;
+        await PostUnlock();
     }
 
-    private bool IsLoginExecutable()
+    private bool IsUnlockExecutable()
     {
         return !string.IsNullOrEmpty(Password) && !IsWorking;
+    }
+
+    private async Task<bool> IsOnboardingNeeded()
+    {
+        var context = _databaseService.CreateDbContext();
+
+        // Check if the database is empty, which indicates that onboarding is needed.
+        if (!await context.Accounts.AnyAsync())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private async Task PostUnlock()
+    {
+        // Database was unlocked. We need to check if onboarding is needed.
+        if (await IsOnboardingNeeded())
+        {
+            await Shell.Current.GoToAsync($"//{nameof(OnboardingPage)}");
+            return;
+        }
+
+        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
 }

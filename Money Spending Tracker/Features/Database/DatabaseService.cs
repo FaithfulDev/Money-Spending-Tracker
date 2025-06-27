@@ -70,7 +70,7 @@ public class DatabaseService
     private async Task InitializeDatabaseAsync()
     {
         using var context = CreateDbContext();
-        await context.Database.EnsureCreatedAsync();
+        await context.Database.MigrateAsync();
     }
 
     public AppDbContext CreateDbContext()
@@ -99,7 +99,14 @@ public class DatabaseService
 
     public bool DoesDatabaseExist()
     {
-        //File.Delete(_dbPath); // For testing purposes, delete the database file if it exists
         return File.Exists(_dbPath);
+    }
+
+    public void DeleteDatabase()
+    {
+        if (DoesDatabaseExist())
+        {
+            File.Delete(_dbPath);
+        }
     }
 }

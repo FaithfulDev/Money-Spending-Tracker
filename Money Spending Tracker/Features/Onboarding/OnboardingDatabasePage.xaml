@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Onboarding"
+             x:Class="Money_Spending_Tracker.Features.Onboarding.OnboardingDatabasePage"
+             x:DataType="local:OnboardingDatabaseViewModel"
+             Title="Create Database">
+
+    <Grid Margin="18,0" RowDefinitions="Auto,Auto,*,Auto,40">
+
+        <VerticalStackLayout Grid.Row="0">
+            
+            <Label 
+                Text="Database Password" 
+                Margin="2" 
+                FontAttributes="Bold" />
+
+            <Entry
+               Placeholder="Enter database password"
+               IsPassword="True"
+               Text="{Binding Password}"/>
+            
+        </VerticalStackLayout>
+        
+        <Label  
+            Grid.Row="1"  
+            Margin="0,20,0,0"
+            VerticalOptions="Center"  
+            HorizontalOptions="Start"  
+            FontSize="Body">
+            <Label.Text>
+                All data is stored in a local database. Please create a password to secure your data.
+            </Label.Text>
+        </Label>
+
+        <ActivityIndicator 
+            Grid.Row="2"
+            WidthRequest="200"
+            HeightRequest="150"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsWorking}" 
+            IsRunning="{Binding IsWorking}"/>
+
+        <Button 
+            Grid.Row="3"
+            Text="Create Database" 
+            Margin="10,20" 
+            Command="{Binding CreateDatabaseCommand}" />
+    </Grid>
+</ContentPage>
