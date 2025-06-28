@@ -72,8 +72,6 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
             return false;
         }
 
-        await Shell.Current.DisplayAlert("Success", "Requisition authentication was successful.", "OK");
-
         return true;
     }
 

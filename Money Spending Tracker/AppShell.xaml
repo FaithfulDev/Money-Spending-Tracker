@@ -34,4 +34,16 @@
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
+    <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate local:Features.Settings.SettingsPage}"
+        Route="SettingsPage">
+        <ShellContent.FlyoutIcon>
+            <FontImageSource
+            FontFamily="FontAwesomeSolid"
+            Glyph="&#xf013;"
+            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        </ShellContent.FlyoutIcon>
+    </ShellContent>
+
 </Shell>

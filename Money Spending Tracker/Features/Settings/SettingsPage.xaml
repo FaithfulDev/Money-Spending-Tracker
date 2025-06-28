@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Settings"
+             x:Class="Money_Spending_Tracker.Features.Settings.SettingsPage"
+             x:DataType="local:SettingsViewModel"
+             Title="Settings">
+
+    <Grid Margin="18,0">
+
+        <ScrollView Grid.Row="0">
+
+            <VerticalStackLayout Grid.Row="0">
+                
+                <Label Text="Monthly Budget" FontAttributes="Bold" Margin="2,0"/>
+                <Entry Placeholder="Monthly Budget" 
+                   Margin="0" 
+                   Text="{Binding MonthlyBudget}" 
+                   Keyboard="Numeric"/>
+
+                <Button 
+                    Grid.Row="3"
+                    Text="Save" 
+                    Margin="10,10" 
+                    Command="{Binding SaveCommand}" />
+
+                <Label Text="Update API Credentials" FontAttributes="Bold" Margin="2,20,0,0"/>
+
+                <Button 
+                    Grid.Row="3"
+                    Text="Update API Credentials" 
+                    Margin="10,10" 
+                    Command="{Binding UpdateApiCredentialsCommand}" />
+
+
+                <Label Text="Delete Transactions" FontAttributes="Bold" Margin="2,20,0,0"/>
+                <Label  
+                    Margin="2,10,0,0">
+                    <Label.Text>
+                        Delete all transactions, from all accounts, but keep everything else.
+                    </Label.Text>
+                </Label>
+
+                <Button 
+                    Grid.Row="3"
+                    Text="Delete Transactions" 
+                    Margin="10,10" 
+                    Command="{Binding DeleteTransactionsCommand}" />
+
+                <Label Text="Delete ALL Data" FontAttributes="Bold" Margin="2,20,0,0"/>
+                <Label  
+                    Margin="2,10,0,0">
+                    <Label.Text>
+                        Delete everything. App will restart with onboarding.
+                    </Label.Text>
+                </Label>
+
+                <Button 
+                    Grid.Row="3"
+                    Text="Delete ALL Data" 
+                    Margin="10,10" 
+                    Command="{Binding DeleteAllDataCommand}" 
+                    BackgroundColor="#C61E1E" TextColor="White" />
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    </Grid>
+
+</ContentPage>

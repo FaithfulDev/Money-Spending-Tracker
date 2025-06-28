@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Money_Spending_Tracker.Features.Api;
+using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Storage;
 
 namespace Money_Spending_Tracker.Features.Onboarding;
@@ -18,8 +21,16 @@ internal partial class OnboardingApiViewModel : ObservableObject
     [NotifyCanExecuteChangedFor(nameof(CheckApiCredentialsCommand))]
     public string? _ApiSecretKey;
 
-    public async Task Start()
+    /// <summary>
+    /// Indicates whether the API credentials are being updated or not. 
+    /// Updates are trigged by settings page.
+    /// </summary>
+    private bool _isUpdate;
+
+    public async Task Start(bool isUpdate)
     {
+        _isUpdate = isUpdate;
+
         ApiSecretId = await SecureStorage.GetAsync(StorageKeys.API_SECRET_ID);
         ApiSecretKey = await SecureStorage.GetAsync(StorageKeys.API_SECRET_KEY);
     }
@@ -64,6 +75,13 @@ internal partial class OnboardingApiViewModel : ObservableObject
         }
 
         IsWorking = false;
+
+        if (_isUpdate)
+        {
+            await Shell.Current.GoToAsync($"//{nameof(SettingsPage)}");
+            await Toast.Make("API credentials updated successfully.", ToastDuration.Long).Show();
+            return;
+        }
 
         // Navigate to next onboarding step
         await Shell.Current.GoToAsync($"{nameof(OnboardingAuthenticationPage)}");

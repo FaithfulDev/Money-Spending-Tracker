@@ -1,15 +1,13 @@
 namespace Money_Spending_Tracker.Features.Onboarding;
 
+[QueryProperty(nameof(IsUpdate), nameof(IsUpdate))]
 public partial class OnboardingApiPage : ContentPage
 {
-    private readonly OnboardingApiViewModel _viewModel;
+    public bool IsUpdate { get; set; }
 
     public OnboardingApiPage()
     {
         InitializeComponent();
-
-        _viewModel = new OnboardingApiViewModel();
-        BindingContext = _viewModel;
 
         var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
         Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingApiPage)}");
@@ -19,6 +17,9 @@ public partial class OnboardingApiPage : ContentPage
 
     private async void OnboardingApiPage_Loaded(object? sender, EventArgs e)
     {
-        await _viewModel.Start();
+        var viewModel = new OnboardingApiViewModel();
+        BindingContext = viewModel;
+
+        await viewModel.Start(IsUpdate);
     }
 }
