@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Money_Spending_Tracker.Data;
 
@@ -10,9 +11,11 @@ using Money_Spending_Tracker.Data;
 namespace Money_Spending_Tracker.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250628095716_AccountUpdate")]
+    partial class AccountUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -38,8 +41,9 @@ namespace Money_Spending_Tracker.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("InstitutionLogo")
-                        .HasColumnType("BLOB");
+                    b.Property<string>("InstitutionLogo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("InstitutionName")
                         .IsRequired()

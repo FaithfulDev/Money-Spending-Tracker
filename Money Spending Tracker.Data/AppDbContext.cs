@@ -33,5 +33,12 @@ public class AppDbContext : DbContext
                 {
                     eb.HasKey(t => t.TransactionId);
                 });
+
+        modelBuilder
+            .Entity<Account>(
+                eb =>
+                {
+                    eb.HasKey(a => a.AccountId);
+                });
     }
 }

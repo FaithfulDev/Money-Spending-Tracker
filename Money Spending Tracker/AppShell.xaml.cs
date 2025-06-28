@@ -15,6 +15,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(OnboardingDatabasePage), typeof(OnboardingDatabasePage));
         Routing.RegisterRoute(nameof(OnboardingApiPage), typeof(OnboardingApiPage));
         Routing.RegisterRoute(nameof(OnboardingAuthenticationPage), typeof(OnboardingAuthenticationPage));
+        Routing.RegisterRoute(nameof(OnboardingAccountsPage), typeof(OnboardingAccountsPage));
     }
 
     private static void MauiExceptions_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -10,11 +10,12 @@ public partial class OnboardingPage : ContentPage
     {
         InitializeComponent();
         _databaseService = databaseService;
+
+        Preferences.Set("OnboardingPath", $"//{nameof(OnboardingPage)}");
     }
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        // Navigate to the next onboarding step
         if (_databaseService.DoesDatabaseExist())
         {
             await Shell.Current.GoToAsync($"{nameof(OnboardingApiPage)}");

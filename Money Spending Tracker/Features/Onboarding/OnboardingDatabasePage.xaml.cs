@@ -13,6 +13,9 @@ public partial class OnboardingDatabasePage : ContentPage
         _onboardingViewModel = new OnboardingDatabaseViewModel(databaseService);
         BindingContext = _onboardingViewModel;
 
+        var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
+        Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingDatabasePage)}");
+
         Loaded += OnboardingDatabasePage_Loaded;
     }
 

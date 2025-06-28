@@ -2811,55 +2811,55 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// The ID of this Account, used to refer to this account in other API calls.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
 
         /// <summary>
         /// The date &amp; time at which the account object was created.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Created { get; set; }
+        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Created { get; set; }
 
         /// <summary>
         /// The date &amp; time at which the account object was last accessed.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("last_accessed", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Last_accessed { get; set; }
+        [Newtonsoft.Json.JsonProperty("last_accessed", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Last_accessed { get; set; }
 
         /// <summary>
         /// The Account IBAN
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Iban { get; set; }
 
         /// <summary>
         /// The Account BBAN
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bban { get; set; }
 
         /// <summary>
         /// The processing status of this account.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Status { get; set; }
 
         /// <summary>
         /// The ASPSP associated with this account.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("institution_id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("institution_id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Institution_id { get; set; }
 
         /// <summary>
         /// The name of the account owner.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("owner_name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("owner_name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Owner_name { get; set; }
 
         /// <summary>
         /// The name of account.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -2879,7 +2879,7 @@ namespace Money_Spending_Tracker.Features.Api
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class AccountBalance
     {
-        [Newtonsoft.Json.JsonProperty("balances", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("balances", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<BalanceSchema> Balances { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -2926,37 +2926,37 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// iban
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Iban { get; set; }
 
         /// <summary>
         /// bban
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bban { get; set; }
 
         /// <summary>
         /// pan
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("pan", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pan", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Pan { get; set; }
 
         /// <summary>
         /// maskedPan
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("maskedPan", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maskedPan", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string MaskedPan { get; set; }
 
         /// <summary>
         /// msisdn
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("msisdn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("msisdn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Msisdn { get; set; }
 
         /// <summary>
         /// currency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Currency { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -2986,8 +2986,8 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// The last time the account transactions were updated
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("last_updated", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Last_updated { get; set; }
+        [Newtonsoft.Json.JsonProperty("last_updated", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Last_updated { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -3009,7 +3009,7 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// secondaryIdentification
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("secondaryIdentification", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("secondaryIdentification", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SecondaryIdentification { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3039,7 +3039,7 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// currency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Currency { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3107,25 +3107,25 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// creditLimitIncluded
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("creditLimitIncluded", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool CreditLimitIncluded { get; set; }
+        [Newtonsoft.Json.JsonProperty("creditLimitIncluded", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? CreditLimitIncluded { get; set; }
 
         /// <summary>
         /// lastChangeDateTime
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("lastChangeDateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("lastChangeDateTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LastChangeDateTime { get; set; }
 
         /// <summary>
         /// referenceDate
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("referenceDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("referenceDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ReferenceDate { get; set; }
 
         /// <summary>
         /// lastCommittedTransaction
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("lastCommittedTransaction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("lastCommittedTransaction", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LastCommittedTransaction { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3149,7 +3149,7 @@ namespace Money_Spending_Tracker.Features.Api
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.ICollection<TransactionSchema> Booked { get; set; } = new System.Collections.ObjectModel.Collection<TransactionSchema>();
 
-        [Newtonsoft.Json.JsonProperty("pending", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("pending", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<TransactionSchema> Pending { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3172,37 +3172,37 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// sourceCurrency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("sourceCurrency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("sourceCurrency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string SourceCurrency { get; set; }
 
         /// <summary>
         /// exchangeRate
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("exchangeRate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("exchangeRate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ExchangeRate { get; set; }
 
         /// <summary>
         /// unitCurrency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("unitCurrency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("unitCurrency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string UnitCurrency { get; set; }
 
         /// <summary>
         /// targetCurrency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("targetCurrency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("targetCurrency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TargetCurrency { get; set; }
 
         /// <summary>
         /// quotationDate
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("quotationDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("quotationDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string QuotationDate { get; set; }
 
         /// <summary>
         /// contractIdentification
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("contractIdentification", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("contractIdentification", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ContractIdentification { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3225,121 +3225,121 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// resourceId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("resourceId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("resourceId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ResourceId { get; set; }
 
         /// <summary>
         /// iban
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("iban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Iban { get; set; }
 
         /// <summary>
         /// bban
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bban", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bban { get; set; }
 
         /// <summary>
         /// SortCodeAccountNumber returned by some UK banks (6 digit Sort Code and 8 digit Account Number)
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("scan", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("scan", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Scan { get; set; }
 
         /// <summary>
         /// msisdn
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("msisdn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("msisdn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Msisdn { get; set; }
 
         /// <summary>
         /// currency
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Currency { get; set; }
 
         /// <summary>
         /// ownerName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ownerName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ownerName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string OwnerName { get; set; }
 
         /// <summary>
         /// name
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
         /// displayName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("displayName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("displayName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// product
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Product { get; set; }
 
         /// <summary>
         /// cashAccountType
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("cashAccountType", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("cashAccountType", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CashAccountType { get; set; }
 
         /// <summary>
         /// status
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Status { get; set; }
 
         /// <summary>
         /// bic
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bic { get; set; }
 
         /// <summary>
         /// linkedAccounts
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("linkedAccounts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("linkedAccounts", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LinkedAccounts { get; set; }
 
         /// <summary>
         /// maskedPan
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("maskedPan", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("maskedPan", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string MaskedPan { get; set; }
 
         /// <summary>
         /// usage
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("usage", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("usage", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Usage { get; set; }
 
         /// <summary>
         /// details
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("details", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("details", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Details { get; set; }
 
         /// <summary>
         /// ownerAddressUnstructured
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ownerAddressUnstructured", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ownerAddressUnstructured", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> OwnerAddressUnstructured { get; set; }
 
         /// <summary>
         /// ownerAddressStructured
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ownerAddressStructured", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ownerAddressStructured", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public OwnerAddressStructuredSchema OwnerAddressStructured { get; set; }
 
         /// <summary>
         /// additionalAccountData used for information that is outside of Berlin Group specification, such as bank or country-specific fields
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("additionalAccountData", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("additionalAccountData", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AdditionalAccountDataSchema AdditionalAccountData { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3362,14 +3362,14 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// The ID of this End User Agreement, used to refer to this end user agreement in other API calls.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
 
         /// <summary>
         /// The date &amp; time at which the end user agreement was created.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Created { get; set; }
+        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Created { get; set; }
 
         /// <summary>
         /// an Institution ID for this EUA
@@ -3381,21 +3381,21 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Maximum number of days of transaction data to retrieve.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("max_historical_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("max_historical_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(1, 730)]
-        public int Max_historical_days { get; set; } = 90;
+        public int? Max_historical_days { get; set; } = 90;
 
         /// <summary>
         /// Number of days from acceptance that the access can be used.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_valid_for_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access_valid_for_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(1, 180)]
-        public int Access_valid_for_days { get; set; } = 90;
+        public int? Access_valid_for_days { get; set; } = 90;
 
         /// <summary>
         /// Array containing one or several values of ['balances', 'details', 'transactions']
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_scope", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access_scope", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<object> Access_scope { get; set; }
 
         /// <summary>
@@ -3407,8 +3407,8 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// if this agreement can be extended. Supported by GB banks only.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reconfirmation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Reconfirmation { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("reconfirmation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Reconfirmation { get; set; } = false;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -3437,28 +3437,28 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Maximum number of days of transaction data to retrieve.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("max_historical_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("max_historical_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(1, 730)]
-        public int Max_historical_days { get; set; } = 90;
+        public int? Max_historical_days { get; set; } = 90;
 
         /// <summary>
         /// Number of days from acceptance that the access can be used.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_valid_for_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access_valid_for_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(1, 180)]
-        public int Access_valid_for_days { get; set; } = 90;
+        public int? Access_valid_for_days { get; set; } = 90;
 
         /// <summary>
         /// Array containing one or several values of ['balances', 'details', 'transactions']
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_scope", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access_scope", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<object> Access_scope { get; set; }
 
         /// <summary>
         /// if this agreement can be extended. Supported by GB banks only.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reconfirmation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Reconfirmation { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("reconfirmation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Reconfirmation { get; set; } = false;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -3507,7 +3507,7 @@ namespace Money_Spending_Tracker.Features.Api
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Detail { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Type { get; set; }
 
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
@@ -3538,13 +3538,13 @@ namespace Money_Spending_Tracker.Features.Api
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bic { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("transaction_total_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("transaction_total_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Transaction_total_days { get; set; } = "90";
 
-        [Newtonsoft.Json.JsonProperty("max_access_valid_for_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("max_access_valid_for_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Max_access_valid_for_days { get; set; }
 
         [Newtonsoft.Json.JsonProperty("countries", Required = Newtonsoft.Json.Required.Always)]
@@ -3580,13 +3580,13 @@ namespace Money_Spending_Tracker.Features.Api
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Name { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bic", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Bic { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("transaction_total_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("transaction_total_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Transaction_total_days { get; set; } = "90";
 
-        [Newtonsoft.Json.JsonProperty("max_access_valid_for_days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("max_access_valid_for_days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Max_access_valid_for_days { get; set; }
 
         [Newtonsoft.Json.JsonProperty("countries", Required = Newtonsoft.Json.Required.Always)]
@@ -3677,31 +3677,31 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// streetName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("streetName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("streetName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StreetName { get; set; }
 
         /// <summary>
         /// buildingNumber
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("buildingNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("buildingNumber", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BuildingNumber { get; set; }
 
         /// <summary>
         /// townName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("townName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("townName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TownName { get; set; }
 
         /// <summary>
         /// postCode
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("postCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("postCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PostCode { get; set; }
 
         /// <summary>
         /// country
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Country { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3778,26 +3778,26 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Reconfirmation URL to be provided to PSU.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reconfirmation_url", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("reconfirmation_url", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Uri Reconfirmation_url { get; set; }
 
         /// <summary>
         /// Reconfirmation creation time
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Created { get; set; }
+        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Created { get; set; }
 
         /// <summary>
         /// Datetime from when PSU will be able to access reconfirmation URL.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("url_valid_from", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Url_valid_from { get; set; }
+        [Newtonsoft.Json.JsonProperty("url_valid_from", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Url_valid_from { get; set; }
 
         /// <summary>
         /// Datetime until when PSU will be able to access reconfirmation URL.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("url_valid_to", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset Url_valid_to { get; set; }
+        [Newtonsoft.Json.JsonProperty("url_valid_to", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Url_valid_to { get; set; }
 
         /// <summary>
         /// Optional redirect URL for reconfirmation to override requisition's redirect.
@@ -3821,7 +3821,7 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Dictionary of accounts and their reconfirm and reject timestamps
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public object Accounts { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
@@ -3865,8 +3865,8 @@ namespace Money_Spending_Tracker.Features.Api
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class Requisition
     {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
 
         /// <summary>
         /// The date &amp; time at which the requisition was created.
@@ -3884,9 +3884,9 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// status of this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public StatusEnum Status { get; set; }
+        public StatusEnum? Status { get; set; }
 
         /// <summary>
         /// an Institution ID for this Requisition
@@ -3898,53 +3898,53 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// EUA associated with this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Agreement { get; set; }
+        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Agreement { get; set; }
 
         /// <summary>
         /// additional ID to identify the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(256)]
         public string Reference { get; set; }
 
         /// <summary>
         /// array of account IDs retrieved within a scope of this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<System.Guid> Accounts { get; set; }
 
         /// <summary>
         /// A two-letter country code (ISO 639-1)
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(5)]
         public string User_language { get; set; }
 
         /// <summary>
         /// link to initiate authorization with Institution
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("link", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("link", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Uri Link { get; set; } = new System.Uri("https://ob.gocardless.com/psd2/start/3fa85f64-5717-4562-b3fc-2c963f66afa6/SANDBOXFINANCE_SFIN0000");
 
         /// <summary>
         /// optional SSN field to verify ownership of the account
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(64)]
         public string Ssn { get; set; }
 
         /// <summary>
         /// option to enable account selection view for the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Account_selection { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Account_selection { get; set; } = false;
 
         /// <summary>
         /// enable redirect back to the client after account list received
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Redirect_immediate { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Redirect_immediate { get; set; } = false;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -3980,41 +3980,41 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// EUA associated with this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Agreement { get; set; }
+        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Agreement { get; set; }
 
         /// <summary>
         /// additional ID to identify the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(256, MinimumLength = 1)]
         public string Reference { get; set; }
 
         /// <summary>
         /// A two-letter country code (ISO 639-1)
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(5, MinimumLength = 1)]
         public string User_language { get; set; }
 
         /// <summary>
         /// optional SSN field to verify ownership of the account
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(64)]
         public string Ssn { get; set; }
 
         /// <summary>
         /// option to enable account selection view for the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Account_selection { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Account_selection { get; set; } = false;
 
         /// <summary>
         /// enable redirect back to the client after account list received
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Redirect_immediate { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Redirect_immediate { get; set; } = false;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -4036,26 +4036,26 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Your access token
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Access { get; set; }
 
         /// <summary>
         /// Access token expires in seconds
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_expires", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Access_expires { get; set; } = 86400;
+        [Newtonsoft.Json.JsonProperty("access_expires", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? Access_expires { get; set; } = 86400;
 
         /// <summary>
         /// Your refresh token
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("refresh", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("refresh", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Refresh { get; set; }
 
         /// <summary>
         /// Refresh token expires in seconds
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("refresh_expires", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Refresh_expires { get; set; } = 2592000;
+        [Newtonsoft.Json.JsonProperty("refresh_expires", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? Refresh_expires { get; set; } = 2592000;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -4077,14 +4077,14 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// Your access token
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("access", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Access { get; set; }
 
         /// <summary>
         /// Access token expires in seconds
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("access_expires", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Access_expires { get; set; } = 86400;
+        [Newtonsoft.Json.JsonProperty("access_expires", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int? Access_expires { get; set; } = 86400;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -4103,8 +4103,8 @@ namespace Money_Spending_Tracker.Features.Api
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.4.0.0 (NJsonSchema v11.3.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SpectacularRequisition
     {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Id { get; set; }
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Id { get; set; }
 
         /// <summary>
         /// The date &amp; time at which the requisition was created.
@@ -4122,9 +4122,9 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// status of this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public StatusEnum Status { get; set; }
+        public StatusEnum? Status { get; set; }
 
         /// <summary>
         /// an Institution ID for this Requisition
@@ -4136,53 +4136,53 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// EUA associated with this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Guid Agreement { get; set; }
+        [Newtonsoft.Json.JsonProperty("agreement", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid? Agreement { get; set; }
 
         /// <summary>
         /// additional ID to identify the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(256)]
         public string Reference { get; set; }
 
         /// <summary>
         /// array of account IDs retrieved within a scope of this requisition
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("accounts", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<object> Accounts { get; set; }
 
         /// <summary>
         /// A two-letter country code (ISO 639-1)
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("user_language", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(5)]
         public string User_language { get; set; }
 
         /// <summary>
         /// link to initiate authorization with Institution
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("link", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("link", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Uri Link { get; set; } = new System.Uri("https://ob.gocardless.com/psd2/start/3fa85f64-5717-4562-b3fc-2c963f66afa6/SANDBOXFINANCE_SFIN0000");
 
         /// <summary>
         /// optional SSN field to verify ownership of the account
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ssn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.StringLength(64)]
         public string Ssn { get; set; }
 
         /// <summary>
         /// option to enable account selection view for the end user
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Account_selection { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("account_selection", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Account_selection { get; set; } = false;
 
         /// <summary>
         /// enable redirect back to the client after account list received
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public bool Redirect_immediate { get; set; } = false;
+        [Newtonsoft.Json.JsonProperty("redirect_immediate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool? Redirect_immediate { get; set; } = false;
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 
@@ -4296,61 +4296,61 @@ namespace Money_Spending_Tracker.Features.Api
         /// <summary>
         /// transactionId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("transactionId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("transactionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string TransactionId { get; set; }
 
         /// <summary>
         /// entryReference
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("entryReference", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("entryReference", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string EntryReference { get; set; }
 
         /// <summary>
         /// endToEndId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("endToEndId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("endToEndId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string EndToEndId { get; set; }
 
         /// <summary>
         /// mandateId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("mandateId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("mandateId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string MandateId { get; set; }
 
         /// <summary>
         /// checkId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("checkId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("checkId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CheckId { get; set; }
 
         /// <summary>
         /// creditorId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("creditorId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("creditorId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CreditorId { get; set; }
 
         /// <summary>
         /// bookingDate
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bookingDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bookingDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BookingDate { get; set; }
 
         /// <summary>
         /// valueDate
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("valueDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("valueDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ValueDate { get; set; }
 
         /// <summary>
         /// bookingDateTime
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bookingDateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bookingDateTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BookingDateTime { get; set; }
 
         /// <summary>
         /// valueDateTime
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("valueDateTime", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("valueDateTime", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ValueDateTime { get; set; }
 
         /// <summary>
@@ -4360,103 +4360,103 @@ namespace Money_Spending_Tracker.Features.Api
         [System.ComponentModel.DataAnnotations.Required]
         public TransactionAmountSchema TransactionAmount { get; set; } = new TransactionAmountSchema();
 
-        [Newtonsoft.Json.JsonProperty("currencyExchange", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("currencyExchange", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<CurrencyExchangeSchema> CurrencyExchange { get; set; }
 
         /// <summary>
         /// creditorName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("creditorName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("creditorName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CreditorName { get; set; }
 
         /// <summary>
         /// creditorAccount
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("creditorAccount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("creditorAccount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AccountSchema CreditorAccount { get; set; }
 
         /// <summary>
         /// ultimateCreditor
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ultimateCreditor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ultimateCreditor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string UltimateCreditor { get; set; }
 
         /// <summary>
         /// debtorName
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("debtorName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("debtorName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string DebtorName { get; set; }
 
         /// <summary>
         /// debtorAccount
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("debtorAccount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("debtorAccount", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public AccountSchema DebtorAccount { get; set; }
 
         /// <summary>
         /// ultimateDebtor
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("ultimateDebtor", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("ultimateDebtor", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string UltimateDebtor { get; set; }
 
         /// <summary>
         /// remittanceInformationUnstructured
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("remittanceInformationUnstructured", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("remittanceInformationUnstructured", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string RemittanceInformationUnstructured { get; set; }
 
         /// <summary>
         /// remittanceInformationUnstructuredArray
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("remittanceInformationUnstructuredArray", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("remittanceInformationUnstructuredArray", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> RemittanceInformationUnstructuredArray { get; set; }
 
         /// <summary>
         /// remittanceInformationStructured
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("remittanceInformationStructured", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("remittanceInformationStructured", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string RemittanceInformationStructured { get; set; }
 
         /// <summary>
         /// remittanceInformationStructuredArray
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("remittanceInformationStructuredArray", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("remittanceInformationStructuredArray", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<string> RemittanceInformationStructuredArray { get; set; }
 
         /// <summary>
         /// additionalInformation
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("additionalInformation", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("additionalInformation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string AdditionalInformation { get; set; }
 
         /// <summary>
         /// purposeCode
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("purposeCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("purposeCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string PurposeCode { get; set; }
 
         /// <summary>
         /// bankTransactionCode
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("bankTransactionCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("bankTransactionCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string BankTransactionCode { get; set; }
 
         /// <summary>
         /// proprietaryBankTransactionCode
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("proprietaryBankTransactionCode", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("proprietaryBankTransactionCode", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ProprietaryBankTransactionCode { get; set; }
 
         /// <summary>
         /// internalTransactionId
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("internalTransactionId", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("internalTransactionId", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string InternalTransactionId { get; set; }
 
         /// <summary>
         /// balanceAfterTransaction
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("balanceAfterTransaction", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("balanceAfterTransaction", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public BalanceAfterTransactionSchema BalanceAfterTransaction { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;

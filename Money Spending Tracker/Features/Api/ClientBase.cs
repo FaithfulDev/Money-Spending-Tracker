@@ -73,7 +73,7 @@ partial class Client
             }
         );
 
-        apiToken.UpdateToken(jwtRefresh.Access, jwtRefresh.Access_expires);
+        apiToken.UpdateToken(jwtRefresh.Access, (int)jwtRefresh.Access_expires!);
         await ApiToken.SetToStorageAsync(apiToken);
 
         return apiToken.AccessToken;
@@ -93,9 +93,9 @@ partial class Client
 
         ApiToken apiToken = new(
             jwt.Access,
-            DateTime.Now.AddSeconds(jwt.Access_expires),
+            DateTime.Now.AddSeconds((int)jwt.Access_expires!),
             jwt.Refresh,
-            DateTime.Now.AddSeconds(jwt.Refresh_expires)
+            DateTime.Now.AddSeconds((int)jwt.Refresh_expires!)
         );
 
         await ApiToken.SetToStorageAsync(apiToken);

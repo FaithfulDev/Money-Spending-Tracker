@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Onboarding"
+             x:Class="Money_Spending_Tracker.Features.Onboarding.OnboardingAccountsPage"
+             x:DataType="local:OnboardingAccountsViewModel"
+             Title="Account Selection">
+    <Grid Margin="18,0" RowDefinitions="Auto,*,Auto,40">
+
+        <CollectionView ItemsSource="{Binding Accounts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:AccountSelectionModel">
+                    <Border Margin="10,10,10,0">
+                        <Grid Padding="10" ColumnDefinitions="Auto, *" RowDefinitions="Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleSelectionCommand}" />
+                            </Grid.GestureRecognizers>
+
+                            <CheckBox Grid.Column="0" 
+                                  VerticalOptions="Center" 
+                                  IsChecked="{Binding IsSelected}" />
+                            <StackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="{Binding AccountName}" 
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding AccountIban}" 
+                                       FontAttributes="Italic"
+                                       FontSize="12" />
+                            </StackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator 
+            Grid.Row="1"
+            WidthRequest="200"
+            HeightRequest="150"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsWorking}" 
+            IsRunning="{Binding IsWorking}" />
+
+        <Button 
+            Grid.Row="2"
+            Text="Confirm Selection" 
+            Margin="10,20" 
+            Command="{Binding ConfirmSelectionCommand}" />
+
+    </Grid>
+</ContentPage>

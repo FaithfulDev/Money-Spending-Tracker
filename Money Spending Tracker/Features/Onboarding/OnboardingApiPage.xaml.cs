@@ -11,6 +11,9 @@ public partial class OnboardingApiPage : ContentPage
         _viewModel = new OnboardingApiViewModel();
         BindingContext = _viewModel;
 
+        var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
+        Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingApiPage)}");
+
         Loaded += OnboardingApiPage_Loaded;
     }
 

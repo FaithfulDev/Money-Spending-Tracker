@@ -20,9 +20,6 @@ internal partial class OnboardingApiViewModel : ObservableObject
 
     public async Task Start()
     {
-        //TODO: Remove debug code
-        await Shell.Current.GoToAsync($"{nameof(OnboardingAuthenticationPage)}");
-
         ApiSecretId = await SecureStorage.GetAsync(StorageKeys.API_SECRET_ID);
         ApiSecretKey = await SecureStorage.GetAsync(StorageKeys.API_SECRET_KEY);
     }

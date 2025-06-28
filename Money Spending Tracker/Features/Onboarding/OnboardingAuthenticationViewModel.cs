@@ -20,25 +20,66 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     private List<string> _filteredInstitutions = [];
 
     private ICollection<Integration> _allInstitutions = [];
+    private readonly Client _apiClient = new(new());
 
-    public async Task Start()
+    public async Task Start(string? referenceId)
     {
-        Client apiClient = new(new());
+        IsWorking = true;
+
+        // If we have a reference ID, we will try to check the requisition.
+        if (!string.IsNullOrEmpty(referenceId) && await Callback(referenceId))
+        {
+            await Shell.Current.GoToAsync($"{nameof(OnboardingAccountsPage)}?ReferenceId={referenceId}");
+            IsWorking = false;
+            return;
+        }
 
         // Retrieve all institutions. We filter them later.
-        _allInstitutions = await apiClient.Retrieve_all_supported_Institutions_in_a_given_countryAsync();
+        _allInstitutions = await _apiClient.Retrieve_all_supported_Institutions_in_a_given_countryAsync();
 
-        //FilteredInstitutions = _allInstitutions
-        //    .Select(i => i.Name)
-        //    .OrderBy(name => name)
-        //    .Take(30) // Limit to 30 institutions for performance
-        //    .ToList();
+        IsWorking = false;
+    }
+
+    public async Task<bool> Callback(string referenceId)
+    {
+        Requisition? requisition = null;
+
+        try
+        {
+            requisition = await _apiClient.Requisition_by_idAsync(Guid.Parse(referenceId!));
+        }
+        catch (ApiException ex) when (ex.StatusCode == (int)System.Net.HttpStatusCode.NotFound)
+        {
+            // Ignore this exception, as it means that the requisition was not found.
+            // This should not happen, but just in case, we handle it gracefully.
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", $"An error occurred while retrieving the requisition: {ex.Message}. " +
+                $"Please repeat process.", "OK");
+            return false;
+        }
+
+        if (requisition == null)
+        {
+            await Shell.Current.DisplayAlert("Error", "Requisition not found. Please repeat process.", "OK");
+            return false;
+        }
+
+        if (requisition.Status != StatusEnum.LN)
+        {
+            await Shell.Current.DisplayAlert("Error", "Requisition authentication was unsuccessful. Please repeat process.", "OK");
+            return false;
+        }
+
+        await Shell.Current.DisplayAlert("Success", "Requisition authentication was successful.", "OK");
+
+        return true;
     }
 
     [RelayCommand(CanExecute = nameof(IsAuthenticateExecutable))]
     private async Task Authenticate()
     {
-        //TODO
         if (string.IsNullOrEmpty(InstitutionId))
         {
             await Shell.Current.DisplayAlert("Error", "Please check inputs.", "OK");
@@ -47,14 +88,21 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
 
         IsWorking = true;
 
-        //TODO
+        var agreement = await _apiClient.Create_EUAAsync(new()
+        {
+            Institution_id = InstitutionId,
+            Access_scope = ["details", "transactions"],
+        });
 
-        IsWorking = false;
+        var requisition = await _apiClient.Create_requisitionAsync(new()
+        {
+            Institution_id = InstitutionId,
+            Redirect = new Uri("de.faithfuldevapps.moneyspendingtracker://authredirect"),
+            Agreement = agreement.Id,
+        });
 
-        //TODO
-        // Navigate to next onboarding step
-        //await Shell.Current.GoToAsync($"//{nameof(OnboardingPage)}");
-        await Shell.Current.DisplayAlert("okay", "okay", "OK");
+        var authUrl = requisition.Link;
+        await Launcher.Default.OpenAsync(authUrl);
     }
 
     public void FilterInstitutions()
@@ -82,6 +130,6 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
 
     private bool IsAuthenticateExecutable()
     {
-        return !string.IsNullOrEmpty(InstitutionId);
+        return !string.IsNullOrEmpty(InstitutionId) && !IsWorking;
     }
 }
