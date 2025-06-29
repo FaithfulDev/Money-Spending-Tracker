@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Money_Spending_Tracker.Data;
 
@@ -10,9 +11,11 @@ using Money_Spending_Tracker.Data;
 namespace Money_Spending_Tracker.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250629151913_HomePageUpdate")]
+    partial class HomePageUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -54,33 +57,41 @@ namespace Money_Spending_Tracker.Data.Migrations
             modelBuilder.Entity("Money_Spending_Tracker.Data.Transaction", b =>
                 {
                     b.Property<Guid>("InternalTransactionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("AccountId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AdditionalInformation")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreditorName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EndToEndId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EntryReference")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProprietaryBankTransactionCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PurposeCode")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RemittanceInformationStructured")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("TransactionAmount")
@@ -90,12 +101,13 @@ namespace Money_Spending_Tracker.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UltimateCreditor")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ValueDate")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("InternalTransactionId", "AccountId");
+                    b.HasKey("InternalTransactionId");
 
                     b.ToTable("Transactions");
                 });

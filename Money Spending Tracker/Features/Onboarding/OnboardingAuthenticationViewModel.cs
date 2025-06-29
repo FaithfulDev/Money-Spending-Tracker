@@ -11,10 +11,10 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AuthenticateCommand))]
-    private string? _InstitutionId;
+    private string? _institutionId;
 
     [ObservableProperty]
-    private string? _InstitutionName;
+    private string? _institutionName;
 
     [ObservableProperty]
     private List<string> _filteredInstitutions = [];

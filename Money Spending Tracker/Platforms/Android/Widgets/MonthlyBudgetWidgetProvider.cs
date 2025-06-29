@@ -2,7 +2,7 @@
 using Android.Appwidget;
 using Android.Content;
 using Android.Widget;
-
+using Money_Spending_Tracker.Features.Storage;
 using AndroidNamespace = Android;
 
 namespace Money_Spending_Tracker.Platforms.Android.Widgets;
@@ -23,20 +23,18 @@ public class MonthlyBudgetWidgetProvider : AppWidgetProvider
         {
             RemoteViews views = new(context.PackageName, Resource.Layout.monthly_budget_widget_layout);
 
-            // Simulate budget data
-            Random random = new();
-            double min = -1900.0;
-            double max = 200.0;
-            double randomValue = min + random.NextDouble() * (max - min);
-            string budgetAmount = randomValue.ToString("C2", System.Globalization.CultureInfo.CurrentCulture);
+            double remainingBudget = AppCache.RemainingMonthlyBudget;
+
+            string budgetAmountFormatted = remainingBudget.ToString(
+                "C2", System.Globalization.CultureInfo.CurrentCulture);
 
             // Choose color based on value
-            bool isOverBudget = randomValue < 0;
+            bool isOverBudget = remainingBudget < 0;
             var color = isOverBudget
                 ? AndroidNamespace.Graphics.Color.Red
-                : AndroidNamespace.Graphics.Color.ParseColor("#00AA00");
+                : AndroidNamespace.Graphics.Color.Black;
 
-            views.SetTextViewText(Resource.Id.budget_number, budgetAmount);
+            views.SetTextViewText(Resource.Id.budget_number, budgetAmountFormatted);
             views.SetTextColor(Resource.Id.budget_number, color);
 
             appWidgetManager.UpdateAppWidget(widgetId, views);

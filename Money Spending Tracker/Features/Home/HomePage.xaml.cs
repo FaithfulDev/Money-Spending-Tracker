@@ -1,16 +1,24 @@
-﻿namespace Money_Spending_Tracker.Features.Home;
+﻿using Money_Spending_Tracker.Features.Database;
+
+namespace Money_Spending_Tracker.Features.Home;
 
 public partial class HomePage : ContentPage
 {
-    public HomePage()
+    private readonly DatabaseService _databaseService;
+
+    public HomePage(DatabaseService databaseService)
     {
         InitializeComponent();
+
+        _databaseService = databaseService;
+        Loaded += HomePage_Loaded;
     }
 
-    private static void Button_Clicked(object sender, EventArgs e)
+    private async void HomePage_Loaded(object? sender, EventArgs e)
     {
-#if ANDROID
-        MainApplication.TriggerWidgetUpdate();
-#endif
+        var viewModel = new HomeViewModel(_databaseService);
+        BindingContext = viewModel;
+
+        await viewModel.StartAsync();
     }
 }

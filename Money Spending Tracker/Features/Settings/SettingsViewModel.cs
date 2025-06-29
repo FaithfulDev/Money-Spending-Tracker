@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Onboarding;
 using Money_Spending_Tracker.Features.Start;
@@ -77,8 +78,18 @@ internal partial class SettingsViewModel : ObservableObject
             try
             {
                 var dbContext = _databaseService.CreateDbContext();
-                dbContext.Transactions.RemoveRange(dbContext.Transactions);
+
+                await dbContext.Transactions.ExecuteDeleteAsync();
                 await dbContext.SaveChangesAsync();
+
+                AppCache.LastTransactionUpdate = new(2025, 1, 1, 0, 0, 0, new(0, 0, 0));
+                AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget;
+                AppCache.CurrentBalance = 0;
+
+#if ANDROID
+                MainApplication.TriggerWidgetUpdate();
+#endif
+
                 await Toast.Make("All transactions deleted successfully.", ToastDuration.Short).Show();
             }
             catch (Exception ex)

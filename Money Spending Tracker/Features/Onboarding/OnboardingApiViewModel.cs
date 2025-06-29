@@ -11,15 +11,15 @@ namespace Money_Spending_Tracker.Features.Onboarding;
 internal partial class OnboardingApiViewModel : ObservableObject
 {
     [ObservableProperty]
-    public bool _isWorking = false;
+    private bool _isWorking = false;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CheckApiCredentialsCommand))]
-    public string? _ApiSecretId;
+    private string? _apiSecretId;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CheckApiCredentialsCommand))]
-    public string? _ApiSecretKey;
+    private string? _apiSecretKey;
 
     /// <summary>
     /// Indicates whether the API credentials are being updated or not. 

@@ -91,7 +91,7 @@ internal partial class OnboardingAccountsViewModel : ObservableObject
         {
             dbContext.Accounts.Add(
                 new Data.Account(
-                    accountId: account.AccountId,
+                    accountId: Guid.Parse(account.AccountId),
                     accountName: account.AccountName,
                     accountIban: account.AccountIban,
                     institutionId: _institutionId!,

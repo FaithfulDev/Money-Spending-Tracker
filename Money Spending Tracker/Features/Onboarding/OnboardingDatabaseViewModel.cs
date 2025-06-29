@@ -7,11 +7,11 @@ namespace Money_Spending_Tracker.Features.Onboarding;
 internal partial class OnboardingDatabaseViewModel : ObservableObject
 {
     [ObservableProperty]
-    public bool _isWorking = false;
+    private bool _isWorking = false;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateDatabaseCommand))]
-    public string? _password;
+    private string? _password;
 
     private readonly DatabaseService _databaseService;
 

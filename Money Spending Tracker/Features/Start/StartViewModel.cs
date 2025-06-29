@@ -10,11 +10,11 @@ namespace Money_Spending_Tracker.Features.Start;
 internal partial class StartViewModel : ObservableObject
 {
     [ObservableProperty]
-    public bool _isWorking = true;
+    private bool _isWorking = true;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UnlockCommand))]
-    public string? _password;
+    private string? _password;
 
     private readonly DatabaseService _databaseService;
 

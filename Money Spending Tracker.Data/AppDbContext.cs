@@ -31,7 +31,7 @@ public class AppDbContext : DbContext
             .Entity<Transaction>(
                 eb =>
                 {
-                    eb.HasKey(t => t.TransactionId);
+                    eb.HasKey(t => new { t.InternalTransactionId, t.AccountId });
                 });
 
         modelBuilder
