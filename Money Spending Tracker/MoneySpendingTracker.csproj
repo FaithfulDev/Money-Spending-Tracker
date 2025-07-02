@@ -11,7 +11,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>Money Spending Tracker</ApplicationTitle>
+		<ApplicationTitle>Spending Tracker</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>de.faithfuldevapps.moneyspendingtracker</ApplicationId>
