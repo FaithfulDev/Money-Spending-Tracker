@@ -36,6 +36,9 @@ internal partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private string? _title;
 
+    [ObservableProperty]
+    private string? _accountBeingUpdated = null;
+
     private readonly DatabaseService _databaseService;
 
     public HomeViewModel(DatabaseService databaseService)
@@ -98,20 +101,22 @@ internal partial class HomeViewModel : ObservableObject
         var HundredDaysAgo = DateTime.UtcNow.AddDays(-100);
 
         var apiClient = new Client(new() { Timeout = TimeSpan.FromSeconds(120) });
-        var accountIds = await dbContext.Accounts.Select(a => a.AccountId).ToListAsync();
+        var accounts = await dbContext.Accounts.Select(a => new { a.AccountId, a.AccountIban }).ToListAsync();
 
-        foreach (var accountId in accountIds)
+        foreach (var account in accounts)
         {
+            AccountBeingUpdated = account.AccountIban;
+
             var recentTransactionIds = new HashSet<Guid>(
                 await dbContext.Transactions
                     .Where(t => t.ValueDate >= HundredDaysAgo)
-                    .Where(t => t.AccountId == accountId)
+                    .Where(t => t.AccountId == account.AccountId)
                     .Select(t => t.InternalTransactionId)
                     .ToListAsync()
             );
 
             var transactionsToAdd =
-                await GetNewTransactionsForAccountAsync(recentTransactionIds, apiClient, accountId);
+                await GetNewTransactionsForAccountAsync(recentTransactionIds, apiClient, account.AccountId);
 
             if (transactionsToAdd.Count == 0)
             {
@@ -123,7 +128,7 @@ internal partial class HomeViewModel : ObservableObject
             {
                 var newTransaction = new Transaction(
                     transactionId: transaction.TransactionId,
-                    accountId: accountId,
+                    accountId: account.AccountId,
                     entryReference: transaction.EntryReference,
                     endToEndId: transaction.EndToEndId,
                     bookingDate: DateTime.ParseExact(
@@ -145,6 +150,8 @@ internal partial class HomeViewModel : ObservableObject
         }
 
         await dbContext.SaveChangesAsync();
+
+        AccountBeingUpdated = null;
 
         // Update the last transaction update time. We set it to one day ago to avoid missing transactions.
         AppCache.LastTransactionUpdate = DateTimeOffset.UtcNow;
@@ -220,6 +227,12 @@ internal partial class HomeViewModel : ObservableObject
     private async Task Refresh()
     {
         PullToRefreshIndicatorVisible = false;
+
+        if (IsWorking)
+        {
+            return;
+        }
+
         IsWorking = true;
 
         //TODO: Check if there are any requisitions that are expired or to expire soon and notify the user. (maybe parallelize this)

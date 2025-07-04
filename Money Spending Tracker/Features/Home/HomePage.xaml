@@ -5,40 +5,78 @@
              x:Class="Money_Spending_Tracker.Features.Home.HomePage"
              x:DataType="local:HomeViewModel" 
              Title="{Binding Title}">
+    <Grid>
+        <Grid RowDefinitions="auto, *">
 
-    <RefreshView 
-        IsRefreshing="{Binding PullToRefreshIndicatorVisible}"
-        Command="{Binding RefreshCommand}">
+            <Border Grid.Row="0" Margin="15,0,15,0" Padding="15" BackgroundColor="#FFFF49" IsVisible="{Binding DidTimeout}">
+                <Label Text="One or more request timed out. Try again." HorizontalOptions="Center" />
+            </Border>
 
-        <ScrollView>
-            <VerticalStackLayout Padding="15">
+            <RefreshView Grid.Row="1"
+                IsRefreshing="{Binding PullToRefreshIndicatorVisible}"
+                Command="{Binding RefreshCommand}">
 
-                <Border HorizontalOptions="Fill" Padding="20" Margin="0,0,0,20">
-                    <VerticalStackLayout HorizontalOptions="Fill">
-                        <Label Text="Remaining Budget" Margin="2" FontAttributes="Bold" FontSize="20" />
-                        <Label Text="{Binding RemainingBudgetString}" 
+                <ScrollView>
+                    <VerticalStackLayout Padding="15">
+
+                        <Border HorizontalOptions="Fill" Padding="20" Margin="0,0,0,20">
+                            <VerticalStackLayout HorizontalOptions="Fill">
+                                <Label Text="Remaining Budget" Margin="2" FontAttributes="Bold" FontSize="20" />
+                                <Label Text="{Binding RemainingBudgetString}" 
                                TextColor="{Binding RemainingBudgetColor}"
                                FontSize="28"/>
-                    </VerticalStackLayout>
-                </Border>
+                            </VerticalStackLayout>
+                        </Border>
 
-                <Border HorizontalOptions="Fill" Padding="20" Margin="0">
-                    <VerticalStackLayout HorizontalOptions="Fill">
-                        <Label Text="Overall Balance" Margin="2" FontAttributes="Bold" FontSize="20" />
-                        <Label Text="{Binding BalanceString}" 
+                        <Border HorizontalOptions="Fill" Padding="20" Margin="0">
+                            <VerticalStackLayout HorizontalOptions="Fill">
+                                <Label Text="Overall Balance" Margin="2" FontAttributes="Bold" FontSize="20" />
+                                <Label Text="{Binding BalanceString}" 
                                TextColor="{Binding BalanceColor}"
                                FontSize="28"/>
+                            </VerticalStackLayout>
+                        </Border>
+
                     </VerticalStackLayout>
-                </Border>
+                </ScrollView>
 
-                <ActivityIndicator  
-                    x:Name="ActivityIndicator" 
-                    IsVisible="{Binding IsWorking}" 
-                    IsRunning="{Binding IsWorking}"/>
+            </RefreshView>
+        </Grid>
 
-            </VerticalStackLayout>
-        </ScrollView>
+        <Grid x:Name="Overlay" IsVisible="{Binding IsWorking}">
+            <BoxView BackgroundColor="Gray" Opacity="0.7"/>
+            <Border
+                IsVisible="True"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"
+                BackgroundColor="White"
+                WidthRequest="300" HeightRequest="100"
+                Margin="0,-100,0,0">
+                <Border.Shadow>
+                    <Shadow
+                        Offset="5,5"
+                        Radius="3"
+                        Brush="Black"
+                        Opacity="0.3" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="auto,*">
+                    <ActivityIndicator Grid.Column="0" 
+                        Margin="20"
+                        x:Name="ActivityIndicator" 
+                        IsVisible="True" 
+                        IsRunning="True"/>
 
-    </RefreshView>
+                    <VerticalStackLayout VerticalOptions="Center" Grid.Column="1">
+                        <Label Text="Updating Data"
+                               FontSize="16" FontAttributes="Bold"/>
+                        <Label Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}"
+                               FontSize="14"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Grid>
+    
 
 </ContentPage>
