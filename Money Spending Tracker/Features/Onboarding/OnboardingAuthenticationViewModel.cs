@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Money_Spending_Tracker.Features.Api;
+using Money_Spending_Tracker.Features.ChromeTabs;
 
 namespace Money_Spending_Tracker.Features.Onboarding;
 
@@ -21,6 +22,12 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
 
     private ICollection<Integration> _allInstitutions = [];
     private readonly Client _apiClient = new(new());
+    private readonly ICustomTabService _customTabService;
+
+    public OnboardingAuthenticationViewModel(ICustomTabService customTabService)
+    {
+        _customTabService = customTabService;
+    }
 
     public async Task Start(string? referenceId)
     {
@@ -100,7 +107,7 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
         });
 
         var authUrl = requisition.Link;
-        await Launcher.Default.OpenAsync(authUrl);
+        _customTabService.OpenUrl(authUrl);
     }
 
     public void FilterInstitutions()

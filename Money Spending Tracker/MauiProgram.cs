@@ -7,6 +7,11 @@ using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Start;
 using Plugin.Fingerprint;
 
+#if ANDROID
+using Money_Spending_Tracker.Features.ChromeTabs;
+using Money_Spending_Tracker.Platforms.Android;
+#endif
+
 namespace Money_Spending_Tracker
 {
     public static class MauiProgram
@@ -30,6 +35,10 @@ namespace Money_Spending_Tracker
 
 #if DEBUG
             builder.Logging.AddDebug();
+#endif
+
+#if ANDROID
+            builder.Services.AddTransient<ICustomTabService, CustomTabService>();
 #endif
 
             builder.Services.AddSingleton<DatabaseService>();

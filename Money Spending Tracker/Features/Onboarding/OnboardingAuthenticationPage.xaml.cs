@@ -1,3 +1,5 @@
+using Money_Spending_Tracker.Features.ChromeTabs;
+
 namespace Money_Spending_Tracker.Features.Onboarding;
 
 [QueryProperty(nameof(ReferenceId), nameof(ReferenceId))]
@@ -9,10 +11,13 @@ public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributa
     public string? ReferenceId { get; set; }
 
     private OnboardingAuthenticationViewModel? _viewModel;
+    private readonly ICustomTabService _customTabService;
 
-    public OnboardingAuthenticationPage()
+    public OnboardingAuthenticationPage(ICustomTabService customTabService)
     {
         InitializeComponent();
+
+        _customTabService = customTabService;
 
         var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
         Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingAuthenticationPage)}");
@@ -31,7 +36,7 @@ public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributa
 
     private async void OnboardingAuthenticationPage_Loaded(object? sender, EventArgs e)
     {
-        _viewModel = new OnboardingAuthenticationViewModel();
+        _viewModel = new OnboardingAuthenticationViewModel(_customTabService);
         BindingContext = _viewModel;
 
         await _viewModel.Start(ReferenceId);
