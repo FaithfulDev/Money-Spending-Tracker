@@ -17,8 +17,8 @@
 		<ApplicationId>de.faithfuldevapps.moneyspendingtracker</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>0.2.0</ApplicationDisplayVersion>
+		<ApplicationVersion>2</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">28.0</SupportedOSPlatformVersion>
 		<DefaultLanguage>en-us</DefaultLanguage>
