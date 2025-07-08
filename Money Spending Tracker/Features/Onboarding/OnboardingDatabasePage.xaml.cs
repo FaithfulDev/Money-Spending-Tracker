@@ -1,4 +1,5 @@
 using Money_Spending_Tracker.Features.Database;
+using Money_Spending_Tracker.Features.Storage;
 
 namespace Money_Spending_Tracker.Features.Onboarding;
 
@@ -13,8 +14,7 @@ public partial class OnboardingDatabasePage : ContentPage
         _onboardingViewModel = new OnboardingDatabaseViewModel(databaseService);
         BindingContext = _onboardingViewModel;
 
-        var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
-        Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingDatabasePage)}");
+        AppCache.OnboardingPath = $"{AppCache.OnboardingPath}/{nameof(OnboardingDatabasePage)}";
 
         Loaded += OnboardingDatabasePage_Loaded;
     }

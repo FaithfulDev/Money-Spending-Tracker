@@ -1,4 +1,5 @@
 ﻿using Money_Spending_Tracker.Features.Storage;
+using System.Diagnostics;
 using System.Text;
 
 namespace Money_Spending_Tracker.Features.Api;
@@ -37,6 +38,8 @@ partial class Client
     private async Task<string> GetAccessToken(HttpClient client)
     {
         ApiToken? apiToken = await ApiToken.GetFromStorageAsync();
+
+        Debug.WriteLine($"Access token: {apiToken?.AccessToken}, Expiry: {apiToken?.ExpireDateTime.ToString()}");
 
         if (apiToken == null)
         {

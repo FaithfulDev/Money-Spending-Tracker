@@ -22,4 +22,22 @@ internal static class AppCache
         get { return Preferences.Default.Get<double>(nameof(CurrentBalance), 0); }
         set { Preferences.Default.Set(nameof(CurrentBalance), value); }
     }
+
+    public static string OnboardingPath
+    {
+        get { return Preferences.Default.Get(nameof(OnboardingPath), string.Empty); }
+        set { Preferences.Default.Set(nameof(OnboardingPath), value); }
+    }
+
+    public static string OnboardingFinalPage
+    {
+        get { return Preferences.Default.Get(nameof(OnboardingFinalPage), string.Empty); }
+        set { Preferences.Default.Set(nameof(OnboardingFinalPage), value); }
+    }
+
+    public static bool ReAuthenticationInProgress
+    {
+        get { return Preferences.Default.Get(nameof(ReAuthenticationInProgress), false); }
+        set { Preferences.Default.Set(nameof(ReAuthenticationInProgress), value); }
+    }
 }

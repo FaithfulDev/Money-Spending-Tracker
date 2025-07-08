@@ -1,14 +1,14 @@
 using Money_Spending_Tracker.Features.ChromeTabs;
+using Money_Spending_Tracker.Features.Storage;
 
 namespace Money_Spending_Tracker.Features.Onboarding;
 
-[QueryProperty(nameof(ReferenceId), nameof(ReferenceId))]
 public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributable
 {
     /// <summary>
     /// If this page is opened with a reference Id, it means that the user is returning from the authentication process.
     /// </summary>
-    public string? ReferenceId { get; set; }
+    private string? _referenceId { get; set; }
 
     private OnboardingAuthenticationViewModel? _viewModel;
     private readonly ICustomTabService _customTabService;
@@ -19,18 +19,17 @@ public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributa
 
         _customTabService = customTabService;
 
-        var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
-        Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingAuthenticationPage)}");
+        AppCache.OnboardingPath = $"{AppCache.OnboardingPath}/{nameof(OnboardingAuthenticationPage)}";
 
         Loaded += OnboardingAuthenticationPage_Loaded;
     }
 
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("ReferenceId", out var referenceIdObj) && referenceIdObj is string referenceId)
         {
-            ReferenceId = referenceId;
-            _viewModel?.Start(ReferenceId);
+            _referenceId = referenceId;
+            await _viewModel!.Start(_referenceId);
         }
     }
 
@@ -39,12 +38,7 @@ public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributa
         _viewModel = new OnboardingAuthenticationViewModel(_customTabService);
         BindingContext = _viewModel;
 
-        await _viewModel.Start(ReferenceId);
-    }
-
-    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        _viewModel!.FilterInstitutions();
+        await _viewModel.Start(_referenceId);
     }
 
     private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

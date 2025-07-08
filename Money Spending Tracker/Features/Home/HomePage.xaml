@@ -8,9 +8,40 @@
     <Grid>
         <Grid RowDefinitions="auto, *">
 
-            <Border Grid.Row="0" Margin="15,0,15,0" Padding="15" BackgroundColor="#FFFF49" IsVisible="{Binding DidTimeout}">
-                <Label Text="One or more request timed out. Try again." HorizontalOptions="Center" />
-            </Border>
+            <VerticalStackLayout Grid.Row="0">
+                
+                <Border Margin="15,0,15,0" Padding="15" BackgroundColor="Red" IsVisible="{Binding DidTimeout}">
+                    <Label Text="One or more request timed out. Try again." HorizontalOptions="Center" TextColor="White" />
+                </Border>
+
+                <Border Margin="15,0,15,0" Padding="15" BackgroundColor="#FCFCBF" IsVisible="{Binding ShowExpireWarning}">
+                    <VerticalStackLayout>
+                        
+                        <Label IsVisible="{Binding ShowExpiresInDaysWarning}" HorizontalOptions="Center" TextColor="Black"
+                            Text="{Binding DaysUntilExpiry, StringFormat='One (or more) of your accounts will expire in {0} days.\
+You can re-authenticate beforehand if you like.'}" />
+
+                        <Label IsVisible="{Binding ShowExpireSoonWarning}" HorizontalOptions="Center" TextColor="Black"
+                            Text="One or more of your accounts will expire soon. You should re-authenticate them as soon as possible." />
+
+                        <Label IsVisible="{Binding ShowAlreadyExpiredWarning}" HorizontalOptions="Center" TextColor="Black"
+                            Text="One or more of your accounts has expired. Please re-authenticate now." />
+
+                        <HorizontalStackLayout>
+                            <Label Text="Check Accounts" TextColor="Blue" Margin="0,5,0,0" VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CheckAccountsCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label Text=" &#xf061;" TextColor="Blue" Margin="0,5,0,0" VerticalTextAlignment="Center" FontFamily="FontAwesomeSolid" />
+                        </HorizontalStackLayout>
+                        
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+            
 
             <RefreshView Grid.Row="1"
                 IsRefreshing="{Binding PullToRefreshIndicatorVisible}"

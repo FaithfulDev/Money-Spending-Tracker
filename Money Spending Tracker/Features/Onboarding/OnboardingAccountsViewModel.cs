@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Money_Spending_Tracker.Features.Api;
 using Money_Spending_Tracker.Features.Database;
-using Money_Spending_Tracker.Features.Home;
+using Money_Spending_Tracker.Features.Storage;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -106,7 +106,7 @@ internal partial class OnboardingAccountsViewModel : ObservableObject
 
         IsWorking = false;
 
-        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+        await Shell.Current.GoToAsync($"//{AppCache.OnboardingFinalPage}?AccountsAdded=true");
     }
 
     private void AccountItemChanged(object? sender, PropertyChangedEventArgs e)

@@ -9,13 +9,13 @@ internal class ApiToken
 
     public DateTime ExpireDateTime { get; private set; }
 
-    public bool IsExpired { get => DateTime.Now.AddMinutes(-30) >= ExpireDateTime; }
+    public bool IsExpired { get => DateTime.Now.AddMinutes(-30) <= ExpireDateTime; }
 
     public string RefreshToken { get; private set; }
 
     public DateTime RefreshExpireDateTime { get; private set; }
 
-    public bool IsRefreshExpired { get => DateTime.Now.AddMinutes(-30) >= ExpireDateTime; }
+    public bool IsRefreshExpired { get => DateTime.Now.AddMinutes(-30) <= ExpireDateTime; }
 
     public ApiToken(string accessToken, DateTime expireDateTime, string refreshToken, DateTime refreshExpireDateTime)
     {

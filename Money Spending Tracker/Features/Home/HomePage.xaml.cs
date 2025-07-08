@@ -1,24 +1,28 @@
-﻿using Money_Spending_Tracker.Features.Database;
+﻿using Money_Spending_Tracker.Features.TransactionData;
 
 namespace Money_Spending_Tracker.Features.Home;
 
+[QueryProperty(nameof(AccountsAdded), nameof(AccountsAdded))]
 public partial class HomePage : ContentPage
 {
-    private readonly DatabaseService _databaseService;
+    public bool AccountsAdded { get; set; } = false;
 
-    public HomePage(DatabaseService databaseService)
+    private readonly ITransactionDataService _transactionDataService;
+
+    public HomePage(ITransactionDataService transactionDataService)
     {
         InitializeComponent();
 
-        _databaseService = databaseService;
+        _transactionDataService = transactionDataService;
+
         Loaded += HomePage_Loaded;
     }
 
     private async void HomePage_Loaded(object? sender, EventArgs e)
     {
-        var viewModel = new HomeViewModel(_databaseService);
+        var viewModel = new HomeViewModel(_transactionDataService);
         BindingContext = viewModel;
 
-        await viewModel.StartAsync();
+        await viewModel.StartAsync(AccountsAdded);
     }
 }

@@ -1,3 +1,5 @@
+using Money_Spending_Tracker.Features.Storage;
+
 namespace Money_Spending_Tracker.Features.Onboarding;
 
 [QueryProperty(nameof(IsUpdate), nameof(IsUpdate))]
@@ -9,8 +11,7 @@ public partial class OnboardingApiPage : ContentPage
     {
         InitializeComponent();
 
-        var onboardingPath = Preferences.Get("OnboardingPath", string.Empty);
-        Preferences.Set("OnboardingPath", $"{onboardingPath}/{nameof(OnboardingApiPage)}");
+        AppCache.OnboardingPath = $"{AppCache.OnboardingPath}/{nameof(OnboardingApiPage)}";
 
         Loaded += OnboardingApiPage_Loaded;
     }

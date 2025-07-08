@@ -1,4 +1,6 @@
 using Money_Spending_Tracker.Features.Database;
+using Money_Spending_Tracker.Features.Home;
+using Money_Spending_Tracker.Features.Storage;
 
 namespace Money_Spending_Tracker.Features.Onboarding;
 
@@ -11,7 +13,8 @@ public partial class OnboardingPage : ContentPage
         InitializeComponent();
         _databaseService = databaseService;
 
-        Preferences.Set("OnboardingPath", $"//{nameof(OnboardingPage)}");
+        AppCache.OnboardingPath = $"//{nameof(OnboardingPage)}";
+        AppCache.OnboardingFinalPage = $"{nameof(HomePage)}";
     }
 
     private async void Button_Clicked(object sender, EventArgs e)

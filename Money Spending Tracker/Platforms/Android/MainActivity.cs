@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Money_Spending_Tracker.Features.Accounts;
+using Money_Spending_Tracker.Features.Storage;
 using System.Diagnostics;
 
 namespace Money_Spending_Tracker
@@ -17,6 +19,13 @@ namespace Money_Spending_Tracker
             {
                 var authCallbackUrl = intent.Data.ToString();
                 Debug.WriteLine($"Received auth callback URL: {authCallbackUrl}");
+
+                if (AppCache.ReAuthenticationInProgress)
+                {
+                    AppCache.ReAuthenticationInProgress = false;
+                    await Shell.Current.GoToAsync($"//{nameof(CallbackDummyPage)}");
+                    return;
+                }
 
                 // Handle token extraction and navigation logic here
                 var reference = intent.Data.GetQueryParameter("ref");

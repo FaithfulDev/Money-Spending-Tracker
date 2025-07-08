@@ -33,10 +33,15 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     {
         IsWorking = true;
 
-        // If we have a reference ID, we will try to check the requisition.
+        // If we have a reference ID from the callback, we will try to check the requisition.
         if (!string.IsNullOrEmpty(referenceId) && await Callback(referenceId))
         {
+            // Navigate tho this page to clear the navigation stack.
+            await Shell.Current.GoToAsync($"{nameof(OnboardingAuthenticationPage)}");
+
+            // Navigate to the accounts page with the reference ID for account selection.
             await Shell.Current.GoToAsync($"{nameof(OnboardingAccountsPage)}?ReferenceId={referenceId}");
+
             IsWorking = false;
             return;
         }
@@ -136,5 +141,11 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     private bool IsAuthenticateExecutable()
     {
         return !string.IsNullOrEmpty(InstitutionId) && !IsWorking;
+    }
+
+    [RelayCommand]
+    private void InstitutionNameChanged()
+    {
+        FilterInstitutions();
     }
 }

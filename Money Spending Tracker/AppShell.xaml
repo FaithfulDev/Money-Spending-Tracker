@@ -21,6 +21,13 @@
         ContentTemplate="{DataTemplate local:Features.Onboarding.OnboardingPage}"
         Route="OnboardingPage" />
 
+    <ShellContent
+        Title=""
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate local:Features.Accounts.CallbackDummyPage}"
+        Route="CallbackDummyPage" />
+
     <!--Menu Items-->
     <ShellContent
         Title="Home"
@@ -31,6 +38,18 @@
                 FontFamily="FontAwesomeSolid"
                 Glyph="&#xf015;"
                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        </ShellContent.FlyoutIcon>
+    </ShellContent>
+
+    <ShellContent
+        Title="Accounts"
+        ContentTemplate="{DataTemplate local:Features.Accounts.AccountsPage}"
+        Route="AccountsPage">
+        <ShellContent.FlyoutIcon>
+            <FontImageSource
+            FontFamily="FontAwesomeRegular"
+            Glyph="&#xf2c2;"
+            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         </ShellContent.FlyoutIcon>
     </ShellContent>
 

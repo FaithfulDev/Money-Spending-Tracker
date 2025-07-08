@@ -6,6 +6,10 @@ using Money_Spending_Tracker.Features.Onboarding;
 using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Start;
 using Plugin.Fingerprint;
+using Money_Spending_Tracker.Features.Accounts;
+using Money_Spending_Tracker.Features.TransactionData;
+
+
 
 #if ANDROID
 using Money_Spending_Tracker.Features.ChromeTabs;
@@ -47,6 +51,8 @@ namespace Money_Spending_Tracker
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<AccountsPage>();
+            builder.Services.AddTransient<ITransactionDataService, TransactionDataService>();
 
             return builder.Build();
         }
