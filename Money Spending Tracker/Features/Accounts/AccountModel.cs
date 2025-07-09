@@ -10,16 +10,27 @@ internal partial class AccountModel : ObservableObject
     public Guid AccountId { get; }
     public int ExpiresInApproximatelyDays { get; set; } = 0;
     public bool IsExpired => ExpiresInApproximatelyDays <= 0;
+    public ImageSource InstitutionLogo { get; set; }
 
     private readonly AccountsViewModel _accountsViewModel;
 
     public AccountModel(string accountName, string accountIban, Guid accountId, AccountsViewModel accountsViewModel,
-        int expiresInApproximatelyDays)
+        int expiresInApproximatelyDays, byte[]? institutionLogo)
     {
         AccountName = accountName;
         AccountIban = accountIban;
         AccountId = accountId;
         ExpiresInApproximatelyDays = expiresInApproximatelyDays;
+
+        if (institutionLogo != null && institutionLogo.Length > 0)
+        {
+            InstitutionLogo = ImageSource.FromStream(() => new MemoryStream(institutionLogo));
+        }
+        else
+        {
+            // Use the app icon as fallback
+            InstitutionLogo = ImageSource.FromFile("appiconpng.png");
+        }
 
         _accountsViewModel = accountsViewModel;
     }

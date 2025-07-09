@@ -69,7 +69,8 @@ internal partial class AccountsViewModel : ObservableObject
                 accountEntity.AccountIban,
                 accountEntity.AccountId,
                 thisViewModel,
-                linkStatus.First(ls => ls.accountId == accountEntity.AccountId).expiresInDays
+                linkStatus.First(ls => ls.accountId == accountEntity.AccountId).expiresInDays,
+                accountEntity.InstitutionLogo
             ));
         }
 
