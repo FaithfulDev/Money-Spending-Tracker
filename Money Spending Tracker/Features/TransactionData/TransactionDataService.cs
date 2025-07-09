@@ -130,7 +130,10 @@ internal class TransactionDataService : ITransactionDataService
                         transaction.BookingDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture),
                     valueDate: DateTime.ParseExact(
                         transaction.ValueDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture),
-                    transactionAmount: double.Parse(transaction.TransactionAmount.Amount),
+                    transactionAmount: double.Parse(
+                        transaction.TransactionAmount.Amount,
+                        System.Globalization.CultureInfo.InvariantCulture
+                    ),
                     creditorName: transaction.CreditorName,
                     ultimateCreditor: transaction.UltimateCreditor,
                     remittanceInformationStructured: transaction.RemittanceInformationStructured,
