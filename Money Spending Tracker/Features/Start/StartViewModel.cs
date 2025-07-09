@@ -10,6 +10,7 @@ namespace Money_Spending_Tracker.Features.Start;
 internal partial class StartViewModel : ObservableObject
 {
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(UnlockWithBiometricCommand))]
     private bool _isWorking = true;
 
     [ObservableProperty]
@@ -104,5 +105,16 @@ internal partial class StartViewModel : ObservableObject
         }
 
         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+    }
+
+    [RelayCommand(CanExecute = nameof(IsUnlockWithBiometricExecutable))]
+    private async Task UnlockWithBiometric()
+    {
+        await Start();
+    }
+
+    private bool IsUnlockWithBiometricExecutable()
+    {
+        return !IsWorking;
     }
 }
