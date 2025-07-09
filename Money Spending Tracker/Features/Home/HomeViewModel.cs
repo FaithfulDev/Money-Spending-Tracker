@@ -163,12 +163,16 @@ internal partial class HomeViewModel : ObservableObject
             return;
         }
 
-        IsWorking = true;
+        SetIsWorking(true);
+
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
 
         await CheckAccountLinks();
         await UpdateTransactionsAndWidgetAsync();
 
-        IsWorking = false;
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+
+        SetIsWorking(false);
     }
 
     [RelayCommand]
@@ -180,5 +184,11 @@ internal partial class HomeViewModel : ObservableObject
     private static string FormatCurrency(double amount)
     {
         return amount.ToString("C2", System.Globalization.CultureInfo.CurrentCulture);
+    }
+
+    private void SetIsWorking(bool value)
+    {
+        IsWorking = value;
+        Shell.Current.FlyoutBehavior = value ? FlyoutBehavior.Disabled : FlyoutBehavior.Flyout;
     }
 }
