@@ -119,7 +119,9 @@ internal partial class SettingsViewModel : ObservableObject
                 await SecureStorage.SetAsync(StorageKeys.API_SECRET_KEY, string.Empty);
                 await SecureStorage.SetAsync(StorageKeys.API_TOKEN, string.Empty);
                 await SecureStorage.SetAsync(StorageKeys.DB_PASSWORD, string.Empty);
-                AppSettings.MonthlyBudget = 0;
+
+                //Clear the cache and preferences
+                Preferences.Default.Clear();
 
                 await Toast.Make("All data deleted successfully.", ToastDuration.Short).Show();
                 await Shell.Current.GoToAsync($"//{nameof(StartPage)}");
