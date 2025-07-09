@@ -100,6 +100,12 @@ internal partial class HomeViewModel : ObservableObject
         }
 
         await Refresh();
+
+        if (accountsAdded)
+        {
+            // Navigate to clear the stack.
+            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+        }
     }
 
     private async Task UpdateTransactionsAndWidgetAsync()
