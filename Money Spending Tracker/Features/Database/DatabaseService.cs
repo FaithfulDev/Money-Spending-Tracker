@@ -1,9 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Money_Spending_Tracker.Data;
 using Money_Spending_Tracker.Features.Storage;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using System.Diagnostics;
 
 namespace Money_Spending_Tracker.Features.Database;
 
@@ -91,6 +93,10 @@ public class DatabaseService
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(connection)
+#if DEBUG
+            .LogTo(message => Debug.WriteLine(message, "ef core"), LogLevel.Information)
+            .EnableSensitiveDataLogging()
+#endif
             .Options;
 
         return new AppDbContext(options);
