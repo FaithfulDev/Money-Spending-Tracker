@@ -71,6 +71,10 @@ public class DatabaseService
     {
         using var context = CreateDbContext();
         await context.Database.MigrateAsync();
+
+#if DEBUG
+        SeedData(context);
+#endif
     }
 
     public AppDbContext CreateDbContext()
@@ -109,4 +113,68 @@ public class DatabaseService
             File.Delete(_dbPath);
         }
     }
+
+#if DEBUG
+    private static void SeedData(AppDbContext dbContext)
+    {
+        Account? seedAccount = dbContext.Accounts.FirstOrDefault(a => a.AccountName == "Test Account");
+
+        if (seedAccount != null)
+        {
+            // If the test account already exists, we do not need to seed data again.
+            return;
+        }
+
+        seedAccount = new(
+            accountId: Guid.NewGuid(),
+            accountName: "Test Account",
+            accountIban: "DE89370400440532013000",
+            institutionId: "SANDBOXFINANCE_SFIN0000",
+            institutionName: "Sandbox Finance",
+            institutionLogo: null,
+            institutionBic: "SFIN0000"
+        );
+
+        dbContext.Accounts.Add(seedAccount);
+
+        DateTime start = DateTime.Now;
+        Random random = new();
+
+        for (int i = 0; i < 72; i++)
+        {
+            var transactionAmountBase = random.Next(14, 340);
+            var transactionAmountDouble = random.NextDouble();
+            var transactionAmountCombined = transactionAmountBase + transactionAmountDouble + transactionAmountDouble / 10;
+
+            if (i % 2 != 0)
+            {
+                transactionAmountCombined *= -1;
+            }
+
+            for (int j = 0; j < 3; j++)
+            {
+                Transaction transaction = new(
+                    transactionId: Guid.NewGuid().ToString(),
+                    accountId: seedAccount.AccountId,
+                    entryReference: $"TEST-{i}-{j}",
+                    endToEndId: string.Empty,
+                    bookingDate: start.AddMonths(-i).AddDays(j),
+                    valueDate: start.AddMonths(-i).AddDays(j),
+                    transactionAmount: transactionAmountCombined + random.Next(2, 9),
+                    creditorName: "Test Creditor",
+                    ultimateCreditor: "Ultimate Creditor",
+                    remittanceInformationStructured: $"Structured Info {i}-{j}",
+                    additionalInformation: $"Additional Info {i}-{j}",
+                    purposeCode: "PURPOSE",
+                    proprietaryBankTransactionCode: "PROPRIETARY",
+                    internalTransactionId: Guid.NewGuid()
+                );
+
+                dbContext.Transactions.Add(transaction);
+            }
+        }
+
+        dbContext.SaveChanges();
+    }
+#endif
 }
