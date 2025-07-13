@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.PreviousMonths"
+             xmlns:monthSummery="clr-namespace:Money_Spending_Tracker.Features.MonthSummary"
+             x:Class="Money_Spending_Tracker.Features.PreviousMonths.PreviousMonthDetailPage"
+             x:DataType="local:PreviousMonthDetailViewModel"
+             Title="{Binding Title}">
+    
+    <VerticalStackLayout>
+        <monthSummery:MonthSummaryView Balance="{Binding Balance}"/>
+    </VerticalStackLayout>
+    
+</ContentPage>

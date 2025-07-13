@@ -82,7 +82,7 @@ internal partial class SettingsViewModel : ObservableObject
                 await dbContext.Transactions.ExecuteDeleteAsync();
                 await dbContext.SaveChangesAsync();
 
-                AppCache.LastTransactionUpdate = new(2025, 1, 1, 0, 0, 0, new(0, 0, 0));
+                AppCache.LastTransactionUpdate = null;
                 AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget;
                 AppCache.CurrentBalance = 0;
 

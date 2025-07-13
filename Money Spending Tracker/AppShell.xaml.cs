@@ -1,4 +1,5 @@
 ﻿using Money_Spending_Tracker.Features.Onboarding;
+using Money_Spending_Tracker.Features.PreviousMonths;
 using System.Diagnostics;
 
 namespace Money_Spending_Tracker;
@@ -16,6 +17,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(OnboardingApiPage), typeof(OnboardingApiPage));
         Routing.RegisterRoute(nameof(OnboardingAuthenticationPage), typeof(OnboardingAuthenticationPage));
         Routing.RegisterRoute(nameof(OnboardingAccountsPage), typeof(OnboardingAccountsPage));
+        Routing.RegisterRoute(nameof(PreviousMonthDetailPage), typeof(PreviousMonthDetailPage));
     }
 
     private static void MauiExceptions_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.PreviousMonths"
+             x:Class="Money_Spending_Tracker.Features.PreviousMonths.PreviousMonthListPage"
+             x:DataType="local:PreviousMonthListViewModel" 
+             Title="Previous Months">
+    <Grid RowDefinitions="*,Auto" Margin="18,-10,18,15">
+        <CollectionView ItemsSource="{Binding Items}"
+            RemainingItemsThreshold="5"
+            RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+            IsGrouped="True" ItemSizingStrategy="MeasureFirstItem" SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem}" SelectionChangedCommand="{Binding SelectionChangedCommand}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="local:PreviousMonthGroup">
+                    <Border Margin="0,10,0,0" BackgroundColor="#e6e6e6" Stroke="Transparent" Padding="0,0,0,0">
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="0,4" Opacity="0.3" Radius="12"/>
+                        </Border.Shadow>
+                        <Label Text="{Binding Year}" FontAttributes="Bold" FontSize="20" Padding="10"/>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:PreviousMonthListModel">
+                    <Border Margin="0,0,0,0" BackgroundColor="#f2f2f2" Stroke="Transparent">
+                        <Grid ColumnDefinitions="Auto,*" Padding="10">
+                            <Label Grid.Column="0" Text="{Binding MonthYear, StringFormat='{0:MMMM yyyy}'}" />
+                            <Label Grid.Column="1" Text="{Binding Balance, StringFormat='{0:C}'}" 
+                        TextColor="{Binding BalanceColor}" HorizontalTextAlignment="End" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        <ActivityIndicator Grid.Row="1" IsVisible="{Binding IsLoadingMoreItems}" 
+                           IsRunning="{Binding IsLoadingMoreItems}" />
+    </Grid>
+</ContentPage>

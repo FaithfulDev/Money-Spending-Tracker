@@ -42,6 +42,18 @@
     </ShellContent>
 
     <ShellContent
+        Title="Previous Months"
+        ContentTemplate="{DataTemplate local:Features.PreviousMonths.PreviousMonthListPage}"
+        Route="PreviousMonthListPage">
+        <ShellContent.FlyoutIcon>
+            <FontImageSource
+            FontFamily="FontAwesomeSolid"
+            Glyph="&#xf073;"
+            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+        </ShellContent.FlyoutIcon>
+    </ShellContent>
+
+    <ShellContent
         Title="Accounts"
         ContentTemplate="{DataTemplate local:Features.Accounts.AccountsPage}"
         Route="AccountsPage">

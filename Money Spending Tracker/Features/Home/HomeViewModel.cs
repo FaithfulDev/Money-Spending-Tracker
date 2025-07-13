@@ -16,16 +16,10 @@ internal partial class HomeViewModel : ObservableObject
     private bool _pullToRefreshIndicatorVisible = false;
 
     [ObservableProperty]
-    private string? _remainingBudgetString;
+    private double? _remainingBudget;
 
     [ObservableProperty]
-    private Color _remainingBudgetColor = Colors.Black;
-
-    [ObservableProperty]
-    private string? _balanceString;
-
-    [ObservableProperty]
-    private Color _balanceColor = Colors.Black;
+    private double _balance;
 
     [ObservableProperty]
     private bool _didTimeout = false;
@@ -74,29 +68,26 @@ internal partial class HomeViewModel : ObservableObject
     public async Task StartAsync(bool accountsAdded)
     {
         Title = DateTime.Now.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
-        RemainingBudgetString = FormatCurrency(AppCache.RemainingMonthlyBudget);
-        RemainingBudgetColor = AppCache.RemainingMonthlyBudget < 0 ? Colors.Red : Colors.Black;
-        BalanceString = FormatCurrency(AppCache.CurrentBalance);
-        BalanceColor = AppCache.CurrentBalance < 0 ? Colors.Red : Colors.Green;
+
+        RemainingBudget = AppCache.RemainingMonthlyBudget;
+        Balance = AppCache.CurrentBalance;
 
         // If accounts have been added, we always update transactions and widget.
         // If no accounts have been added, we only update if the last transaction update was not today.
-        if (!accountsAdded && AppCache.LastTransactionUpdate.UtcDateTime.Date == DateTime.UtcNow.Date)
+        if (!accountsAdded && AppCache.LastTransactionUpdate?.Date == DateTime.UtcNow.Date)
         {
             return;
         }
 
         // If the last transaction update was last month, reset the remaining budget and balance.
-        if (AppCache.LastTransactionUpdate.UtcDateTime.Date.Month != DateTime.UtcNow.Date.Month ||
-           AppCache.LastTransactionUpdate.UtcDateTime.Date.Year != DateTime.UtcNow.Date.Year)
+        if (AppCache.LastTransactionUpdate?.Date.Month != DateTime.UtcNow.Date.Month ||
+           AppCache.LastTransactionUpdate?.Date.Year != DateTime.UtcNow.Date.Year)
         {
             AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget;
             AppCache.CurrentBalance = 0;
 
-            RemainingBudgetString = FormatCurrency(AppCache.RemainingMonthlyBudget);
-            RemainingBudgetColor = Colors.Black;
-            BalanceString = FormatCurrency(0);
-            BalanceColor = Colors.Black;
+            RemainingBudget = AppCache.RemainingMonthlyBudget;
+            Balance = AppCache.CurrentBalance;
         }
 
         await Refresh();
@@ -115,10 +106,8 @@ internal partial class HomeViewModel : ObservableObject
 
         await _transactionDataService.UpdateTransactionsAndCacheAsync();
 
-        RemainingBudgetString = FormatCurrency(AppCache.RemainingMonthlyBudget);
-        RemainingBudgetColor = AppCache.RemainingMonthlyBudget < 0 ? Colors.Red : Colors.Black;
-        BalanceString = FormatCurrency(AppCache.CurrentBalance);
-        BalanceColor = AppCache.CurrentBalance < 0 ? Colors.Red : Colors.Green;
+        RemainingBudget = AppCache.RemainingMonthlyBudget;
+        Balance = AppCache.CurrentBalance;
     }
 
     private async Task CheckAccountLinks()
@@ -179,11 +168,6 @@ internal partial class HomeViewModel : ObservableObject
     private async Task CheckAccounts()
     {
         await Shell.Current.GoToAsync($"//{nameof(AccountsPage)}");
-    }
-
-    private static string FormatCurrency(double amount)
-    {
-        return amount.ToString("C2", System.Globalization.CultureInfo.CurrentCulture);
     }
 
     private void SetIsWorking(bool value)

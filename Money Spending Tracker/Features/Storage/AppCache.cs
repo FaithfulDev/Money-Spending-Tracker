@@ -5,10 +5,20 @@ internal static class AppCache
     /// <summary>
     /// Last time transactions were updated from the API.
     /// </summary>
-    public static DateTimeOffset LastTransactionUpdate
+    public static DateTime? LastTransactionUpdate
     {
-        get { return Preferences.Default.Get<DateTimeOffset>(nameof(LastTransactionUpdate), new(2025, 1, 1, 0, 0, 0, new(0, 0, 0))); }
-        set { Preferences.Default.Set(nameof(LastTransactionUpdate), value); }
+        get
+        {
+            var lastUpdate = Preferences.Default.Get(nameof(LastTransactionUpdate), string.Empty);
+
+            if (DateTime.TryParse(lastUpdate, out DateTime parsedDate))
+            {
+                return parsedDate;
+            }
+
+            return null;
+        }
+        set { Preferences.Default.Set(nameof(LastTransactionUpdate), value?.ToString("yyyy-MM-dd") ?? string.Empty); }
     }
 
     public static double RemainingMonthlyBudget

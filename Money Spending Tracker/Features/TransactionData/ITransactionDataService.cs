@@ -21,6 +21,10 @@ public interface ITransactionDataService
 
     public Task<List<(Guid accountId, bool isLinked, int expiresInDays)>> CheckAccountLinkStatus();
 
+    public Task<(List<(DateOnly date, double balance)> data, bool hasMore)> GetBalancesGroupedByMonth(int page, int pageSize);
+
+    public Task<double> GetMonthsBalance(DateOnly monthYear);
+
     public class AccountUpdateStartedEventArgs : EventArgs
     {
         /// <summary>

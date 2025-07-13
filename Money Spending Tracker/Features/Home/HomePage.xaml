@@ -2,8 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Home"
+             xmlns:monthSummery="clr-namespace:Money_Spending_Tracker.Features.MonthSummary"
              x:Class="Money_Spending_Tracker.Features.Home.HomePage"
-             x:DataType="local:HomeViewModel" 
+             x:DataType="local:HomeViewModel"
              Title="{Binding Title}">
     <Grid>
         <Grid RowDefinitions="auto, *">
@@ -48,27 +49,7 @@ You can re-authenticate beforehand if you like.'}" />
                 Command="{Binding RefreshCommand}">
 
                 <ScrollView>
-                    <VerticalStackLayout Padding="15">
-
-                        <Border HorizontalOptions="Fill" Padding="20" Margin="0,0,0,20">
-                            <VerticalStackLayout HorizontalOptions="Fill">
-                                <Label Text="Remaining Budget" Margin="2" FontAttributes="Bold" FontSize="20" />
-                                <Label Text="{Binding RemainingBudgetString}" 
-                               TextColor="{Binding RemainingBudgetColor}"
-                               FontSize="28"/>
-                            </VerticalStackLayout>
-                        </Border>
-
-                        <Border HorizontalOptions="Fill" Padding="20" Margin="0">
-                            <VerticalStackLayout HorizontalOptions="Fill">
-                                <Label Text="Overall Balance" Margin="2" FontAttributes="Bold" FontSize="20" />
-                                <Label Text="{Binding BalanceString}" 
-                               TextColor="{Binding BalanceColor}"
-                               FontSize="28"/>
-                            </VerticalStackLayout>
-                        </Border>
-
-                    </VerticalStackLayout>
+                    <monthSummery:MonthSummaryView Balance="{Binding Balance}" RemainingBudget="{Binding RemainingBudget}" />
                 </ScrollView>
 
             </RefreshView>

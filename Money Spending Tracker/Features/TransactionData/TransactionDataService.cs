@@ -70,8 +70,8 @@ internal class TransactionDataService : ITransactionDataService
         var dbContext = _databaseService.CreateDbContext();
         var now = DateTime.UtcNow;
 
-        var balance = await GetMonthsBalance(dbContext, now);
-        var spendings = await GetMonthsSpendings(dbContext, now);
+        var balance = await GetMonthsBalance(dbContext, new DateOnly(now.Year, now.Month, 1));
+        var spendings = await GetMonthsSpendings(dbContext, new DateOnly(now.Year, now.Month, 1));
 
         AppCache.CurrentBalance = balance;
         AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget + spendings;
@@ -149,7 +149,7 @@ internal class TransactionDataService : ITransactionDataService
 
         await dbContext.SaveChangesAsync();
 
-        AppCache.LastTransactionUpdate = DateTimeOffset.UtcNow;
+        AppCache.LastTransactionUpdate = DateTime.UtcNow;
     }
 
     private async Task<List<TransactionSchema>> GetNewTransactionsForAccountAsync(
@@ -205,22 +205,51 @@ internal class TransactionDataService : ITransactionDataService
         TimeoutOccurred?.Invoke(this, EventArgs.Empty);
     }
 
-    private static async Task<double> GetMonthsBalance(AppDbContext dbContext, DateTime dateTime)
+    public async Task<double> GetMonthsBalance(DateOnly monthYear)
+    {
+        var dbContext = _databaseService.CreateDbContext();
+        return await GetMonthsBalance(dbContext, monthYear);
+    }
+
+    private static async Task<double> GetMonthsBalance(AppDbContext dbContext, DateOnly monthYear)
     {
         var balanceOrSpendings = await dbContext.Transactions
-            .Where(t => t.ValueDate.Year == dateTime.Year && t.ValueDate.Month == dateTime.Month)
+            .Where(t => t.ValueDate.Year == monthYear.Year && t.ValueDate.Month == monthYear.Month)
             .SumAsync(t => t.TransactionAmount);
 
         return balanceOrSpendings;
     }
 
-    private static async Task<double> GetMonthsSpendings(AppDbContext dbContext, DateTime dateTime)
+    private static async Task<double> GetMonthsSpendings(AppDbContext dbContext, DateOnly monthYear)
     {
         var spendings = await dbContext.Transactions
-            .Where(t => t.ValueDate.Year == dateTime.Year && t.ValueDate.Month == dateTime.Month)
+            .Where(t => t.ValueDate.Year == monthYear.Year && t.ValueDate.Month == monthYear.Month)
             .Where(t => t.TransactionAmount < 0)
             .SumAsync(t => t.TransactionAmount);
 
         return spendings;
+    }
+
+    public async Task<(List<(DateOnly date, double balance)> data, bool hasMore)> GetBalancesGroupedByMonth(int page, int pageSize)
+    {
+        var dbContext = _databaseService.CreateDbContext();
+
+        var balances = await dbContext.Transactions
+            .Select(t => new { t.ValueDate, t.TransactionAmount })
+            .GroupBy(t => new { t.ValueDate.Year, t.ValueDate.Month })
+            .OrderByDescending(g => g.Key.Year)
+            .ThenByDescending(g => g.Key.Month)
+            .Select(g => new
+            {
+                Date = new DateOnly(g.Key.Year, g.Key.Month, 1),
+                Balance = g.Sum(t => t.TransactionAmount)
+            })
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize + 1)
+            .ToListAsync();
+
+        bool hasMore = balances.Count > pageSize;
+
+        return ([.. balances.Select(x => (new DateOnly(x.Date.Year, x.Date.Month, 1), x.Balance))], hasMore);
     }
 }
