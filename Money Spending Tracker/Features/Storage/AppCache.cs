@@ -18,7 +18,7 @@ internal static class AppCache
 
             return null;
         }
-        set { Preferences.Default.Set(nameof(LastTransactionUpdate), value?.ToString("yyyy-MM-dd") ?? string.Empty); }
+        set { Preferences.Default.Set(nameof(LastTransactionUpdate), value?.ToString("O") ?? string.Empty); }
     }
 
     public static double RemainingMonthlyBudget

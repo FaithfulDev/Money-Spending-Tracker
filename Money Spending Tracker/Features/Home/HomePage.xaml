@@ -7,7 +7,7 @@
              x:DataType="local:HomeViewModel"
              Title="{Binding Title}">
     <Grid>
-        <Grid RowDefinitions="auto, *">
+        <Grid RowDefinitions="auto, *, auto">
 
             <VerticalStackLayout Grid.Row="0">
                 
@@ -53,6 +53,8 @@ You can re-authenticate beforehand if you like.'}" />
                 </ScrollView>
 
             </RefreshView>
+
+            <Label Grid.Row="2" Text="{Binding LastTransactionUpdate}" HorizontalTextAlignment="Center" />
         </Grid>
 
         <Grid x:Name="Overlay" IsVisible="{Binding IsWorking}">

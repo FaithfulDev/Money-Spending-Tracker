@@ -45,6 +45,9 @@ internal partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private string? _accountBeingUpdated = null;
 
+    [ObservableProperty]
+    private DateTime? _lastTransactionUpdate = null;
+
     private readonly ITransactionDataService _transactionDataService;
 
     public HomeViewModel(ITransactionDataService transactionDataService)
@@ -64,6 +67,8 @@ internal partial class HomeViewModel : ObservableObject
         // Update UI with new values.
         RemainingBudget = AppCache.RemainingMonthlyBudget;
         Balance = AppCache.CurrentBalance;
+
+        LastTransactionUpdate = AppCache.LastTransactionUpdate;
     }
 
     private void TransactionDataService_TimeoutOccurred(object? sender, EventArgs e)
@@ -82,6 +87,7 @@ internal partial class HomeViewModel : ObservableObject
 
         RemainingBudget = AppCache.RemainingMonthlyBudget;
         Balance = AppCache.CurrentBalance;
+        LastTransactionUpdate = AppCache.LastTransactionUpdate;
 
         // If accounts have been added, we always update transactions and widget.
         // If no accounts have been added, we only update if the last transaction update was not today.
