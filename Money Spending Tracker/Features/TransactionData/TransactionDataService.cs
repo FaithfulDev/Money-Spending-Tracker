@@ -13,8 +13,10 @@ internal class TransactionDataService : ITransactionDataService
 {
     public event AccountUpdateStartedHandler? AccountUpdateStarted;
     public event EventHandler? TimeoutOccurred;
+    public event EventHandler? TransactionUpdateEnded;
 
     private readonly DatabaseService _databaseService;
+    private readonly SemaphoreSlim _updateLock = new(initialCount: 1, maxCount: 1);
 
     // We assume that requisitions expire after 90 days.
     private const int REQUISTION_LIFETIME_DAYS = 90;
@@ -83,10 +85,26 @@ internal class TransactionDataService : ITransactionDataService
 
     public async Task UpdateTransactionsAndCacheAsync()
     {
-        _accountLinkStatusCache = await CheckAccountLinkStatus();
+        if (!await _updateLock.WaitAsync(0))
+        {
+            // If the lock is already held, we return early to prevent concurrent updates.
+            Debug.WriteLine("UpdateTransactionsAndCacheAsync is already running, skipping this call.");
+            return;
+        }
 
-        await UpdateRecentTransactionsAsync();
-        await UpdateCacheAsync();
+        try
+        {
+            _accountLinkStatusCache = await CheckAccountLinkStatus();
+
+            await UpdateRecentTransactionsAsync();
+            await UpdateCacheAsync();
+
+            OnTransactionUpdateEnded();
+        }
+        finally
+        {
+            _updateLock.Release();
+        }
     }
 
     private async Task UpdateRecentTransactionsAsync()
@@ -203,6 +221,11 @@ internal class TransactionDataService : ITransactionDataService
     protected virtual void OnTimeoutOccurred()
     {
         TimeoutOccurred?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnTransactionUpdateEnded()
+    {
+        TransactionUpdateEnded?.Invoke(this, EventArgs.Empty);
     }
 
     public async Task<double> GetMonthsBalance(DateOnly monthYear)

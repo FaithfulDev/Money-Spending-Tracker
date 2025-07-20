@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Money_Spending_Tracker.Features.BackgroundJob;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Onboarding;
 using Money_Spending_Tracker.Features.Start;
@@ -135,5 +136,11 @@ internal partial class SettingsViewModel : ObservableObject
                 IsWorking = false;
             }
         }
+    }
+
+    [RelayCommand]
+    private async Task CheckJobs()
+    {
+        await Shell.Current.GoToAsync($"{nameof(BackgroundJobsPage)}");
     }
 }

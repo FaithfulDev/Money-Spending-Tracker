@@ -6,6 +6,7 @@ public interface ITransactionDataService
     event AccountUpdateStartedHandler AccountUpdateStarted;
 
     event EventHandler TimeoutOccurred;
+    event EventHandler TransactionUpdateEnded;
 
     /// <summary>
     /// Pulls transaction data from the API and updates the database. 

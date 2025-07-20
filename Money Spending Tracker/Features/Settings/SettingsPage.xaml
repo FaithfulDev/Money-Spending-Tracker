@@ -25,6 +25,25 @@
                     Margin="10,10" 
                     Command="{Binding SaveCommand}" />
 
+                <Label Text="Automatic Updates" FontAttributes="Bold" Margin="2,20,0,0"/>
+
+                <Label  
+                    Margin="2,10,0,0">
+                    <Label.Text>
+                        App tries to automatically update accounts every 24 hours.
+                    </Label.Text>
+                </Label>
+
+                <HorizontalStackLayout>
+                    <Label Text="Check Jobs" TextColor="Blue" Margin="0,5,0,0" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CheckJobsCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text=" &#xf061;" TextColor="Blue" Margin="0,5,0,0" VerticalTextAlignment="Center" FontFamily="FontAwesomeSolid" />
+                </HorizontalStackLayout>
+
                 <Label Text="Update API Credentials" FontAttributes="Bold" Margin="2,20,0,0"/>
 
                 <Button 

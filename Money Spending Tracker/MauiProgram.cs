@@ -8,8 +8,7 @@ using Money_Spending_Tracker.Features.Start;
 using Plugin.Fingerprint;
 using Money_Spending_Tracker.Features.Accounts;
 using Money_Spending_Tracker.Features.TransactionData;
-
-
+using Money_Spending_Tracker.Features.BackgroundJob;
 
 #if ANDROID
 using Money_Spending_Tracker.Features.ChromeTabs;
@@ -43,16 +42,19 @@ namespace Money_Spending_Tracker
 
 #if ANDROID
             builder.Services.AddTransient<ICustomTabService, CustomTabService>();
+            builder.Services.AddSingleton<IBackgroundService, BackgroundService>();
 #endif
 
             builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<ITransactionDataService, TransactionDataService>();
 
             builder.Services.AddTransient<StartPage>();
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<AccountsPage>();
-            builder.Services.AddTransient<ITransactionDataService, TransactionDataService>();
+
+            MauiServiceProvider.Current = builder.Services.BuildServiceProvider();
 
             return builder.Build();
         }

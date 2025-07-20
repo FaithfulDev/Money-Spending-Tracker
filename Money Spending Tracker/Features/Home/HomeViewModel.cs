@@ -53,6 +53,17 @@ internal partial class HomeViewModel : ObservableObject
 
         _transactionDataService.AccountUpdateStarted += TransactionDataService_AccountUpdateStarted;
         _transactionDataService.TimeoutOccurred += TransactionDataService_TimeoutOccurred;
+        _transactionDataService.TransactionUpdateEnded += TransactionDataService_TransactionUpdateEnded;
+    }
+
+    private void TransactionDataService_TransactionUpdateEnded(object? sender, EventArgs e)
+    {
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+        SetIsWorking(false);
+
+        // Update UI with new values.
+        RemainingBudget = AppCache.RemainingMonthlyBudget;
+        Balance = AppCache.CurrentBalance;
     }
 
     private void TransactionDataService_TimeoutOccurred(object? sender, EventArgs e)
@@ -105,9 +116,6 @@ internal partial class HomeViewModel : ObservableObject
         DidTimeout = false;
 
         await _transactionDataService.UpdateTransactionsAndCacheAsync();
-
-        RemainingBudget = AppCache.RemainingMonthlyBudget;
-        Balance = AppCache.CurrentBalance;
     }
 
     private async Task CheckAccountLinks()
@@ -159,9 +167,7 @@ internal partial class HomeViewModel : ObservableObject
         await CheckAccountLinks();
         await UpdateTransactionsAndWidgetAsync();
 
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-
-        SetIsWorking(false);
+        // Ending logic happens in transactionDataService_TransactionUpdateEnded event handler.
     }
 
     [RelayCommand]

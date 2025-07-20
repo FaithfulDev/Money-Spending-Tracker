@@ -1,8 +1,11 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using AndroidX.Work;
+using Java.Util.Concurrent;
 using Money_Spending_Tracker.Features.Accounts;
 using Money_Spending_Tracker.Features.Storage;
+using Money_Spending_Tracker.Platforms.Android;
 using System.Diagnostics;
 
 namespace Money_Spending_Tracker
@@ -34,6 +37,34 @@ namespace Money_Spending_Tracker
 
                 await Shell.Current.GoToAsync($"{onboardingPath}?ReferenceId={reference}");
             }
+        }
+
+        protected override void OnCreate(Android.OS.Bundle? savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            var constraints = new Constraints.Builder()
+                .SetRequiredNetworkType(NetworkType.Connected!)
+                .Build();
+
+            // Calculate delay until next 3am
+            var now = DateTime.Now;
+            var next3am = now.Date.AddDays(now.Hour >= 3 ? 1 : 0).AddHours(3);
+            var delay = (next3am - now).TotalMilliseconds;
+            var timeInterval = TimeSpan.FromDays(1);
+
+            var workRequest = PeriodicWorkRequest.Builder
+                .From<UpdateTransactionsJobWorker>(timeInterval)
+                .SetInitialDelay((long)delay, TimeUnit.Milliseconds)!
+                .SetConstraints(constraints)
+                .AddTag(nameof(UpdateTransactionsJobWorker))
+                .Build();
+
+            WorkManager.GetInstance(Platform.AppContext).EnqueueUniquePeriodicWork(
+                nameof(UpdateTransactionsJobWorker),
+                ExistingPeriodicWorkPolicy.Update!,
+                (PeriodicWorkRequest)workRequest
+            );
         }
     }
 }

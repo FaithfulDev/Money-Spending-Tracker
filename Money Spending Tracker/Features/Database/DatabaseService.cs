@@ -19,6 +19,12 @@ public class DatabaseService
     /// </summary>
     public async Task<bool> UnlockAndInitializeAsync()
     {
+        if (!string.IsNullOrEmpty(_password))
+        {
+            Debug.WriteLine("Database is already unlocked.");
+            return true;
+        }
+
         var authResult = await CrossFingerprint.Current.AuthenticateAsync(
             new AuthenticationRequestConfiguration("Unlock", "Authenticate to access your data"));
 
@@ -46,6 +52,12 @@ public class DatabaseService
     /// </summary>
     public async Task<bool> UnlockAndInitializeAsync(string password)
     {
+        if (!string.IsNullOrEmpty(_password))
+        {
+            Debug.WriteLine("Database is already unlocked.");
+            return true;
+        }
+
         try
         {
             _password = password;
