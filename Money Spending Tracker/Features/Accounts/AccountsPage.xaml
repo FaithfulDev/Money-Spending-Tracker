@@ -6,6 +6,17 @@
              x:DataType="local:AccountsViewModel" 
              Title="Accounts" x:Name="RootView">
 
+    <Shell.TitleView>
+        <Grid Padding="0" ColumnDefinitions="*,auto">
+            <Label Text="Accounts" FontSize="20" VerticalOptions="Center" FontAttributes="Bold"/>
+            <Button 
+            Margin="10"
+            Grid.Column="1"
+            Text="+" Padding="0" FontSize="20"
+            Command="{Binding AddAccountCommand}" />
+        </Grid>
+    </Shell.TitleView>
+
     <Grid>
 
         <VerticalStackLayout>
@@ -80,8 +91,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <Button Text="Add Account" Command="{Binding AddAccountCommand}" Margin="10,20" />
 
         </VerticalStackLayout>
 

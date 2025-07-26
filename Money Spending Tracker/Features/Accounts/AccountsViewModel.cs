@@ -17,6 +17,7 @@ internal partial class AccountsViewModel : ObservableObject
     private ObservableCollection<AccountModel> _accounts = [];
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(AddAccountCommand))]
     private bool _isWorking = false;
 
     [ObservableProperty]
@@ -86,13 +87,18 @@ internal partial class AccountsViewModel : ObservableObject
         IsWorking = false;
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(IsAddAccountExecutable))]
     private async Task AddAccount()
     {
         AppCache.OnboardingFinalPage = $"{nameof(AccountsPage)}";
         AppCache.OnboardingPath = $"//{nameof(AccountsPage)}";
 
         await Shell.Current.GoToAsync($"{nameof(OnboardingAuthenticationPage)}");
+    }
+
+    private bool IsAddAccountExecutable()
+    {
+        return !IsWorking;
     }
 
     [RelayCommand]
