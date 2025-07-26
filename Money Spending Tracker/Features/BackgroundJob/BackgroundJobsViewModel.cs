@@ -16,11 +16,6 @@ internal partial class BackgroundJobsViewModel : ObservableObject
         _backgroundService = backgroundService;
     }
 
-    public List<BackgroundJobModel> GetJobInfo()
-    {
-        return _backgroundService.GetJobInfo();
-    }
-
     public void Start()
     {
         Jobs = _backgroundService.GetJobInfo().ToObservableCollection();
