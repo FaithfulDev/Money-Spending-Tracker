@@ -17,9 +17,17 @@ public class Transaction
     public string? PurposeCode { get; set; }
     public string? ProprietaryBankTransactionCode { get; set; }
 
-    public Transaction(string transactionId, Guid accountId, string entryReference, string endToEndId, DateTime bookingDate, DateTime valueDate,
-        double transactionAmount, string creditorName, string ultimateCreditor, string remittanceInformationStructured,
-        string additionalInformation, string purposeCode, string proprietaryBankTransactionCode, Guid internalTransactionId)
+    public List<TransactionTag> TransactionTags { get; set; } = [];
+
+    /// <summary>
+    /// Used to store the embedding vector for the transaction description. Helps to identify similar transactions.
+    /// </summary>
+    public byte[]? Embedding { get; set; }
+
+    public Transaction(string transactionId, Guid accountId, string? entryReference, string? endToEndId, DateTime bookingDate, DateTime valueDate,
+        double transactionAmount, string? creditorName, string? ultimateCreditor, string? remittanceInformationStructured,
+        string? additionalInformation, string? purposeCode, string? proprietaryBankTransactionCode, Guid internalTransactionId,
+        byte[]? embedding = null)
     {
         TransactionId = transactionId;
         AccountId = accountId;
@@ -35,5 +43,6 @@ public class Transaction
         PurposeCode = purposeCode;
         ProprietaryBankTransactionCode = proprietaryBankTransactionCode;
         InternalTransactionId = internalTransactionId;
+        Embedding = embedding;
     }
 }

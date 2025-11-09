@@ -4,6 +4,7 @@ using Money_Spending_Tracker.Features.Api;
 using Money_Spending_Tracker.Features.Database;
 using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Storage;
+using Money_Spending_Tracker.Features.Tags;
 using System.Diagnostics;
 using static Money_Spending_Tracker.Features.TransactionData.ITransactionDataService;
 
@@ -136,9 +137,27 @@ internal class TransactionDataService : ITransactionDataService
                 continue; // No new transactions for this account
             }
 
+            using var tagPredictionService = new TagPredictionService();
+            await tagPredictionService.InitializeAsync();
+
             // Add new transactions to the database
             foreach (var transaction in transactionsToAdd)
             {
+                byte[]? embeddingBytes = null;
+
+                var combinedText =
+                    (transaction.CreditorName ?? "") +
+                    " " + (transaction.RemittanceInformationStructured ?? transaction.RemittanceInformationUnstructured ?? "" +
+                    " " + (transaction.AdditionalInformation ?? ""));
+
+                if (!string.IsNullOrWhiteSpace(combinedText))
+                {
+                    var embedding = tagPredictionService.GetTransactionEmbedding(
+                        combinedText);
+
+                    embeddingBytes = ByteFloatConversionHelper.FloatArrayToByteArray(embedding);
+                }
+
                 var newTransaction = new Transaction(
                     transactionId: transaction.TransactionId,
                     accountId: account.AccountId,
@@ -158,7 +177,8 @@ internal class TransactionDataService : ITransactionDataService
                     additionalInformation: transaction.AdditionalInformation,
                     purposeCode: transaction.PurposeCode,
                     proprietaryBankTransactionCode: transaction.ProprietaryBankTransactionCode,
-                    internalTransactionId: Guid.Parse(transaction.InternalTransactionId)
+                    internalTransactionId: Guid.Parse(transaction.InternalTransactionId),
+                    embedding: embeddingBytes
                 );
 
                 dbContext.Transactions.Add(newTransaction);
@@ -166,6 +186,8 @@ internal class TransactionDataService : ITransactionDataService
         }
 
         await dbContext.SaveChangesAsync();
+
+        //TODO: For all new transactions, apply tags based on ML model
 
         AppCache.LastTransactionUpdate = DateTime.UtcNow;
     }

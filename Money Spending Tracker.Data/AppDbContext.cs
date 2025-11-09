@@ -10,6 +10,12 @@ public class AppDbContext : DbContext
 
     public DbSet<JobLog> JobLogs { get; set; }
 
+    public DbSet<Tag> Tags { get; set; }
+
+    public DbSet<TransactionTag> TransactionTags { get; set; }
+
+    public DbSet<TagNegativeEmbedding> TagNegativeEmbeddings { get; set; }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -29,18 +35,31 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder
-            .Entity<Transaction>(
-                eb =>
-                {
-                    eb.HasKey(t => new { t.InternalTransactionId, t.AccountId });
-                });
+        modelBuilder.Entity<Transaction>()
+            .HasKey(t => new { t.InternalTransactionId, t.AccountId });
 
-        modelBuilder
-            .Entity<Account>(
-                eb =>
-                {
-                    eb.HasKey(a => a.AccountId);
-                });
+        modelBuilder.Entity<Account>()
+            .HasKey(a => a.AccountId);
+
+        modelBuilder.Entity<TransactionTag>()
+            .HasKey(tt => new { tt.InternalTransactionId, tt.AccountId, tt.TagId });
+
+        modelBuilder.Entity<TransactionTag>()
+            .HasOne(tt => tt.Transaction)
+            .WithMany(t => t.TransactionTags)
+            .HasForeignKey(tt => new { tt.InternalTransactionId, tt.AccountId })
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TransactionTag>()
+            .HasOne(tt => tt.Tag)
+            .WithMany(t => t.TransactionTags)
+            .HasForeignKey(tt => tt.TagId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TagNegativeEmbedding>()
+            .HasOne(tne => tne.Tag)
+            .WithMany(t => t.NegativeEmbeddings)
+            .HasForeignKey(tne => tne.TagId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

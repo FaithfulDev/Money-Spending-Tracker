@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Tags"
+             x:Class="Money_Spending_Tracker.Features.Tags.EditTagNameModal"
+             Title="EditTagNameModal"
+             x:DataType="local:EditTagNameViewModel"
+             Shell.PresentationMode="ModalNotAnimated" BackgroundColor="Transparent">
+
+    <Grid>
+        <BoxView BackgroundColor="Gray" Opacity="0.7">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CancelCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Border
+            InputTransparent="False"
+            IsVisible="True"
+            HorizontalOptions="Fill" 
+            VerticalOptions="Center"
+            BackgroundColor="White"
+            Margin="20,-100,20,0" Padding="10">
+                <Border.Shadow>
+                    <Shadow
+                    Offset="5,5"
+                    Radius="3"
+                    Brush="Black"
+                    Opacity="0.3" />
+                </Border.Shadow>
+            <Grid>
+                
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Label 
+                         Text="Tag Name" 
+                         Margin="2" 
+                         FontAttributes="Bold" />
+
+                    <Entry
+                         Placeholder="New Tag Name"
+                         Text="{Binding Name}"/>
+
+                    <Button Text="Save" Command="{Binding SaveCommand}" Margin="0,10,0,0" />
+                    
+                </VerticalStackLayout>
+                
+            </Grid>
+        </Border>
+    </Grid>
+
+</ContentPage>

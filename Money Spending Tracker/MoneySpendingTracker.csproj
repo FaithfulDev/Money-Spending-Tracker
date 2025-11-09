@@ -61,6 +61,8 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.23.2" />
+		<PackageReference Include="Microsoft.ML.Tokenizers" Version="1.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
@@ -75,6 +77,9 @@
 	  </Compile>
 	  <Compile Update="Features\Onboarding\OnboardingApiPage.xaml.cs">
 	    <DependentUpon>OnboardingApiPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Features\Tags\EditTagNameModal.xaml.cs">
+	    <DependentUpon>EditTagNameModal.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -123,6 +128,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Start\StartPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Tags\EditTagNameModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Tags\TagListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

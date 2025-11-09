@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Tags"
+             x:Class="Money_Spending_Tracker.Features.Tags.TagListPage"
+             x:DataType="local:TagListViewModel">
+
+    <Shell.TitleView>
+        <Grid Padding="0" ColumnDefinitions="*,auto">
+            <Label Text="Tags" FontSize="20" VerticalOptions="Center" FontAttributes="Bold"/>
+            <Button 
+                Margin="10"
+                Grid.Column="1"
+                Text="+" Padding="0" FontSize="20"
+                Command="{Binding AddNewTagCommand}" />
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid Margin="18,0,18,15" RowDefinitions="auto,*">
+
+        <CollectionView ItemsSource="{Binding Items}" Grid.Row="1"
+            ItemSizingStrategy="MeasureFirstItem" SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem}" SelectionChangedCommand="{Binding SelectionChangedCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:TagListModel">
+
+                    <Border Padding="10" Margin="0,5,0,0">
+                        <Grid ColumnDefinitions="*, auto">
+                            <Label 
+                                Grid.Column="0"
+                                Text="{Binding Name}" 
+                                HorizontalTextAlignment="Center" 
+                                VerticalOptions="Center"/>
+
+                            <ImageButton
+                                Grid.Column="1"
+                                HeightRequest="20"
+                                WidthRequest="20"
+                                BackgroundColor="Red"
+                                Padding="9"
+                                Command="{Binding DeleteCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        FontFamily="FontAwesomeSolid"
+                                        Glyph="&#xf2ed;"
+                                        Color="White"/>
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="Create your first Tag using the '+' button." HorizontalOptions="Center" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+        
+    </Grid>
+    
+</ContentPage>
