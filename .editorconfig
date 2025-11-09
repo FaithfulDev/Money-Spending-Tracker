@@ -4,22 +4,29 @@ root = true
 # All files
 [*]
 end_of_line = lf
-
-# C# files
-[*.cs]
-
-#### Core EditorConfig Options ####
+guidelines = 130 1px dotted f5f242, 140 2px solid red
 
 # Indentation and spacing
 indent_size = 4
 indent_style = space
 tab_width = 4
 
+# C# files
+[*.cs]
+
+#### Core EditorConfig Options ####
+
 # New line preferences
 end_of_line = lf
 insert_final_newline = false
 
 #### .NET Code Actions ####
+
+# Ugly null check
+dotnet_diagnostic.IDE0270.severity = none
+
+# Primary constructor
+dotnet_diagnostic.IDE0290.severity = none
 
 # Type members
 dotnet_hide_advanced_members = false
