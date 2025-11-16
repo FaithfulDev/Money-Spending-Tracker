@@ -182,6 +182,7 @@ public class DatabaseService
                     creditorName: "Test Creditor",
                     ultimateCreditor: "Ultimate Creditor",
                     remittanceInformationStructured: $"Structured Info {i}-{j}",
+                    remittanceInformationUnstructured: $"Unstructured Info {i}-{j}",
                     additionalInformation: $"Additional Info {i}-{j}",
                     purposeCode: "PURPOSE",
                     proprietaryBankTransactionCode: "PROPRIETARY",
