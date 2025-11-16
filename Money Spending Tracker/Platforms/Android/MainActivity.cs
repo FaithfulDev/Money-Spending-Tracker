@@ -44,10 +44,14 @@ namespace Money_Spending_Tracker
             base.OnCreate(savedInstanceState);
 
             FixTitleBarOverlapWithStatusBar();
+            ScheduleDailyUpdateTransactionsWork();
+        }
 
+        private static void ScheduleDailyUpdateTransactionsWork()
+        {
             var constraints = new Constraints.Builder()
-                .SetRequiredNetworkType(NetworkType.Connected!)
-                .Build();
+                            .SetRequiredNetworkType(NetworkType.Connected!)
+                            .Build();
 
             // Calculate delay until next 3am
             var now = DateTime.Now;
