@@ -43,6 +43,8 @@ namespace Money_Spending_Tracker
         {
             base.OnCreate(savedInstanceState);
 
+            FixTitleBarOverlapWithStatusBar();
+
             var constraints = new Constraints.Builder()
                 .SetRequiredNetworkType(NetworkType.Connected!)
                 .Build();
@@ -65,6 +67,23 @@ namespace Money_Spending_Tracker
                 ExistingPeriodicWorkPolicy.Update!,
                 (PeriodicWorkRequest)workRequest
             );
+        }
+
+        /// <summary>
+        /// Adjusts the window layout to prevent the title bar from overlapping with the Android status bar. 
+        /// </summary>
+        /// <remarks>
+        /// This fix is needed after updating to .NET MAUI version 10, as it introduced changes that caused the title bar to 
+        /// overlap with the android status bar.
+        /// </remarks>
+        private static void FixTitleBarOverlapWithStatusBar()
+        {
+            //Fix title bar overlap with Android status bar
+            var window = Platform.CurrentActivity?.Window;
+            if (window != null)
+            {
+                AndroidX.Core.View.WindowCompat.SetDecorFitsSystemWindows(window, true);
+            }
         }
     }
 }
