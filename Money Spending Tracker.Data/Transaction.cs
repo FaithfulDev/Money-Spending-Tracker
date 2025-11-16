@@ -13,6 +13,7 @@ public class Transaction
     public string? CreditorName { get; set; }
     public string? UltimateCreditor { get; set; }
     public string? RemittanceInformationStructured { get; set; }
+    public string? RemittanceInformationUnstructured { get; set; }
     public string? AdditionalInformation { get; set; }
     public string? PurposeCode { get; set; }
     public string? ProprietaryBankTransactionCode { get; set; }
@@ -24,10 +25,10 @@ public class Transaction
     /// </summary>
     public byte[]? Embedding { get; set; }
 
-    public Transaction(string transactionId, Guid accountId, string? entryReference, string? endToEndId, DateTime bookingDate, DateTime valueDate,
-        double transactionAmount, string? creditorName, string? ultimateCreditor, string? remittanceInformationStructured,
-        string? additionalInformation, string? purposeCode, string? proprietaryBankTransactionCode, Guid internalTransactionId,
-        byte[]? embedding = null)
+    public Transaction(string transactionId, Guid accountId, string? entryReference, string? endToEndId, DateTime bookingDate,
+        DateTime valueDate, double transactionAmount, string? creditorName, string? ultimateCreditor,
+        string? remittanceInformationStructured, string? remittanceInformationUnstructured, string? additionalInformation,
+        string? purposeCode, string? proprietaryBankTransactionCode, Guid internalTransactionId, byte[]? embedding = null)
     {
         TransactionId = transactionId;
         AccountId = accountId;
@@ -39,6 +40,7 @@ public class Transaction
         CreditorName = creditorName;
         UltimateCreditor = ultimateCreditor;
         RemittanceInformationStructured = remittanceInformationStructured;
+        RemittanceInformationUnstructured = remittanceInformationUnstructured;
         AdditionalInformation = additionalInformation;
         PurposeCode = purposeCode;
         ProprietaryBankTransactionCode = proprietaryBankTransactionCode;

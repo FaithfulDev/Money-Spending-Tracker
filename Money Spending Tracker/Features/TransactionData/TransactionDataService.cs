@@ -174,6 +174,7 @@ internal class TransactionDataService : ITransactionDataService
                     creditorName: transaction.CreditorName,
                     ultimateCreditor: transaction.UltimateCreditor,
                     remittanceInformationStructured: transaction.RemittanceInformationStructured,
+                    remittanceInformationUnstructured: transaction.RemittanceInformationUnstructured,
                     additionalInformation: transaction.AdditionalInformation,
                     purposeCode: transaction.PurposeCode,
                     proprietaryBankTransactionCode: transaction.ProprietaryBankTransactionCode,
