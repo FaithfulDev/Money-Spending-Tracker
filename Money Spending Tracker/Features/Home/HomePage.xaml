@@ -1,52 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Home"
-             xmlns:monthSummery="clr-namespace:Money_Spending_Tracker.Features.MonthSummary"
-             x:Class="Money_Spending_Tracker.Features.Home.HomePage"
-             x:DataType="local:HomeViewModel"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Home.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Home"
+    xmlns:monthSummery="clr-namespace:Money_Spending_Tracker.Features.MonthSummary"
+    Title="{Binding Title}"
+    x:DataType="local:HomeViewModel">
     <Grid>
         <Grid RowDefinitions="auto, *, auto">
 
             <VerticalStackLayout Grid.Row="0">
-                
-                <Border Margin="15,0,15,0" Padding="15" BackgroundColor="Red" IsVisible="{Binding DidTimeout}">
-                    <Label Text="One or more request timed out. Try again." HorizontalOptions="Center" TextColor="White" />
+
+                <Border
+                    Margin="15,0,15,0"
+                    Padding="15"
+                    BackgroundColor="Red"
+                    IsVisible="{Binding DidTimeout}">
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="One or more request timed out. Try again."
+                        TextColor="White" />
                 </Border>
 
-                <Border Margin="15,0,15,0" Padding="15" BackgroundColor="#FCFCBF" IsVisible="{Binding ShowExpireWarning}">
+                <Border
+                    Margin="15,0,15,0"
+                    Padding="15"
+                    BackgroundColor="#FCFCBF"
+                    IsVisible="{Binding ShowExpireWarning}">
                     <VerticalStackLayout>
-                        
-                        <Label IsVisible="{Binding ShowExpiresInDaysWarning}" HorizontalOptions="Center" TextColor="Black"
-                            Text="{Binding DaysUntilExpiry, StringFormat='One (or more) of your accounts will expire in {0} days.\
-You can re-authenticate beforehand if you like.'}" />
 
-                        <Label IsVisible="{Binding ShowExpireSoonWarning}" HorizontalOptions="Center" TextColor="Black"
-                            Text="One or more of your accounts will expire soon. You should re-authenticate them as soon as possible." />
+                        <Label
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding ShowExpiresInDaysWarning}"
+                            Text="{Binding DaysUntilExpiry, StringFormat='One (or more) of your accounts will expire in {0} days.\ You can re-authenticate beforehand if you like.'}"
+                            TextColor="Black" />
 
-                        <Label IsVisible="{Binding ShowAlreadyExpiredWarning}" HorizontalOptions="Center" TextColor="Black"
-                            Text="One or more of your accounts has expired. Please re-authenticate now." />
+                        <Label
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding ShowExpireSoonWarning}"
+                            Text="One or more of your accounts will expire soon. You should re-authenticate them as soon as possible."
+                            TextColor="Black" />
+
+                        <Label
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding ShowAlreadyExpiredWarning}"
+                            Text="One or more of your accounts has expired. Please re-authenticate now."
+                            TextColor="Black" />
 
                         <HorizontalStackLayout>
-                            <Label Text="Check Accounts" TextColor="Blue" Margin="0,5,0,0" VerticalOptions="Center">
+                            <Label
+                                Margin="0,5,0,0"
+                                Text="Check Accounts"
+                                TextColor="Blue"
+                                VerticalOptions="Center">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding CheckAccountsCommand}" />
                                 </Label.GestureRecognizers>
                             </Label>
 
-                            <Label Text=" &#xf061;" TextColor="Blue" Margin="0,5,0,0" VerticalTextAlignment="Center" FontFamily="FontAwesomeSolid" />
+                            <Label
+                                Margin="0,5,0,0"
+                                FontFamily="FontAwesomeSolid"
+                                Text=" &#xf061;"
+                                TextColor="Blue"
+                                VerticalTextAlignment="Center" />
                         </HorizontalStackLayout>
-                        
+
                     </VerticalStackLayout>
                 </Border>
 
             </VerticalStackLayout>
-            
 
-            <RefreshView Grid.Row="1"
-                IsRefreshing="{Binding PullToRefreshIndicatorVisible}"
-                Command="{Binding RefreshCommand}">
+
+            <RefreshView
+                Grid.Row="1"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding PullToRefreshIndicatorVisible}">
 
                 <ScrollView>
                     <monthSummery:MonthSummaryView Balance="{Binding Balance}" RemainingBudget="{Binding RemainingBudget}" />
@@ -54,43 +84,49 @@ You can re-authenticate beforehand if you like.'}" />
 
             </RefreshView>
 
-            <Label Grid.Row="2" Text="{Binding LastTransactionUpdate}" HorizontalTextAlignment="Center" />
+            <Label
+                Grid.Row="2"
+                HorizontalTextAlignment="Center"
+                Text="{Binding LastTransactionUpdate}" />
         </Grid>
 
         <Grid x:Name="Overlay" IsVisible="{Binding IsWorking}">
-            <BoxView BackgroundColor="Gray" Opacity="0.7"/>
+            <BoxView BackgroundColor="Gray" Opacity="0.7" />
             <Border
-                IsVisible="True"
-                HorizontalOptions="Center" 
-                VerticalOptions="Center"
+                Margin="0,-100,0,0"
                 BackgroundColor="White"
-                WidthRequest="300" HeightRequest="100"
-                Margin="0,-100,0,0">
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                IsVisible="True"
+                VerticalOptions="Center"
+                WidthRequest="300">
                 <Border.Shadow>
                     <Shadow
-                        Offset="5,5"
-                        Radius="3"
                         Brush="Black"
-                        Opacity="0.3" />
+                        Opacity="0.3"
+                        Radius="3"
+                        Offset="5,5" />
                 </Border.Shadow>
                 <Grid ColumnDefinitions="auto,*">
-                    <ActivityIndicator Grid.Column="0" 
+                    <ActivityIndicator
+                        x:Name="ActivityIndicator"
+                        Grid.Column="0"
                         Margin="20"
-                        x:Name="ActivityIndicator" 
-                        IsVisible="True" 
-                        IsRunning="True"/>
+                        IsRunning="True"
+                        IsVisible="True" />
 
-                    <VerticalStackLayout VerticalOptions="Center" Grid.Column="1">
-                        <Label Text="Updating Data"
-                               FontSize="16" FontAttributes="Bold"/>
-                        <Label Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}"
-                               FontSize="14"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Updating Data" />
+                        <Label FontSize="14" Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}" />
                     </VerticalStackLayout>
                 </Grid>
             </Border>
         </Grid>
 
     </Grid>
-    
+
 
 </ContentPage>

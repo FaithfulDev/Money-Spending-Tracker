@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Start"
-             x:Class="Money_Spending_Tracker.Features.Start.StartPage"
-             x:DataType="local:StartViewModel"
-             Title="Start">
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Start.StartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Start"
+    Title="Start"
+    x:DataType="local:StartViewModel">
     <VerticalStackLayout Padding="15">
-        
-        <Label Text="Database Password" Margin="2" FontAttributes="Bold" />
-        
-        <Entry x:Name="PasswordEntry"
-               Placeholder="Enter database password"
-               IsPassword="True"
-               Text="{Binding Password}"/>
 
-        <Button Text="Unlock" Margin="10,20" Command="{Binding UnlockCommand}" />
-        <Button Text="Unlock with biometric" Margin="10,0" Command="{Binding UnlockWithBiometricCommand}" />
+        <Label
+            Margin="2"
+            FontAttributes="Bold"
+            Text="Database Password" />
 
-        <ActivityIndicator 
-            x:Name="ActivityIndicator" 
-            IsVisible="{Binding IsWorking}" 
-            IsRunning="{Binding IsWorking}"/>
+        <Entry
+            x:Name="PasswordEntry"
+            IsPassword="True"
+            Placeholder="Enter database password"
+            Text="{Binding Password}" />
+
+        <Button
+            Margin="10,20"
+            Command="{Binding UnlockCommand}"
+            Text="Unlock" />
+        <Button
+            Margin="10,0"
+            Command="{Binding UnlockWithBiometricCommand}"
+            Text="Unlock with biometric" />
+
+        <ActivityIndicator
+            x:Name="ActivityIndicator"
+            IsRunning="{Binding IsWorking}"
+            IsVisible="{Binding IsWorking}" />
 
     </VerticalStackLayout>
 </ContentPage>

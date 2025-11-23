@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Accounts"
-             x:Class="Money_Spending_Tracker.Features.Accounts.AccountsPage"
-             x:DataType="local:AccountsViewModel" 
-             Title="Accounts" x:Name="RootView">
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Accounts.AccountsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Accounts"
+    x:Name="RootView"
+    Title="Accounts"
+    x:DataType="local:AccountsViewModel">
 
     <Shell.TitleView>
         <Grid Padding="0" ColumnDefinitions="*,auto">
-            <Label Text="Accounts" FontSize="20" VerticalOptions="Center" FontAttributes="Bold"/>
-            <Button 
-            Margin="10"
-            Grid.Column="1"
-            Text="+" Padding="0" FontSize="20"
-            Command="{Binding AddAccountCommand}" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Accounts"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="1"
+                Margin="10"
+                Padding="0"
+                Command="{Binding AddAccountCommand}"
+                FontSize="20"
+                Text="+" />
         </Grid>
     </Shell.TitleView>
 
@@ -21,70 +29,86 @@
 
         <VerticalStackLayout>
 
-            <Border Margin="10,0,10,0" Padding="15" BackgroundColor="red" IsVisible="{Binding DidTimeoutOccur}">
-                <Label Text="One or more request timed out." HorizontalOptions="Center" TextColor="White" />
+            <Border
+                Margin="10,0,10,0"
+                Padding="15"
+                BackgroundColor="red"
+                IsVisible="{Binding DidTimeoutOccur}">
+                <Label
+                    HorizontalOptions="Center"
+                    Text="One or more request timed out."
+                    TextColor="White" />
             </Border>
 
             <CollectionView ItemsSource="{Binding Accounts}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="local:AccountModel">
                         <Border Margin="10,10,10,0">
-                            <Grid Padding="10" ColumnDefinitions="Auto,*,Auto" RowDefinitions="*,Auto">
+                            <Grid
+                                Padding="10"
+                                ColumnDefinitions="Auto,*,Auto"
+                                RowDefinitions="*,Auto">
 
                                 <Image
-                                    Source="{Binding InstitutionLogo}"
-                                    HeightRequest="50"
-                                    WidthRequest="50"
-                                    Aspect="AspectFit"
+                                    Grid.Column="0"
                                     Margin="0,0,10,0"
-                                    Grid.Column="0" />
+                                    Aspect="AspectFit"
+                                    HeightRequest="50"
+                                    Source="{Binding InstitutionLogo}"
+                                    WidthRequest="50" />
 
                                 <StackLayout Grid.Column="1" Spacing="2">
-                                    <Label Text="{Binding AccountName}" FontAttributes="Bold" />
-                                    <Label Text="{Binding AccountIban}" FontAttributes="Italic" FontSize="12" />
+                                    <Label FontAttributes="Bold" Text="{Binding AccountName}" />
+                                    <Label
+                                        FontAttributes="Italic"
+                                        FontSize="12"
+                                        Text="{Binding AccountIban}" />
                                     <HorizontalStackLayout>
-                                        <Label Text="Expires in approximately: " FontSize="12"/>
-                                        <Label Text="{Binding ExpiresInApproximatelyDays}" FontSize="12"/>
-                                        <Label Text=" days" FontSize="12"/>
+                                        <Label FontSize="12" Text="Expires in approximately: " />
+                                        <Label FontSize="12" Text="{Binding ExpiresInApproximatelyDays}" />
+                                        <Label FontSize="12" Text=" days" />
                                     </HorizontalStackLayout>
                                 </StackLayout>
 
                                 <HorizontalStackLayout Grid.Column="2">
 
                                     <ImageButton
-                                        HeightRequest="20"
-                                        WidthRequest="20"
-                                        Padding="9"
                                         Margin="0,0,10,0"
-                                        Command="{Binding ReAuthenticateCommand}">
+                                        Padding="9"
+                                        Command="{Binding ReAuthenticateCommand}"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
                                         <ImageButton.Source>
                                             <FontImageSource
                                                 FontFamily="FontAwesomeSolid"
                                                 Glyph="&#xf021;"
-                                                Color="Black"/>
+                                                Color="Black" />
                                         </ImageButton.Source>
                                     </ImageButton>
 
                                     <ImageButton
-                                        HeightRequest="20"
-                                        WidthRequest="20"
-                                        BackgroundColor="Red"
                                         Padding="9"
-                                        Command="{Binding DeleteCommand}">
+                                        BackgroundColor="Red"
+                                        Command="{Binding DeleteCommand}"
+                                        HeightRequest="20"
+                                        WidthRequest="20">
                                         <ImageButton.Source>
                                             <FontImageSource
                                                 FontFamily="FontAwesomeSolid"
                                                 Glyph="&#xf2ed;"
-                                                Color="White"/>
+                                                Color="White" />
                                         </ImageButton.Source>
                                     </ImageButton>
-                                    
+
                                 </HorizontalStackLayout>
 
-                                <Label IsVisible="{Binding IsExpired}" 
-                                       Text="Account has expired - re-authenticate now!"
-                                       TextColor="Red" Margin="0,10,0,0"
-                                       Grid.Row="1" Grid.ColumnSpan="3"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="0,10,0,0"
+                                    IsVisible="{Binding IsExpired}"
+                                    Text="Account has expired - re-authenticate now!"
+                                    TextColor="Red" />
 
                             </Grid>
                         </Border>
@@ -95,33 +119,36 @@
         </VerticalStackLayout>
 
         <Grid x:Name="Overlay" IsVisible="{Binding IsWorking}">
-            <BoxView BackgroundColor="Gray" Opacity="0.7"/>
+            <BoxView BackgroundColor="Gray" Opacity="0.7" />
             <Border
-                IsVisible="True"
-                HorizontalOptions="Center" 
-                VerticalOptions="Center"
+                Margin="0,-100,0,0"
                 BackgroundColor="White"
-                WidthRequest="300" HeightRequest="100"
-                Margin="0,-100,0,0">
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                IsVisible="True"
+                VerticalOptions="Center"
+                WidthRequest="300">
                 <Border.Shadow>
                     <Shadow
-                        Offset="5,5"
-                        Radius="3"
                         Brush="Black"
-                        Opacity="0.3" />
+                        Opacity="0.3"
+                        Radius="3"
+                        Offset="5,5" />
                 </Border.Shadow>
                 <Grid ColumnDefinitions="auto,*">
-                    <ActivityIndicator Grid.Column="0" 
+                    <ActivityIndicator
+                        x:Name="ActivityIndicator"
+                        Grid.Column="0"
                         Margin="20"
-                        x:Name="ActivityIndicator" 
-                        IsVisible="True" 
-                        IsRunning="True"/>
+                        IsRunning="True"
+                        IsVisible="True" />
 
-                    <VerticalStackLayout VerticalOptions="Center" Grid.Column="1">
-                        <Label Text="Updating Data"
-                            FontSize="16" FontAttributes="Bold"/>
-                        <Label Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}"
-                            FontSize="14"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Updating Data" />
+                        <Label FontSize="14" Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}" />
                     </VerticalStackLayout>
                 </Grid>
             </Border>

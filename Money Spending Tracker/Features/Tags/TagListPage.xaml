@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Tags"
-             x:Class="Money_Spending_Tracker.Features.Tags.TagListPage"
-             x:DataType="local:TagListViewModel">
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Tags.TagListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Tags"
+    x:DataType="local:TagListViewModel">
 
     <Shell.TitleView>
         <Grid Padding="0" ColumnDefinitions="*,auto">
-            <Label Text="Tags" FontSize="20" VerticalOptions="Center" FontAttributes="Bold"/>
-            <Button 
-                Margin="10"
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Tags"
+                VerticalOptions="Center" />
+            <Button
                 Grid.Column="1"
-                Text="+" Padding="0" FontSize="20"
-                Command="{Binding AddNewTagCommand}" />
+                Margin="10"
+                Padding="0"
+                Command="{Binding AddNewTagCommand}"
+                FontSize="20"
+                Text="+" />
         </Grid>
     </Shell.TitleView>
 
     <Grid Margin="18,0,18,15" RowDefinitions="auto,*">
 
-        <CollectionView ItemsSource="{Binding Items}" Grid.Row="1"
-            ItemSizingStrategy="MeasureFirstItem" SelectionMode="Single"
-            SelectedItem="{Binding SelectedItem}" SelectionChangedCommand="{Binding SelectionChangedCommand}">
+        <CollectionView
+            Grid.Row="1"
+            ItemSizingStrategy="MeasureFirstItem"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding SelectedItem}"
+            SelectionChangedCommand="{Binding SelectionChangedCommand}"
+            SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:TagListModel">
 
-                    <Border Padding="10" Margin="0,5,0,0">
+                    <Border Margin="0,5,0,0" Padding="10">
                         <Grid ColumnDefinitions="*, auto">
-                            <Label 
+                            <Label
                                 Grid.Column="0"
-                                Text="{Binding Name}" 
-                                HorizontalTextAlignment="Center" 
-                                VerticalOptions="Center"/>
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center" />
 
                             <ImageButton
                                 Grid.Column="1"
-                                HeightRequest="20"
-                                WidthRequest="20"
-                                BackgroundColor="Red"
                                 Padding="9"
-                                Command="{Binding DeleteCommand}">
+                                BackgroundColor="Red"
+                                Command="{Binding DeleteCommand}"
+                                HeightRequest="20"
+                                WidthRequest="20">
                                 <ImageButton.Source>
                                     <FontImageSource
                                         FontFamily="FontAwesomeSolid"
                                         Glyph="&#xf2ed;"
-                                        Color="White"/>
+                                        Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
                         </Grid>
@@ -52,10 +63,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.EmptyView>
-                <Label Text="Create your first Tag using the '+' button." HorizontalOptions="Center" />
+                <Label HorizontalOptions="Center" Text="Create your first Tag using the '+' button." />
             </CollectionView.EmptyView>
         </CollectionView>
-        
+
     </Grid>
-    
+
 </ContentPage>

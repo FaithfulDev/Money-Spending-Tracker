@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Onboarding"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="Money_Spending_Tracker.Features.Onboarding.OnboardingAuthenticationPage"
-             x:DataType="local:OnboardingAuthenticationViewModel"
-             Title="Account Authentication" x:Name="Page">
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Onboarding.OnboardingAuthenticationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Onboarding"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="Page"
+    Title="Account Authentication"
+    x:DataType="local:OnboardingAuthenticationViewModel">
 
     <Grid Margin="18,0" RowDefinitions="Auto,*,*,Auto,40">
 
         <VerticalStackLayout Grid.Row="0">
 
-            <Label Text="Name of banking institution" FontAttributes="Bold" Margin="2,0"/>
-            <Entry Placeholder="Name of banking institution" 
-                   Margin="0" x:Name="InstituionEntry"
-                   Text="{Binding InstitutionName}">
+            <Label
+                Margin="2,0"
+                FontAttributes="Bold"
+                Text="Name of banking institution" />
+            <Entry
+                x:Name="InstituionEntry"
+                Margin="0"
+                Placeholder="Name of banking institution"
+                Text="{Binding InstitutionName}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior
-                        EventName="TextChanged"
                         BindingContext="{Binding Path=BindingContext, Source={x:Reference InstituionEntry}, x:DataType=Entry}"
-                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.InstitutionNameChangedCommand, x:DataType=ContentPage}" />
+                        Command="{Binding Source={x:Reference Page}, Path=BindingContext.InstitutionNameChangedCommand, x:DataType=ContentPage}"
+                        EventName="TextChanged" />
                 </Entry.Behaviors>
             </Entry>
 
         </VerticalStackLayout>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding FilteredInstitutions}"
-                   ItemSelected="ListView_ItemSelected" SelectionMode="Single"/>
+        <ListView
+            Grid.Row="1"
+            ItemSelected="ListView_ItemSelected"
+            ItemsSource="{Binding FilteredInstitutions}"
+            SelectionMode="Single" />
 
-        <ActivityIndicator 
+        <ActivityIndicator
             Grid.Row="2"
-            WidthRequest="200"
             HeightRequest="150"
             HorizontalOptions="Center"
+            IsRunning="{Binding IsWorking}"
+            IsVisible="{Binding IsWorking}"
             VerticalOptions="Center"
-            IsVisible="{Binding IsWorking}" 
-            IsRunning="{Binding IsWorking}"/>
+            WidthRequest="200" />
 
-        <Button 
+        <Button
             Grid.Row="3"
-            Text="Authenticate" 
-            Margin="10,20" 
-            Command="{Binding AuthenticateCommand}" />
+            Margin="10,20"
+            Command="{Binding AuthenticateCommand}"
+            Text="Authenticate" />
 
     </Grid>
-    
+
 </ContentPage>
