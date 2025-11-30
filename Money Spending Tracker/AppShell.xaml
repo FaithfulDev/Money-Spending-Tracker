@@ -6,29 +6,29 @@
     xmlns:local="clr-namespace:Money_Spending_Tracker"
     Title="Money Spending Tracker">
 
-    <!--Hidden Pages-->
+    <!--  Hidden Pages  -->
     <ShellContent
         Title="Start"
-        FlyoutItemIsVisible="False"
-        Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate local:Features.Start.StartPage}"
-        Route="StartPage" />
+        FlyoutItemIsVisible="False"
+        Route="StartPage"
+        Shell.FlyoutBehavior="Disabled" />
 
     <ShellContent
         Title="Onboarding"
-        FlyoutItemIsVisible="False"
-        Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate local:Features.Onboarding.OnboardingPage}"
-        Route="OnboardingPage" />
+        FlyoutItemIsVisible="False"
+        Route="OnboardingPage"
+        Shell.FlyoutBehavior="Disabled" />
 
     <ShellContent
         Title=""
-        FlyoutItemIsVisible="False"
-        Shell.FlyoutBehavior="Disabled"
         ContentTemplate="{DataTemplate local:Features.Accounts.CallbackDummyPage}"
-        Route="CallbackDummyPage" />
+        FlyoutItemIsVisible="False"
+        Route="CallbackDummyPage"
+        Shell.FlyoutBehavior="Disabled" />
 
-    <!--Menu Items-->
+    <!--  Menu Items  -->
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:Features.Home.HomePage}"
@@ -37,7 +37,8 @@
             <FontImageSource
                 FontFamily="FontAwesomeSolid"
                 Glyph="&#xf015;"
-                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                Color="{AppThemeBinding Light={StaticResource Black},
+                                        Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
@@ -47,9 +48,10 @@
         Route="PreviousMonthListPage">
         <ShellContent.FlyoutIcon>
             <FontImageSource
-            FontFamily="FontAwesomeSolid"
-            Glyph="&#xf073;"
-            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                FontFamily="FontAwesomeSolid"
+                Glyph="&#xf073;"
+                Color="{AppThemeBinding Light={StaticResource Black},
+                                        Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
@@ -59,9 +61,10 @@
         Route="TagListPage">
         <ShellContent.FlyoutIcon>
             <FontImageSource
-            FontFamily="FontAwesomeSolid"
-            Glyph="&#xf02c;"
-            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                FontFamily="FontAwesomeSolid"
+                Glyph="&#xf02c;"
+                Color="{AppThemeBinding Light={StaticResource Black},
+                                        Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
@@ -71,9 +74,10 @@
         Route="AccountsPage">
         <ShellContent.FlyoutIcon>
             <FontImageSource
-            FontFamily="FontAwesomeRegular"
-            Glyph="&#xf2c2;"
-            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                FontFamily="FontAwesomeRegular"
+                Glyph="&#xf2c2;"
+                Color="{AppThemeBinding Light={StaticResource Black},
+                                        Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
@@ -83,9 +87,10 @@
         Route="SettingsPage">
         <ShellContent.FlyoutIcon>
             <FontImageSource
-            FontFamily="FontAwesomeSolid"
-            Glyph="&#xf013;"
-            Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                FontFamily="FontAwesomeSolid"
+                Glyph="&#xf013;"
+                Color="{AppThemeBinding Light={StaticResource Black},
+                                        Dark={StaticResource White}}" />
         </ShellContent.FlyoutIcon>
     </ShellContent>
 
