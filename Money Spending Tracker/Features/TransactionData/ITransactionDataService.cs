@@ -1,4 +1,6 @@
-﻿namespace Money_Spending_Tracker.Features.TransactionData;
+﻿using Money_Spending_Tracker.Data;
+
+namespace Money_Spending_Tracker.Features.TransactionData;
 
 public interface ITransactionDataService
 {
@@ -25,6 +27,9 @@ public interface ITransactionDataService
     public Task<(List<(DateOnly date, double balance)> data, bool hasMore)> GetBalancesGroupedByMonth(int page, int pageSize);
 
     public Task<double> GetMonthsBalance(DateOnly monthYear);
+
+    public Task<(List<(DateOnly date, List<Transaction> transactions)> data, bool hasMore)>
+        GetTransactionsGroupedMyMonth(int page, int pageSize, DateTime? dateBegin, DateTime? dateEnd, int? tagId, Guid? accountId);
 
     public class AccountUpdateStartedEventArgs : EventArgs
     {

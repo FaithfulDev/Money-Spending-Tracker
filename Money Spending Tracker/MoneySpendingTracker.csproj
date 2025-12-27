@@ -66,6 +66,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
 		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
+		<PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.8" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 		<PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.10.5" />
 	</ItemGroup>
@@ -79,6 +80,9 @@
 	  </Compile>
 	  <Compile Update="Features\Tags\EditTagNameModal.xaml.cs">
 	    <DependentUpon>EditTagNameModal.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Features\Transactions\TransactionsFilterPopup.xaml.cs">
+	    <DependentUpon>TransactionsFilterPopup.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -133,6 +137,18 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Tags\TagListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Transactions\TransactionDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Transactions\TransactionsFilterPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Transactions\TransactionListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Transactions\TransactionTagsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

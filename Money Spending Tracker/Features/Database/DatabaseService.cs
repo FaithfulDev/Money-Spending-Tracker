@@ -181,6 +181,7 @@ public class DatabaseService
                     transactionAmount: transactionAmountCombined + random.Next(2, 9),
                     creditorName: "Test Creditor",
                     ultimateCreditor: "Ultimate Creditor",
+                    debtorName: "Test Debtor",
                     remittanceInformationStructured: $"Structured Info {i}-{j}",
                     remittanceInformationUnstructured: $"Unstructured Info {i}-{j}",
                     additionalInformation: $"Additional Info {i}-{j}",

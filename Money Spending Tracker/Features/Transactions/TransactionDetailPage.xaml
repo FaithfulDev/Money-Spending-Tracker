@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Transactions.TransactionDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dataModels="clr-namespace:Money_Spending_Tracker.Data;assembly=MoneySpendingTracker.Data"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Transactions"
+    xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
+    Title="Transaction"
+    x:DataType="local:TransactionDetailViewModel">
+
+    <ContentPage.Resources>
+        <local:NullFallbackConverter x:Key="NullFallbackConverter" />
+        <local:IsZeroConverter x:Key="IsZeroConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="20,0">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                HorizontalOptions="Center">
+                <Label.Text>
+                    <MultiBinding Converter="{StaticResource NullFallbackConverter}">
+                        <Binding Path="Transaction.CreditorName" />
+                        <Binding Path="Transaction.DebtorName" />
+                        <Binding Source="null" TargetNullValue="(empty)" />
+                    </MultiBinding>
+                </Label.Text>
+            </Label>
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="25"
+                HorizontalOptions="Center"
+                Text="{Binding Transaction.TransactionAmount, StringFormat='{0:C}'}" />
+
+            <Label
+                Margin="0,0,0,5"
+                FontSize="15"
+                Text="Details" />
+
+            <Border>
+                <VerticalStackLayout Margin="10" Spacing="10">
+
+                    <VerticalStackLayout>
+                        <Label FontAttributes="Bold" Text="Booking Date" />
+                        <Label FontSize="17" Text="{Binding Transaction.BookingDate, StringFormat='{0:dd.MM.yyyy}'}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label FontAttributes="Bold" Text="Value Date" />
+                        <Label FontSize="17" Text="{Binding Transaction.ValueDate, StringFormat='{0:dd.MM.yyyy}'}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label FontAttributes="Bold" Text="Remittance Information" />
+                        <Label FontSize="17" LineBreakMode="WordWrap">
+                            <Label.Text>
+                                <MultiBinding Converter="{StaticResource NullFallbackConverter}">
+                                    <Binding Path="Transaction.RemittanceInformationStructured" />
+                                    <Binding Path="Transaction.RemittanceInformationUnstructured" />
+                                    <Binding Source="null" TargetNullValue="(empty)" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Label
+                Margin="0,20,0,5"
+                FontSize="15"
+                Text="Tags" />
+
+            <Border Padding="5">
+                <VerticalStackLayout>
+
+                    <toolkit:SfChipGroup DisplayMemberPath="Tag.Name" ItemsSource="{Binding Transaction.TransactionTags}">
+
+                        <toolkit:SfChipGroup.ChipLayout>
+                            <FlexLayout Wrap="Wrap" />
+                        </toolkit:SfChipGroup.ChipLayout>
+
+                        <toolkit:SfChipGroup.ItemTemplate>
+                            <DataTemplate x:DataType="dataModels:TransactionTag">
+                                <Label
+                                    Padding="10,5"
+                                    HorizontalOptions="Start"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Tag.Name}">
+                                    <Label.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding TaggedBy}"
+                                            TargetType="Label"
+                                            Value="SYSTEM">
+                                            <Setter Property="BackgroundColor" Value="#D0F5D0" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </DataTemplate>
+                        </toolkit:SfChipGroup.ItemTemplate>
+
+                    </toolkit:SfChipGroup>
+
+                    <Label IsVisible="{Binding Transaction.TransactionTags.Count, Converter={StaticResource IsZeroConverter}}" Text="(No Tags)" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Label
+                Margin="0,20,0,5"
+                FontSize="15"
+                Text="Actions" />
+
+            <Button
+                Margin="0,10,0,0"
+                Command="{Binding EditTagsCommand}"
+                Text="Edit Tags" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

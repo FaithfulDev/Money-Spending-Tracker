@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Money_Spending_Tracker.Features.Transactions.TransactionTagsPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Transactions"
+    x:DataType="local:TransactionTagsViewModel">
+
+    <Grid Margin="0,0" RowDefinitions="*,auto">
+
+        <CollectionView ItemsSource="{Binding TagModels}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:TransactionTagsModel">
+                    <Border Margin="5">
+                        <Grid Padding="5" ColumnDefinitions="auto,*">
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleSelectionCommand}" />
+                            </Grid.GestureRecognizers>
+
+                            <CheckBox
+                                Grid.Column="0"
+                                InputTransparent="True"
+                                IsChecked="{Binding IsSelected}"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center" />
+
+                            <Grid.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsTaggedBySystem}"
+                                    TargetType="Grid"
+                                    Value="true">
+                                    <Setter Property="BackgroundColor" Value="#D0F5D0" />
+                                </DataTrigger>
+                            </Grid.Triggers>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label
+                    HorizontalOptions="Center"
+                    Text="No Tags available"
+                    VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button
+            Grid.Row="1"
+            Margin="5,10,5,0"
+            Command="{Binding SaveTagsCommand}"
+            Text="Save Selection" />
+
+    </Grid>
+
+</ContentView>

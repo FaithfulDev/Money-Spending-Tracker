@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Money_Spending_Tracker.Features.Transactions.TransactionListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Money_Spending_Tracker.Features.Transactions"
+    Title="Transactions"
+    x:DataType="local:TransactionListViewModel">
+
+    <Shell.TitleView>
+        <Grid Padding="0" ColumnDefinitions="*,auto">
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Transactions"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="1"
+                Margin="10"
+                Padding="0"
+                Command="{Binding FilterCommand}"
+                FontFamily="FontAwesomeSolid"
+                FontSize="20"
+                Text="&#xf0b0;" />
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid Margin="18,0,18,15" RowDefinitions="*,Auto">
+        <CollectionView
+            IsGrouped="True"
+            ItemSizingStrategy="MeasureAllItems"
+            ItemsSource="{Binding Items}"
+            RemainingItemsThreshold="5"
+            RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+            SelectedItem="{Binding SelectedItem}"
+            SelectionChangedCommand="{Binding SelectionChangedCommand}"
+            SelectionMode="Single">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="local:TransactionGroup">
+                    <Border
+                        Margin="0,10,0,0"
+                        Padding="0,0,0,0"
+                        BackgroundColor="#e6e6e6"
+                        Stroke="Transparent">
+                        <Border.Shadow>
+                            <Shadow
+                                Brush="Black"
+                                Opacity="0.3"
+                                Radius="12"
+                                Offset="0,4" />
+                        </Border.Shadow>
+                        <Label
+                            Padding="10"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{Binding MonthAndYear, StringFormat='{0:MMMM yyyy}'}" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:TransactionListModel">
+                    <Border
+                        Margin="0,0,0,0"
+                        BackgroundColor="#f2f2f2"
+                        Stroke="Transparent">
+                        <Grid
+                            Padding="10"
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="auto,*,*">
+                            <Label
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2"
+                                FontAttributes="Bold"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding CreditorOrDebtorName}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding RemittanceInformation}" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,15,0,0"
+                                Text="{Binding ValueDate, StringFormat='{0:dd.MM.yyyy}'}" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,15,0,0"
+                                FontAttributes="Bold"
+                                HorizontalOptions="End"
+                                Text="{Binding TransactionAmount, StringFormat='{0:C}'}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label HorizontalOptions="Center" Text="No transactions found." />
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <ActivityIndicator
+            Grid.Row="1"
+            IsRunning="{Binding IsLoadingMoreItems}"
+            IsVisible="{Binding IsLoadingMoreItems}" />
+    </Grid>
+
+</ContentPage>

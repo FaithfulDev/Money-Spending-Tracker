@@ -9,6 +9,9 @@ using Plugin.Fingerprint;
 using Money_Spending_Tracker.Features.Accounts;
 using Money_Spending_Tracker.Features.TransactionData;
 using Money_Spending_Tracker.Features.BackgroundJob;
+using Money_Spending_Tracker.Features.Transactions;
+using Microsoft.Maui.Controls.Shapes;
+using Syncfusion.Maui.Toolkit.Hosting;
 
 #if ANDROID
 using Money_Spending_Tracker.Features.ChromeTabs;
@@ -24,7 +27,30 @@ namespace Money_Spending_Tracker
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .ConfigureSyncfusionToolkit()
+                .UseMauiCommunityToolkit(static options =>
+                {
+                    options.SetPopupDefaults(new DefaultPopupSettings
+                    {
+                        CanBeDismissedByTappingOutsideOfPopup = true,
+                        HorizontalOptions = LayoutOptions.Fill,
+                        VerticalOptions = LayoutOptions.Center,
+                        Margin = new(20, 20),
+                        Padding = 0,
+
+                    });
+                    options.SetPopupOptionsDefaults(new DefaultPopupOptionsSettings
+                    {
+                        CanBeDismissedByTappingOutsideOfPopup = true,
+                        Shadow = new Shadow
+                        {
+                            Opacity = 0.3f,
+                            Radius = 3,
+                            Offset = new Point(5, 5)
+                        },
+                        Shape = new Rectangle()
+                    });
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -53,6 +79,10 @@ namespace Money_Spending_Tracker
             builder.Services.AddTransient<OnboardingPage>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<AccountsPage>();
+            builder.Services.AddTransient<TransactionListPage>();
+
+            builder.Services.AddTransientPopup<TransactionsFilterPopup, TransactionsFilterViewModel>();
+            builder.Services.AddTransientPopup<TransactionTagsPopup, TransactionTagsViewModel>();
 
             MauiServiceProvider.Current = builder.Services.BuildServiceProvider();
 

@@ -61,5 +61,9 @@ public class AppDbContext : DbContext
             .WithMany(t => t.NegativeEmbeddings)
             .HasForeignKey(tne => tne.TagId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TagNegativeEmbedding>()
+            .HasIndex(e => new { e.TagId, e.Hash })
+            .IsUnique();
     }
 }

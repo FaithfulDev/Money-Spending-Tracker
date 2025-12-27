@@ -173,6 +173,7 @@ internal class TransactionDataService : ITransactionDataService
                     ),
                     creditorName: transaction.CreditorName,
                     ultimateCreditor: transaction.UltimateCreditor,
+                    debtorName: transaction.DebtorName,
                     remittanceInformationStructured: transaction.RemittanceInformationStructured,
                     remittanceInformationUnstructured: transaction.RemittanceInformationUnstructured,
                     additionalInformation: transaction.AdditionalInformation,
@@ -297,5 +298,60 @@ internal class TransactionDataService : ITransactionDataService
         bool hasMore = balances.Count > pageSize;
 
         return ([.. balances.Select(x => (new DateOnly(x.Date.Year, x.Date.Month, 1), x.Balance))], hasMore);
+    }
+
+    public async Task<(List<(DateOnly date, List<Transaction> transactions)> data, bool hasMore)>
+        GetTransactionsGroupedMyMonth(int page, int pageSize, DateTime? dateBegin, DateTime? dateEnd, int? tagId, Guid? accountId)
+    {
+        var dbContext = _databaseService.CreateDbContext();
+
+        var transactions = dbContext.Transactions.AsQueryable();
+
+        if (dateBegin.HasValue)
+        {
+            transactions = transactions.Where(t => t.ValueDate >= dateBegin.Value);
+        }
+
+        if (dateEnd.HasValue)
+        {
+            transactions = transactions.Where(t => t.ValueDate <= dateEnd.Value);
+        }
+
+        if (tagId.HasValue)
+        {
+            if (tagId.Value == -1)
+            {
+                // Special case: transactions without any tags
+                transactions = transactions.Where(t => !t.TransactionTags.Any());
+            }
+            else
+            {
+                transactions = transactions.Where(t => t.TransactionTags.Any(tt => tt.TagId == tagId.Value));
+            }
+        }
+
+        if (accountId.HasValue)
+        {
+            transactions = transactions
+                .Where(t => t.AccountId == accountId.Value);
+        }
+
+        transactions = transactions
+            .OrderByDescending(t => t.ValueDate)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize + 1);
+
+        bool hasMore = await transactions.CountAsync() > pageSize;
+
+        var transactionGroups = await transactions
+            .GroupBy(t => new { t.ValueDate.Year, t.ValueDate.Month })
+            .Select(g => new
+            {
+                Date = new DateOnly(g.Key.Year, g.Key.Month, 1),
+                Items = g.OrderByDescending(t => t.ValueDate).ToList()
+            })
+            .ToListAsync();
+
+        return ([.. transactionGroups.Select(x => (new DateOnly(x.Date.Year, x.Date.Month, 1), x.Items))], hasMore);
     }
 }

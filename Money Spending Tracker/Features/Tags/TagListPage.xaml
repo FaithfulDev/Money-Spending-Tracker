@@ -40,6 +40,8 @@
                             <Label
                                 Grid.Column="0"
                                 HorizontalTextAlignment="Center"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
                                 Text="{Binding Name}"
                                 VerticalOptions="Center" />
 

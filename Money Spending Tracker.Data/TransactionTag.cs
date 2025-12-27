@@ -12,9 +12,10 @@ public class TransactionTag
 
     public TaggedBy TaggedBy { get; set; }
 
-    public TransactionTag(Guid internalTransactionId, int tagId, TaggedBy taggedBy)
+    public TransactionTag(Guid internalTransactionId, Guid accountId, int tagId, TaggedBy taggedBy)
     {
         InternalTransactionId = internalTransactionId;
+        AccountId = accountId;
         TagId = tagId;
         TaggedBy = taggedBy;
     }
