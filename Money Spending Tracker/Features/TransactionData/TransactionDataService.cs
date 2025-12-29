@@ -117,6 +117,8 @@ internal class TransactionDataService : ITransactionDataService
         var apiClient = new Client(new() { Timeout = TimeSpan.FromSeconds(120) });
         var accounts = await dbContext.Accounts.Select(a => new { a.AccountId, a.AccountIban }).ToListAsync();
 
+        List<Transaction> newTransactions = [];
+
         foreach (var account in accounts)
         {
             OnAccountUpdateStarted(account.AccountIban);
@@ -184,14 +186,70 @@ internal class TransactionDataService : ITransactionDataService
                 );
 
                 dbContext.Transactions.Add(newTransaction);
+                newTransactions.Add(newTransaction);
             }
         }
 
         await dbContext.SaveChangesAsync();
 
-        //TODO: For all new transactions, apply tags based on ML model
+        await TryAutomaticallyTagging(newTransactions, dbContext);
 
         AppCache.LastTransactionUpdate = DateTime.UtcNow;
+    }
+
+    private static async Task TryAutomaticallyTagging(List<Transaction> transactions, AppDbContext dbContext)
+    {
+        if (transactions.Count == 0)
+        {
+            return;
+        }
+
+        var negativeEmbeddingsRaw = await dbContext.TagNegativeEmbeddings
+            .ToListAsync();
+
+        var transactionEmbeddingsRaw = await dbContext.TransactionTags
+            .Include(tt => tt.Transaction)
+            .Where(tt => tt.Transaction!.Embedding != null)
+            .Select(tt => new
+            {
+                Embedding = tt.Transaction!.Embedding!,
+                tt.TagId
+            }).ToListAsync();
+
+        List<(float[] embedding, int tagId)> negativeEmbeddings = [..
+            negativeEmbeddingsRaw.Select(ne => (
+                ByteFloatConversionHelper.ByteArrayToFloatArray(ne.Embedding)!,
+                ne.TagId
+            ))
+        ];
+
+        List<(float[] embedding, int tagId)> positiveEmbeddings = [..
+            transactionEmbeddingsRaw.Select(pe => (
+                ByteFloatConversionHelper.ByteArrayToFloatArray(pe.Embedding)!,
+                pe.TagId
+            ))
+        ];
+
+        foreach (var transaction in transactions.Where(t => t.Embedding != null))
+        {
+            var bestTagIds = TagPredictionService.PredictTags(
+                newEmbedding: ByteFloatConversionHelper.ByteArrayToFloatArray(transaction.Embedding!)!,
+                positiveEmbeddings: positiveEmbeddings,
+                negativeEmbeddings: negativeEmbeddings
+            );
+
+            foreach (var tagId in bestTagIds)
+            {
+                dbContext.TransactionTags.Add(new(
+                    internalTransactionId: transaction.InternalTransactionId,
+                    accountId: transaction.AccountId,
+                    tagId: tagId,
+                    taggedBy: TaggedBy.SYSTEM
+                ));
+            }
+        }
+
+        await dbContext.SaveChangesAsync();
     }
 
     private async Task<List<TransactionSchema>> GetNewTransactionsForAccountAsync(
