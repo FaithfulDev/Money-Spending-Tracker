@@ -9,7 +9,7 @@
     x:DataType="local:PreviousMonthDetailViewModel">
 
     <VerticalStackLayout>
-        <monthSummery:MonthSummaryView Balance="{Binding Balance}" />
+        <monthSummery:MonthSummaryView Balance="{Binding Balance}" TagBalances="{Binding TagBalances}" />
     </VerticalStackLayout>
 
 </ContentPage>

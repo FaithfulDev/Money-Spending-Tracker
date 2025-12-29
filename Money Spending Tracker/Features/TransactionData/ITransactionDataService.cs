@@ -31,6 +31,8 @@ public interface ITransactionDataService
     public Task<(List<(DateOnly date, List<Transaction> transactions)> data, bool hasMore)>
         GetTransactionsGroupedMyMonth(int page, int pageSize, DateTime? dateBegin, DateTime? dateEnd, int? tagId, Guid? accountId);
 
+    public Task<List<(Tag tag, double balance)>> GetTagBalances(DateOnly monthYear);
+
     public class AccountUpdateStartedEventArgs : EventArgs
     {
         /// <summary>

@@ -354,4 +354,29 @@ internal class TransactionDataService : ITransactionDataService
 
         return ([.. transactionGroups.Select(x => (new DateOnly(x.Date.Year, x.Date.Month, 1), x.Items))], hasMore);
     }
+
+    public async Task<List<(Tag tag, double balance)>> GetTagBalances(DateOnly monthYear)
+    {
+        var dbContext = _databaseService.CreateDbContext();
+        return await GetTagBalances(dbContext, monthYear);
+    }
+
+    private static async Task<List<(Tag tag, double balance)>> GetTagBalances(AppDbContext dbContext, DateOnly monthYear)
+    {
+        var tagBalances = await dbContext.TransactionTags
+            .Include(tt => tt.Tag)
+            .Include(tt => tt.Transaction)
+            .Where(tt => tt.Transaction!.ValueDate.Year == monthYear.Year && tt.Transaction!.ValueDate.Month == monthYear.Month)
+            .GroupBy(tt => tt.Tag)
+            .Select(g => new
+            {
+                Tag = g.Key,
+                Balance = g.Sum(tt => tt.Transaction!.TransactionAmount)
+            })
+            .OrderBy(x => x.Balance)
+            .ThenBy(x => x.Tag!.Name)
+            .ToListAsync();
+
+        return [.. tagBalances.Select(tb => (tb.Tag!, tb.Balance))];
+    }
 }

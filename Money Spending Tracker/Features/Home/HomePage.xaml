@@ -79,7 +79,10 @@
                 IsRefreshing="{Binding PullToRefreshIndicatorVisible}">
 
                 <ScrollView>
-                    <monthSummery:MonthSummaryView Balance="{Binding Balance}" RemainingBudget="{Binding RemainingBudget}" />
+                    <monthSummery:MonthSummaryView
+                        Balance="{Binding Balance}"
+                        RemainingBudget="{Binding RemainingBudget}"
+                        TagBalances="{Binding TagBalances}" />
                 </ScrollView>
 
             </RefreshView>

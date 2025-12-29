@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Money_Spending_Tracker.Features.Accounts;
+using Money_Spending_Tracker.Features.MonthSummary;
 using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Storage;
 using Money_Spending_Tracker.Features.TransactionData;
@@ -20,6 +21,9 @@ internal partial class HomeViewModel : ObservableObject
 
     [ObservableProperty]
     private double _balance;
+
+    [ObservableProperty]
+    private List<TagBalanceModel>? _tagBalances;
 
     [ObservableProperty]
     private bool _didTimeout = false;
@@ -88,6 +92,16 @@ internal partial class HomeViewModel : ObservableObject
         RemainingBudget = AppCache.RemainingMonthlyBudget;
         Balance = AppCache.CurrentBalance;
         LastTransactionUpdate = AppCache.LastTransactionUpdate;
+
+        var tagBalances = await _transactionDataService.GetTagBalances(new DateOnly(DateTime.Now.Year, DateTime.Now.Month, 1));
+
+        TagBalances = [.. tagBalances.Select(tb =>
+            new TagBalanceModel(
+                tagId: tb.tag.Id,
+                tagName: tb.tag.Name,
+                balance: tb.balance
+            )
+        )];
 
         // If accounts have been added, we always update transactions and widget.
         // If no accounts have been added, we only update if the last transaction update was not today.
