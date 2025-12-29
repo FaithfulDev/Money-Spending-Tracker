@@ -379,4 +379,21 @@ internal class TransactionDataService : ITransactionDataService
 
         return [.. tagBalances.Select(tb => (tb.Tag!, tb.Balance))];
     }
+
+    public async Task<double> GetUntaggedBalance(DateOnly monthYear)
+    {
+        var dbContext = _databaseService.CreateDbContext();
+        return await GetUntaggedBalance(dbContext, monthYear);
+    }
+
+    private static async Task<double> GetUntaggedBalance(AppDbContext dbContext, DateOnly monthYear)
+    {
+        var untaggedBalance = await dbContext.Transactions
+            .Include(t => t.TransactionTags)
+            .Where(t => t.ValueDate.Year == monthYear.Year && t.ValueDate.Month == monthYear.Month)
+            .Where(t => !t.TransactionTags.Any())
+            .SumAsync(t => t.TransactionAmount);
+
+        return untaggedBalance;
+    }
 }

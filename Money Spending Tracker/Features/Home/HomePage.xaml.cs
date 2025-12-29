@@ -15,10 +15,10 @@ public partial class HomePage : ContentPage
 
         _transactionDataService = transactionDataService;
 
-        Loaded += HomePage_Loaded;
+        NavigatedTo += HomePage_NavigatedTo;
     }
 
-    private async void HomePage_Loaded(object? sender, EventArgs e)
+    private async void HomePage_NavigatedTo(object? sender, NavigatedToEventArgs e)
     {
         var viewModel = new HomeViewModel(_transactionDataService);
         BindingContext = viewModel;

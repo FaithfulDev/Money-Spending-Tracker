@@ -66,16 +66,12 @@ internal partial class HomeViewModel : ObservableObject
         _transactionDataService.TransactionUpdateEnded += TransactionDataService_TransactionUpdateEnded;
     }
 
-    private void TransactionDataService_TransactionUpdateEnded(object? sender, EventArgs e)
+    private async void TransactionDataService_TransactionUpdateEnded(object? sender, EventArgs e)
     {
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
         SetIsWorking(false);
 
-        // Update UI with new values.
-        RemainingBudget = AppCache.RemainingMonthlyBudget;
-        Balance = AppCache.CurrentBalance;
-
-        LastTransactionUpdate = AppCache.LastTransactionUpdate;
+        await UpdateUIValues();
     }
 
     private void TransactionDataService_TimeoutOccurred(object? sender, EventArgs e)
@@ -92,19 +88,7 @@ internal partial class HomeViewModel : ObservableObject
     {
         Title = MonthYear.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
 
-        RemainingBudget = AppCache.RemainingMonthlyBudget;
-        Balance = AppCache.CurrentBalance;
-        LastTransactionUpdate = AppCache.LastTransactionUpdate;
-
-        var tagBalances = await _transactionDataService.GetTagBalances(MonthYear);
-
-        TagBalances = [.. tagBalances.Select(tb =>
-            new TagBalanceModel(
-                tagId: tb.tag.Id,
-                tagName: tb.tag.Name,
-                balance: tb.balance
-            )
-        )];
+        await UpdateUIValues();
 
         // If accounts have been added, we always update transactions and widget.
         // If no accounts have been added, we only update if the last transaction update was not today.
@@ -203,5 +187,36 @@ internal partial class HomeViewModel : ObservableObject
     {
         IsWorking = value;
         Shell.Current.FlyoutBehavior = value ? FlyoutBehavior.Disabled : FlyoutBehavior.Flyout;
+    }
+
+    private async Task UpdateUIValues()
+    {
+        RemainingBudget = AppCache.RemainingMonthlyBudget;
+        Balance = AppCache.CurrentBalance;
+        LastTransactionUpdate = AppCache.LastTransactionUpdate;
+
+        TagBalances?.Clear();
+
+        var tagBalances = await _transactionDataService.GetTagBalances(MonthYear);
+
+        TagBalances = [.. tagBalances.Select(tb =>
+            new TagBalanceModel(
+                tagId: tb.tag.Id,
+                tagName: tb.tag.Name,
+                balance: tb.balance
+            )
+        )];
+
+        var untaggedBalance = await _transactionDataService.GetUntaggedBalance(MonthYear);
+
+        TagBalances.Add(
+            new TagBalanceModel(
+                tagId: -1,
+                tagName: "Untagged",
+                balance: untaggedBalance
+            )
+        );
+
+        TagBalances = [.. TagBalances.OrderBy(tb => tb.Balance)];
     }
 }

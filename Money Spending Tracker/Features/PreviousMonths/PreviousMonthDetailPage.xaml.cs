@@ -14,10 +14,10 @@ public partial class PreviousMonthDetailPage : ContentPage
         var viewModel = new PreviousMonthDetailViewModel(transactionDataService);
         BindingContext = viewModel;
 
-        Loaded += PreviousMonthDetailPage_Loaded;
+        NavigatedTo += PreviousMonthDetailPage_NavigatedTo;
     }
 
-    private async void PreviousMonthDetailPage_Loaded(object? sender, EventArgs e)
+    private async void PreviousMonthDetailPage_NavigatedTo(object? sender, NavigatedToEventArgs e)
     {
         var viewModel = (PreviousMonthDetailViewModel)BindingContext;
         await viewModel.StartAsync(new DateOnly(MonthYear.Year, MonthYear.Month, 1));

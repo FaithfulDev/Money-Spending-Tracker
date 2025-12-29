@@ -33,6 +33,8 @@ public interface ITransactionDataService
 
     public Task<List<(Tag tag, double balance)>> GetTagBalances(DateOnly monthYear);
 
+    public Task<double> GetUntaggedBalance(DateOnly monthYear);
+
     public class AccountUpdateStartedEventArgs : EventArgs
     {
         /// <summary>

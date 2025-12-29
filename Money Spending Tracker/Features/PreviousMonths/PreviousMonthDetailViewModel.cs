@@ -28,11 +28,21 @@ internal partial class PreviousMonthDetailViewModel : ObservableObject
     public async Task StartAsync(DateOnly monthYear)
     {
         MonthYear = monthYear;
-
         Title = monthYear.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
-        Balance = await _transactionDataService.GetMonthsBalance(monthYear);
+        await RefreshAsync();
+    }
 
-        var tagBalances = await _transactionDataService.GetTagBalances(monthYear);
+    public async Task RefreshAsync()
+    {
+        if (MonthYear == null)
+        {
+            return;
+        }
+
+        TagBalances?.Clear();
+        Balance = await _transactionDataService.GetMonthsBalance(MonthYear!.Value);
+
+        var tagBalances = await _transactionDataService.GetTagBalances(MonthYear!.Value);
 
         TagBalances = [.. tagBalances.Select(tb =>
             new TagBalanceModel(
@@ -41,5 +51,17 @@ internal partial class PreviousMonthDetailViewModel : ObservableObject
                 balance: tb.balance
             )
         )];
+
+        var untaggedBalance = await _transactionDataService.GetUntaggedBalance(MonthYear!.Value);
+
+        TagBalances.Add(
+            new TagBalanceModel(
+                tagId: -1,
+                tagName: "Untagged",
+                balance: untaggedBalance
+            )
+        );
+
+        TagBalances = [.. TagBalances.OrderBy(tb => tb.Balance)];
     }
 }
