@@ -101,10 +101,10 @@ internal class TransactionDataService : ITransactionDataService
         {
             _accountLinkStatusCache = await CheckAccountLinkStatus();
 
-            await UpdateRecentTransactionsAsync();
+            await Task.Run(UpdateRecentTransactionsAsync);
             await UpdateCacheAsync();
 
-            OnTransactionUpdateEnded();
+            await OnTransactionUpdateEnded();
         }
         finally
         {
@@ -125,8 +125,8 @@ internal class TransactionDataService : ITransactionDataService
 
         foreach (var account in accounts)
         {
-            OnAccountUpdateStarted(account.AccountIban);
-            OnAccountUpdateProgress("Fetching transactions...");
+            await OnAccountUpdateStarted(account.AccountIban);
+            await OnAccountUpdateProgress("Fetching transactions...");
 
             var recentTransactionIds = new HashSet<Guid>(
                 await dbContext.Transactions
@@ -144,7 +144,7 @@ internal class TransactionDataService : ITransactionDataService
                 continue; // No new transactions for this account
             }
 
-            OnAccountUpdateProgress($"Processing 0/{transactionsToAdd.Count} (0%)");
+            await OnAccountUpdateProgress($"Processing 0/{transactionsToAdd.Count} (0%)");
 
             using var tagPredictionService = new TagPredictionService();
             await tagPredictionService.InitializeAsync();
@@ -197,7 +197,7 @@ internal class TransactionDataService : ITransactionDataService
 
                 if (newTransactions.Count % 10 == 0)
                 {
-                    OnAccountUpdateProgress(
+                    await OnAccountUpdateProgress(
                         $"Processing {newTransactions.Count}/{transactionsToAdd.Count} " +
                         $"({Math.Round((double)newTransactions.Count / transactionsToAdd.Count * 100, 0)}%)");
                 }
@@ -218,7 +218,7 @@ internal class TransactionDataService : ITransactionDataService
             return;
         }
 
-        OnAccountUpdateProgress($"Tagging 0/{transactions.Count}");
+        await OnAccountUpdateProgress($"Tagging 0/{transactions.Count}");
 
         var negativeEmbeddingsRaw = await dbContext.TagNegativeEmbeddings
             .ToListAsync();
@@ -267,12 +267,12 @@ internal class TransactionDataService : ITransactionDataService
             }
 
             counter++;
-            OnAccountUpdateProgress(
+            await OnAccountUpdateProgress(
                 $"Tagging {counter}/{transactions.Count} " +
                 $"({Math.Round((double)counter / transactions.Count * 100, 0)}%)");
         }
 
-        OnAccountUpdateProgress($"Finalizing...");
+        await OnAccountUpdateProgress($"Finalizing...");
         await dbContext.SaveChangesAsync();
     }
 
@@ -308,7 +308,7 @@ internal class TransactionDataService : ITransactionDataService
         {
             // We show a warning to the user if there is a WebException, but we don't throw it.
             Debug.WriteLine($"WebException while retrieving transactions: {ex.Message}");
-            OnTimeoutOccurred();
+            await OnTimeoutOccurred();
         }
         catch (OperationCanceledException)
         {
@@ -319,24 +319,36 @@ internal class TransactionDataService : ITransactionDataService
         return [];
     }
 
-    protected virtual void OnAccountUpdateStarted(string accountBeingUpdated)
+    protected virtual async Task OnAccountUpdateStarted(string accountBeingUpdated)
     {
-        AccountUpdateStarted?.Invoke(this, new(accountBeingUpdated));
+        await MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            AccountUpdateStarted?.Invoke(this, new(accountBeingUpdated));
+        });
     }
 
-    protected virtual void OnAccountUpdateProgress(string progressInfo)
+    protected virtual async Task OnAccountUpdateProgress(string progressInfo)
     {
-        AccountUpdateProgress?.Invoke(this, new(progressInfo));
+        await MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            AccountUpdateProgress?.Invoke(this, new(progressInfo));
+        });
     }
 
-    protected virtual void OnTimeoutOccurred()
+    protected virtual async Task OnTimeoutOccurred()
     {
-        TimeoutOccurred?.Invoke(this, EventArgs.Empty);
+        await MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            TimeoutOccurred?.Invoke(this, EventArgs.Empty);
+        });
     }
 
-    protected virtual void OnTransactionUpdateEnded()
+    protected virtual async Task OnTransactionUpdateEnded()
     {
-        TransactionUpdateEnded?.Invoke(this, EventArgs.Empty);
+        await MainThread.InvokeOnMainThreadAsync(() =>
+        {
+            TransactionUpdateEnded?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     public async Task<double> GetMonthsBalance(DateOnly monthYear)

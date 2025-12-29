@@ -131,7 +131,7 @@ internal partial class HomeViewModel : ObservableObject
         // Reset the timeout flag
         DidTimeout = false;
 
-        await Task.Run(_transactionDataService.UpdateTransactionsAndCacheAsync);
+        await _transactionDataService.UpdateTransactionsAndCacheAsync();
     }
 
     private async Task CheckAccountLinks()
