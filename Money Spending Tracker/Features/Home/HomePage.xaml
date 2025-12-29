@@ -81,6 +81,7 @@
                 <ScrollView>
                     <monthSummery:MonthSummaryView
                         Balance="{Binding Balance}"
+                        MonthYear="{Binding MonthYear}"
                         RemainingBudget="{Binding RemainingBudget}"
                         TagBalances="{Binding TagBalances}" />
                 </ScrollView>

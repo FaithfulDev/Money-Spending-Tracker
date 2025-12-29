@@ -52,6 +52,9 @@ internal partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private DateTime? _lastTransactionUpdate = null;
 
+    [ObservableProperty]
+    private DateOnly _monthYear = new(DateTime.Now.Year, DateTime.Now.Month, 1);
+
     private readonly ITransactionDataService _transactionDataService;
 
     public HomeViewModel(ITransactionDataService transactionDataService)
@@ -87,13 +90,13 @@ internal partial class HomeViewModel : ObservableObject
 
     public async Task StartAsync(bool accountsAdded)
     {
-        Title = DateTime.Now.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
+        Title = MonthYear.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
 
         RemainingBudget = AppCache.RemainingMonthlyBudget;
         Balance = AppCache.CurrentBalance;
         LastTransactionUpdate = AppCache.LastTransactionUpdate;
 
-        var tagBalances = await _transactionDataService.GetTagBalances(new DateOnly(DateTime.Now.Year, DateTime.Now.Month, 1));
+        var tagBalances = await _transactionDataService.GetTagBalances(MonthYear);
 
         TagBalances = [.. tagBalances.Select(tb =>
             new TagBalanceModel(

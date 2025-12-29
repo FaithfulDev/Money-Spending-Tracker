@@ -1,3 +1,5 @@
+using Money_Spending_Tracker.Features.Transactions;
+
 namespace Money_Spending_Tracker.Features.MonthSummary;
 
 public partial class MonthSummaryView : ContentView
@@ -58,6 +60,15 @@ public partial class MonthSummaryView : ContentView
         set => SetValue(TagBalancesProperty, value);
     }
 
+    public static readonly BindableProperty MonthYearProperty = BindableProperty.Create(
+        nameof(MonthYear), typeof(DateOnly), typeof(MonthSummaryView), default(DateOnly));
+
+    public DateOnly MonthYear
+    {
+        get => (DateOnly)GetValue(MonthYearProperty);
+        set => SetValue(MonthYearProperty, value);
+    }
+
     public MonthSummaryView()
     {
         InitializeComponent();
@@ -86,5 +97,20 @@ public partial class MonthSummaryView : ContentView
         var view = (MonthSummaryView)bindable;
         var value = (double?)newValue;
         view.RemainingBudgetColor = value < 0 ? Colors.Red : Colors.Black;
+    }
+
+    private async void OnTagBalanceTapped(object? sender, TappedEventArgs e)
+    {
+        if (sender is Border border && border.BindingContext is TagBalanceModel selectedTagBalance)
+        {
+            DateTime filterBegin = new(MonthYear.Year, MonthYear.Month, 1, 0, 0, 0, DateTimeKind.Local);
+            DateTime filterEnd = filterBegin.AddMonths(1).AddDays(-1);
+
+            // Navigate to transaction list filtered by the selected tag and month/year
+            await Shell.Current.GoToAsync($"{nameof(TransactionListPage)}?" +
+                $"{nameof(TransactionListPage.FilterTagIdString)}={selectedTagBalance.TagId}&" +
+                $"{nameof(TransactionListPage.FilterDateBeginString)}={filterBegin:yyyy-MM-dd}&" +
+                $"{nameof(TransactionListPage.FilterDateEndString)}={filterEnd:yyyy-MM-dd}");
+        }
     }
 }

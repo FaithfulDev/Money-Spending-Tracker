@@ -15,6 +15,9 @@ internal partial class PreviousMonthDetailViewModel : ObservableObject
     [ObservableProperty]
     private List<TagBalanceModel>? _tagBalances;
 
+    [ObservableProperty]
+    private DateOnly? _monthYear;
+
     private readonly ITransactionDataService _transactionDataService;
 
     public PreviousMonthDetailViewModel(ITransactionDataService transactionDataService)
@@ -24,6 +27,8 @@ internal partial class PreviousMonthDetailViewModel : ObservableObject
 
     public async Task StartAsync(DateOnly monthYear)
     {
+        MonthYear = monthYear;
+
         Title = monthYear.ToString("MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
         Balance = await _transactionDataService.GetMonthsBalance(monthYear);
 
