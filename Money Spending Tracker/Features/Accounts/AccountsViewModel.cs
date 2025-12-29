@@ -26,6 +26,9 @@ internal partial class AccountsViewModel : ObservableObject
     [ObservableProperty]
     private string? _accountBeingUpdated = null;
 
+    [ObservableProperty]
+    private string? _accountUpdateProgressInfo = null;
+
     private readonly DatabaseService _databaseService;
     private readonly ITransactionDataService _transactionDataService;
     private readonly ICustomTabService _customTabService;
@@ -39,6 +42,12 @@ internal partial class AccountsViewModel : ObservableObject
 
         _transactionDataService.AccountUpdateStarted += TransactionDataService_AccountUpdateStarted;
         _transactionDataService.TimeoutOccurred += TransactionDataService_TimeoutOccurred;
+        _transactionDataService.AccountUpdateProgress += TransactionDataService_AccountUpdateProgress;
+    }
+
+    private void TransactionDataService_AccountUpdateProgress(object sender, ITransactionDataService.AccountUpdateProgressEventArgs e)
+    {
+        AccountUpdateProgressInfo = e.ProgressInfo;
     }
 
     private void TransactionDataService_TimeoutOccurred(object? sender, EventArgs e)

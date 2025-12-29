@@ -13,6 +13,7 @@ namespace Money_Spending_Tracker.Features.TransactionData;
 internal class TransactionDataService : ITransactionDataService
 {
     public event AccountUpdateStartedHandler? AccountUpdateStarted;
+    public event AccountUpdateProgressHandler? AccountUpdateProgress;
     public event EventHandler? TimeoutOccurred;
     public event EventHandler? TransactionUpdateEnded;
 
@@ -75,9 +76,12 @@ internal class TransactionDataService : ITransactionDataService
 
         var balance = await GetMonthsBalance(dbContext, new DateOnly(now.Year, now.Month, 1));
         var spendings = await GetMonthsSpendings(dbContext, new DateOnly(now.Year, now.Month, 1));
+        var tagBalances = await GetTagBalances(dbContext, new DateOnly(now.Year, now.Month, 1));
 
         AppCache.CurrentBalance = balance;
         AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget + spendings;
+
+        //TODO store tag balances in cache
 
 #if ANDROID
         MainApplication.TriggerWidgetUpdate();
@@ -122,6 +126,7 @@ internal class TransactionDataService : ITransactionDataService
         foreach (var account in accounts)
         {
             OnAccountUpdateStarted(account.AccountIban);
+            OnAccountUpdateProgress("Fetching transactions...");
 
             var recentTransactionIds = new HashSet<Guid>(
                 await dbContext.Transactions
@@ -138,6 +143,8 @@ internal class TransactionDataService : ITransactionDataService
             {
                 continue; // No new transactions for this account
             }
+
+            OnAccountUpdateProgress($"Processing 0/{transactionsToAdd.Count} (0%)");
 
             using var tagPredictionService = new TagPredictionService();
             await tagPredictionService.InitializeAsync();
@@ -187,6 +194,13 @@ internal class TransactionDataService : ITransactionDataService
 
                 dbContext.Transactions.Add(newTransaction);
                 newTransactions.Add(newTransaction);
+
+                if (newTransactions.Count % 10 == 0)
+                {
+                    OnAccountUpdateProgress(
+                        $"Processing {newTransactions.Count}/{transactionsToAdd.Count} " +
+                        $"({Math.Round((double)newTransactions.Count / transactionsToAdd.Count * 100, 0)}%)");
+                }
             }
         }
 
@@ -197,12 +211,14 @@ internal class TransactionDataService : ITransactionDataService
         AppCache.LastTransactionUpdate = DateTime.UtcNow;
     }
 
-    private static async Task TryAutomaticallyTagging(List<Transaction> transactions, AppDbContext dbContext)
+    private async Task TryAutomaticallyTagging(List<Transaction> transactions, AppDbContext dbContext)
     {
         if (transactions.Count == 0)
         {
             return;
         }
+
+        OnAccountUpdateProgress($"Tagging 0/{transactions.Count}");
 
         var negativeEmbeddingsRaw = await dbContext.TagNegativeEmbeddings
             .ToListAsync();
@@ -230,6 +246,8 @@ internal class TransactionDataService : ITransactionDataService
             ))
         ];
 
+        int counter = 0;
+
         foreach (var transaction in transactions.Where(t => t.Embedding != null))
         {
             var bestTagIds = TagPredictionService.PredictTags(
@@ -247,8 +265,14 @@ internal class TransactionDataService : ITransactionDataService
                     taggedBy: TaggedBy.SYSTEM
                 ));
             }
+
+            counter++;
+            OnAccountUpdateProgress(
+                $"Tagging {counter}/{transactions.Count} " +
+                $"({Math.Round((double)counter / transactions.Count * 100, 0)}%)");
         }
 
+        OnAccountUpdateProgress($"Finalizing...");
         await dbContext.SaveChangesAsync();
     }
 
@@ -298,6 +322,11 @@ internal class TransactionDataService : ITransactionDataService
     protected virtual void OnAccountUpdateStarted(string accountBeingUpdated)
     {
         AccountUpdateStarted?.Invoke(this, new(accountBeingUpdated));
+    }
+
+    protected virtual void OnAccountUpdateProgress(string progressInfo)
+    {
+        AccountUpdateProgress?.Invoke(this, new(progressInfo));
     }
 
     protected virtual void OnTimeoutOccurred()

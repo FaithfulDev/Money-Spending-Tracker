@@ -50,6 +50,9 @@ internal partial class HomeViewModel : ObservableObject
     private string? _accountBeingUpdated = null;
 
     [ObservableProperty]
+    private string? _accountUpdateProgressInfo = null;
+
+    [ObservableProperty]
     private DateTime? _lastTransactionUpdate = null;
 
     [ObservableProperty]
@@ -64,6 +67,12 @@ internal partial class HomeViewModel : ObservableObject
         _transactionDataService.AccountUpdateStarted += TransactionDataService_AccountUpdateStarted;
         _transactionDataService.TimeoutOccurred += TransactionDataService_TimeoutOccurred;
         _transactionDataService.TransactionUpdateEnded += TransactionDataService_TransactionUpdateEnded;
+        _transactionDataService.AccountUpdateProgress += TransactionDataService_AccountUpdateProgress;
+    }
+
+    private void TransactionDataService_AccountUpdateProgress(object sender, ITransactionDataService.AccountUpdateProgressEventArgs e)
+    {
+        AccountUpdateProgressInfo = e.ProgressInfo;
     }
 
     private async void TransactionDataService_TransactionUpdateEnded(object? sender, EventArgs e)
@@ -122,7 +131,7 @@ internal partial class HomeViewModel : ObservableObject
         // Reset the timeout flag
         DidTimeout = false;
 
-        await _transactionDataService.UpdateTransactionsAndCacheAsync();
+        await Task.Run(_transactionDataService.UpdateTransactionsAndCacheAsync);
     }
 
     private async Task CheckAccountLinks()

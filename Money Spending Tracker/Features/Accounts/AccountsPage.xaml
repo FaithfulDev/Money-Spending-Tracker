@@ -149,6 +149,7 @@
                             FontSize="16"
                             Text="Updating Data" />
                         <Label FontSize="14" Text="{Binding AccountBeingUpdated, TargetNullValue='Fetching Accounts'}" />
+                        <Label FontSize="14" Text="{Binding AccountUpdateProgressInfo}" />
                     </VerticalStackLayout>
                 </Grid>
             </Border>

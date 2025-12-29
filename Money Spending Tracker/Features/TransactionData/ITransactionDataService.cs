@@ -7,6 +7,9 @@ public interface ITransactionDataService
     delegate void AccountUpdateStartedHandler(object sender, AccountUpdateStartedEventArgs e);
     event AccountUpdateStartedHandler AccountUpdateStarted;
 
+    delegate void AccountUpdateProgressHandler(object sender, AccountUpdateProgressEventArgs e);
+    event AccountUpdateProgressHandler AccountUpdateProgress;
+
     event EventHandler TimeoutOccurred;
     event EventHandler TransactionUpdateEnded;
 
@@ -45,6 +48,19 @@ public interface ITransactionDataService
         public AccountUpdateStartedEventArgs(string accountBeingUpdated)
         {
             AccountBeingUpdated = accountBeingUpdated;
+        }
+    }
+
+    public class AccountUpdateProgressEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Short info about the progress of the account update.
+        /// </summary>
+        public string ProgressInfo { get; set; }
+
+        public AccountUpdateProgressEventArgs(string progressInfo)
+        {
+            ProgressInfo = progressInfo;
         }
     }
 }
