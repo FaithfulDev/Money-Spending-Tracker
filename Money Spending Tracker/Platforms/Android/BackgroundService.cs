@@ -23,8 +23,15 @@ namespace Money_Spending_Tracker.Platforms.Android
             // Everything that is scheduled with the WorkManager
             foreach (var info in workInfos)
             {
+                //Check if there is a next scheduled time. If it is long.MaxValue, there is no next scheduled time.
+                DateTime? scheduled = null;
+                if (info.NextScheduleTimeMillis != long.MaxValue)
+                {
+                    scheduled = DateTimeOffset.FromUnixTimeMilliseconds(info.NextScheduleTimeMillis).ToLocalTime().DateTime;
+                }
+
                 var jobInfo = new BackgroundJobModel(
-                    scheduled: DateTimeOffset.FromUnixTimeMilliseconds(info.NextScheduleTimeMillis).ToLocalTime().DateTime,
+                    scheduled: scheduled,
                     startedAt: ParseDateTime(info.OutputData.GetString(OutputDataParameter.STARTED_AT)),
                     finishedAt: ParseDateTime(info.OutputData.GetString(OutputDataParameter.FINISHED_AT)),
                     errorMessage: info.OutputData.GetString(OutputDataParameter.ERROR_MESSAGE),
