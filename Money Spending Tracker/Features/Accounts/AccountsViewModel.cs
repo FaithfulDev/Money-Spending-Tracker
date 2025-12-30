@@ -69,7 +69,7 @@ internal partial class AccountsViewModel : ObservableObject
         var dbContext = _databaseService.CreateDbContext();
         var thisViewModel = this;
 
-        var accountEntities = await dbContext.Accounts.ToListAsync();
+        var accountEntities = await dbContext.Accounts.AsNoTracking().ToListAsync();
         Accounts = [];
 
         foreach (var accountEntity in accountEntities)
@@ -122,7 +122,7 @@ internal partial class AccountsViewModel : ObservableObject
         }
 
         var dbContext = _databaseService.CreateDbContext();
-        var account = await dbContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountModel.AccountId);
+        var account = await dbContext.Accounts.AsNoTracking().FirstOrDefaultAsync(a => a.AccountId == accountModel.AccountId);
 
         if (account == null)
         {
@@ -155,7 +155,7 @@ internal partial class AccountsViewModel : ObservableObject
         IsWorking = true;
 
         var dbContext = _databaseService.CreateDbContext();
-        var account = await dbContext.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountModel.AccountId);
+        var account = await dbContext.Accounts.AsNoTracking().FirstOrDefaultAsync(a => a.AccountId == accountModel.AccountId);
 
         if (account == null)
         {

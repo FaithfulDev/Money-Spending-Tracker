@@ -48,9 +48,11 @@ public partial class TransactionTagsViewModel : ObservableObject, IQueryAttribut
 
         var transactionTags = await dbContext.TransactionTags
             .Where(tt => tt.InternalTransactionId == _internalTransactionId && tt.AccountId == _accountId)
+            .AsNoTracking()
             .ToListAsync();
 
         var tags = await dbContext.Tags
+            .AsNoTracking()
             .ToListAsync();
 
         var tagModels = tags

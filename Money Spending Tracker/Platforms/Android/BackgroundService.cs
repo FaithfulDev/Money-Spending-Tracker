@@ -1,5 +1,6 @@
 ﻿using Android.Runtime;
 using AndroidX.Work;
+using Microsoft.EntityFrameworkCore;
 using Money_Spending_Tracker.Features.BackgroundJob;
 using Money_Spending_Tracker.Features.Database;
 using System.Globalization;
@@ -45,7 +46,7 @@ namespace Money_Spending_Tracker.Platforms.Android
             var dbContext = _databaseService.CreateDbContext();
 
             // Everything that is logged in the database
-            foreach (var jobLog in dbContext.JobLogs.OrderByDescending(l => l.StartedAt).Take(30))
+            foreach (var jobLog in dbContext.JobLogs.AsNoTracking().OrderByDescending(l => l.StartedAt).Take(30))
             {
                 var jobInfo = new BackgroundJobModel(
                     scheduled: null,

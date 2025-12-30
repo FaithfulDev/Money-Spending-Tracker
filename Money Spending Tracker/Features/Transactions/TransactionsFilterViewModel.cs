@@ -80,8 +80,8 @@ public partial class TransactionsFilterViewModel : ObservableObject, IQueryAttri
 
         var dbContext = _databaseService.CreateDbContext();
 
-        var tags = await dbContext.Tags.OrderBy(t => t.Name).ToListAsync();
-        var accounts = await dbContext.Accounts.OrderBy(a => a.AccountName).ToListAsync();
+        var tags = await dbContext.Tags.OrderBy(t => t.Name).AsNoTracking().ToListAsync();
+        var accounts = await dbContext.Accounts.OrderBy(a => a.AccountName).AsNoTracking().ToListAsync();
 
         Tags = [.. Tags, .. tags];
         Accounts = [.. Accounts, .. accounts];

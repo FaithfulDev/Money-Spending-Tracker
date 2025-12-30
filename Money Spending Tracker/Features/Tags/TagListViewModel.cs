@@ -31,6 +31,7 @@ public partial class TagListViewModel : ObservableObject
         var thisViewModel = this;
 
         Items = dbContext.Tags
+            .AsNoTracking()
             .Select(tag => new TagListModel(tag.Id, tag.Name, thisViewModel))
             .ToObservableCollection();
     }
