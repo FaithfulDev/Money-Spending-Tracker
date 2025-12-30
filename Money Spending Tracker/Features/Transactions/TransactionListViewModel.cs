@@ -92,7 +92,7 @@ internal partial class TransactionListViewModel : ObservableObject
                     internalTransactionId: t.InternalTransactionId,
                     accountId: t.AccountId,
                     valueDate: t.ValueDate,
-                    creditorOrDebtorName: t.CreditorName ?? t.DebtorName ?? "(empty)",
+                    creditorOrDebtorName: t.UltimateCreditor ?? t.CreditorName ?? t.DebtorName ?? "(empty)",
                     remittanceInformation: t.RemittanceInformationStructured ?? t.RemittanceInformationUnstructured,
                     transactionAmount: t.TransactionAmount)
                 )

@@ -155,7 +155,7 @@ internal class TransactionDataService : ITransactionDataService
                 byte[]? embeddingBytes = null;
 
                 var combinedText =
-                    (transaction.CreditorName ?? "") +
+                    (transaction.UltimateCreditor ?? transaction.CreditorName ?? transaction.DebtorName ?? "") +
                     " " + (transaction.RemittanceInformationStructured ?? transaction.RemittanceInformationUnstructured ?? "" +
                     " " + (transaction.AdditionalInformation ?? ""));
 

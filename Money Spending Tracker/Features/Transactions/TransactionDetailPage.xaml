@@ -23,6 +23,7 @@
                 HorizontalOptions="Center">
                 <Label.Text>
                     <MultiBinding Converter="{StaticResource NullFallbackConverter}">
+                        <Binding Path="Transaction.UltimateCreditor" />
                         <Binding Path="Transaction.CreditorName" />
                         <Binding Path="Transaction.DebtorName" />
                         <Binding Source="null" TargetNullValue="(empty)" />
