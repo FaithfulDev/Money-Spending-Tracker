@@ -444,6 +444,8 @@ internal class TransactionDataService : ITransactionDataService
 
         var transactionGroups = await transactions
             .GroupBy(t => new { t.ValueDate.Year, t.ValueDate.Month })
+            .OrderByDescending(g => g.Key.Year)
+            .ThenByDescending(g => g.Key.Month)
             .Select(g => new
             {
                 Date = new DateOnly(g.Key.Year, g.Key.Month, 1),

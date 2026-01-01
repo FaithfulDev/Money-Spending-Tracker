@@ -21,7 +21,7 @@ internal partial class TransactionListViewModel : ObservableObject
     private bool _hasMoreItems = true;
 
     private int _page = 0;
-    private const int PAGE_SIZE = 10;
+    private const int PAGE_SIZE = 20;
 
     private readonly ITransactionDataService _transactionDataService;
     private readonly IPopupService _popupService;
