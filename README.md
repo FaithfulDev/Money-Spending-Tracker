@@ -12,6 +12,11 @@ A .NET MAUI Android application for tracking your spending and managing your mon
 - **Secure & Private** - All data is stored locally in an encrypted SQLite database
 - **Manual Tag Management** - Create custom tags and manually categorize transactions as needed
 
+## Screenshots
+
+<img src="docs/Screenshot_home.png" width="250"> 
+<img src="docs/Screenshot_prev_months.png" width="250">
+
 ## Requirements
 
 ### For Users
