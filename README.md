@@ -14,8 +14,7 @@ A .NET MAUI Android application for tracking your spending and managing your mon
 
 ## Screenshots
 
-<img src="docs/Screenshot_home.png" width="250"> 
-<img src="docs/Screenshot_prev_months.png" width="250">
+<img src="docs/Screenshot_home.png" width="250" style="border: 1px solid black;"> <img src="docs/Screenshot_prev_months.png" width="250" style="border: 1px solid black;">
 
 ## Requirements
 
