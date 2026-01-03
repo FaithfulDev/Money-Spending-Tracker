@@ -1,12 +1,12 @@
 # Money Spending Tracker
 
-A .NET MAUI Android application for tracking your spending and managing your monthly budget.  Money Spending Tracker automatically fetches your bank transactions, categorizes them using AI (or at least something like that), and helps you stay on top of your finances.
+A .NET MAUI Android application for tracking your spending and managing your monthly budget. Money Spending Tracker automatically fetches your bank transactions, tags them, and helps you stay on top of your finances.
 
 ## Features
 
 - **Monthly Budget Tracking** - Set your monthly budget and track spending.
 - **Automatic Transaction Updates** - Automatically fetch transactions from your bank accounts
-- **AI-Powered Tagging** - Transactions are automatically categorized by finding similar previously tagged transactions
+- **Automatic Tagging** - Transactions are automatically categorized by finding similar previously tagged transactions
 - **Android Widgets** - View your budget and balance directly from your home screen without opening the app
 - **Multi-Account Support** - Connect and manage multiple bank accounts
 - **Secure & Private** - All data is stored locally in an encrypted SQLite database
