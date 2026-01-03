@@ -11,13 +11,12 @@ public interface ITransactionDataService
     event AccountUpdateProgressHandler AccountUpdateProgress;
 
     event EventHandler TimeoutOccurred;
-    event EventHandler TransactionUpdateEnded;
 
     /// <summary>
     /// Pulls transaction data from the API and updates the database. 
     /// Updates the cache with the new values.
     /// </summary>
-    public Task UpdateTransactionsAndCacheAsync();
+    public Task<UpdateResult> UpdateTransactionsAndCacheAsync(Guid lockGuid);
 
     /// <summary>
     /// Recalculates the current balance and remaining budget based on the transactions for the current month.

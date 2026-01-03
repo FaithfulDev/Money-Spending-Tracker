@@ -59,6 +59,7 @@ internal partial class HomeViewModel : ObservableObject
     private DateOnly _monthYear = new(DateTime.Now.Year, DateTime.Now.Month, 1);
 
     private readonly ITransactionDataService _transactionDataService;
+    private readonly Guid _updateLockGuid = Guid.NewGuid();
 
     public HomeViewModel(ITransactionDataService transactionDataService)
     {
@@ -66,21 +67,12 @@ internal partial class HomeViewModel : ObservableObject
 
         _transactionDataService.AccountUpdateStarted += TransactionDataService_AccountUpdateStarted;
         _transactionDataService.TimeoutOccurred += TransactionDataService_TimeoutOccurred;
-        _transactionDataService.TransactionUpdateEnded += TransactionDataService_TransactionUpdateEnded;
         _transactionDataService.AccountUpdateProgress += TransactionDataService_AccountUpdateProgress;
     }
 
     private void TransactionDataService_AccountUpdateProgress(object sender, ITransactionDataService.AccountUpdateProgressEventArgs e)
     {
         AccountUpdateProgressInfo = e.ProgressInfo;
-    }
-
-    private async void TransactionDataService_TransactionUpdateEnded(object? sender, EventArgs e)
-    {
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-        SetIsWorking(false);
-
-        await UpdateUIValues();
     }
 
     private void TransactionDataService_TimeoutOccurred(object? sender, EventArgs e)
@@ -131,7 +123,18 @@ internal partial class HomeViewModel : ObservableObject
         // Reset the timeout flag
         DidTimeout = false;
 
-        await _transactionDataService.UpdateTransactionsAndCacheAsync();
+        var result = await _transactionDataService.UpdateTransactionsAndCacheAsync(_updateLockGuid);
+
+        if (result == UpdateResult.UPDATE_ALREADY_IN_PROGRESS)
+        {
+            await Shell.Current.DisplayAlertAsync(
+                "Update Already In Progress",
+                "A transaction update is already in progress. Please wait for it to complete before trying again.",
+                "OK"
+            );
+        }
+
+        await TransactionUpdateEnded();
     }
 
     private async Task CheckAccountLinks()
@@ -227,5 +230,13 @@ internal partial class HomeViewModel : ObservableObject
         );
 
         TagBalances = [.. TagBalances.OrderBy(tb => tb.Balance)];
+    }
+
+    private async Task TransactionUpdateEnded()
+    {
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+        SetIsWorking(false);
+
+        await UpdateUIValues();
     }
 }

@@ -32,6 +32,7 @@ internal partial class AccountsViewModel : ObservableObject
     private readonly DatabaseService _databaseService;
     private readonly ITransactionDataService _transactionDataService;
     private readonly ICustomTabService _customTabService;
+    private readonly Guid _updateLockGuid = Guid.NewGuid();
 
     public AccountsViewModel(DatabaseService databaseService, ITransactionDataService transactionDataService,
         ICustomTabService customTabService)
@@ -87,7 +88,7 @@ internal partial class AccountsViewModel : ObservableObject
         // This indicates that new accounts were added and we came back to this page
         if (accountsAdded)
         {
-            await _transactionDataService.UpdateTransactionsAndCacheAsync();
+            await _transactionDataService.UpdateTransactionsAndCacheAsync(_updateLockGuid);
 
             // Navigate to clear the navigation stack.
             await Shell.Current.GoToAsync($"//{nameof(AccountsPage)}");

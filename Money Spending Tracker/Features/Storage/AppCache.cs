@@ -1,4 +1,6 @@
-﻿namespace Money_Spending_Tracker.Features.Storage;
+﻿using System.Globalization;
+
+namespace Money_Spending_Tracker.Features.Storage;
 
 internal static class AppCache
 {
@@ -55,6 +57,38 @@ internal static class AppCache
     {
         Preferences.Default.Set($"Widget_{widgetId}_TagId", tagId);
         Preferences.Default.Set($"Widget_{widgetId}_TagName", tagName);
+    }
+
+    public static (Guid LockGuid, DateTime LockDateTime)? UpdateLock
+    {
+        get
+        {
+            var lockJsonString = Preferences.Default.Get(nameof(UpdateLock), string.Empty);
+
+            if (string.IsNullOrEmpty(lockJsonString))
+            {
+                return null;
+            }
+
+            var lockJson = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(lockJsonString);
+
+            return (
+                Guid.Parse(lockJson!["Guid"]),
+                DateTime.Parse(lockJson!["DateTime"], CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind)
+            );
+        }
+        set
+        {
+            var lockJson = value.HasValue
+                ? System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    Guid = value.Value.LockGuid.ToString(),
+                    DateTime = value.Value.LockDateTime.ToString("O")
+                })
+                : string.Empty;
+
+            Preferences.Default.Set(nameof(UpdateLock), lockJson);
+        }
     }
 
     public static (int TagId, string TagName) GetWidget(int widgetId)

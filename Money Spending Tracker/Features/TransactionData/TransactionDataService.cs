@@ -15,10 +15,8 @@ internal class TransactionDataService : ITransactionDataService
     public event AccountUpdateStartedHandler? AccountUpdateStarted;
     public event AccountUpdateProgressHandler? AccountUpdateProgress;
     public event EventHandler? TimeoutOccurred;
-    public event EventHandler? TransactionUpdateEnded;
 
     private readonly DatabaseService _databaseService;
-    private readonly SemaphoreSlim _updateLock = new(initialCount: 1, maxCount: 1);
 
     // We assume that requisitions expire after 90 days.
     private const int REQUISTION_LIFETIME_DAYS = 90;
@@ -101,13 +99,13 @@ internal class TransactionDataService : ITransactionDataService
 #endif
     }
 
-    public async Task UpdateTransactionsAndCacheAsync()
+    public async Task<UpdateResult> UpdateTransactionsAndCacheAsync(Guid lockGuid)
     {
-        if (!await _updateLock.WaitAsync(0))
+        if (!TryGetLock(lockGuid))
         {
             // If the lock is already held, we return early to prevent concurrent updates.
             Debug.WriteLine("UpdateTransactionsAndCacheAsync is already running, skipping this call.");
-            return;
+            return UpdateResult.UPDATE_ALREADY_IN_PROGRESS;
         }
 
         try
@@ -116,13 +114,13 @@ internal class TransactionDataService : ITransactionDataService
 
             await Task.Run(UpdateRecentTransactionsAsync);
             await UpdateCacheAsync();
-
-            await OnTransactionUpdateEnded();
         }
         finally
         {
-            _updateLock.Release();
+            ReleaseLock();
         }
+
+        return UpdateResult.SUCCSES;
     }
 
     private async Task UpdateRecentTransactionsAsync()
@@ -356,14 +354,6 @@ internal class TransactionDataService : ITransactionDataService
         });
     }
 
-    protected virtual async Task OnTransactionUpdateEnded()
-    {
-        await MainThread.InvokeOnMainThreadAsync(() =>
-        {
-            TransactionUpdateEnded?.Invoke(this, EventArgs.Empty);
-        });
-    }
-
     public async Task<double> GetMonthsBalance(DateOnly monthYear)
     {
         var dbContext = _databaseService.CreateDbContext();
@@ -509,5 +499,37 @@ internal class TransactionDataService : ITransactionDataService
             .SumAsync(t => t.TransactionAmount);
 
         return untaggedBalance;
+    }
+
+    private static bool TryGetLock(Guid lockGuid)
+    {
+        // Check if there is an existing lock
+        (Guid currentLockGuid, DateTime currentLockDateTime)? currentLock = AppCache.UpdateLock;
+
+        // If the lock is older than 20 minutes, we consider it expired
+        if (currentLock.HasValue && (DateTime.UtcNow - currentLock.Value.currentLockDateTime).TotalMinutes < 20)
+        {
+            // There is an active lock, we cannot acquire it
+            return false;
+        }
+
+        // Set the new lock
+        AppCache.UpdateLock = (lockGuid, DateTime.UtcNow);
+
+        // Check if we successfully acquired the lock
+        currentLock = AppCache.UpdateLock;
+
+        if (currentLock.HasValue && currentLock.Value.currentLockGuid == lockGuid)
+        {
+            return true;
+        }
+
+        // Failed to acquire the lock
+        return false;
+    }
+
+    private static void ReleaseLock()
+    {
+        AppCache.UpdateLock = null;
     }
 }
