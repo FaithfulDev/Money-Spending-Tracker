@@ -8,11 +8,13 @@
     Title="{Binding Title}"
     x:DataType="local:PreviousMonthDetailViewModel">
 
-    <VerticalStackLayout>
-        <monthSummery:MonthSummaryView
-            Balance="{Binding Balance}"
-            MonthYear="{Binding MonthYear}"
-            TagBalances="{Binding TagBalances}" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+            <monthSummery:MonthSummaryView
+                Balance="{Binding Balance}"
+                MonthYear="{Binding MonthYear}"
+                TagBalances="{Binding TagBalances}" />
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
