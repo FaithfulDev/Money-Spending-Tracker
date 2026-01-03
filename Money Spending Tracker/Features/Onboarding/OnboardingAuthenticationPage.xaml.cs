@@ -40,15 +40,4 @@ public partial class OnboardingAuthenticationPage : ContentPage, IQueryAttributa
 
         await _viewModel.Start(_referenceId);
     }
-
-    private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        if (e.SelectedItem == null)
-        {
-            return;
-        }
-
-        _viewModel!.SetSelectedInstitution(e.SelectedItem.ToString()!);
-        ((ListView)sender).SelectedItem = null;
-    }
 }

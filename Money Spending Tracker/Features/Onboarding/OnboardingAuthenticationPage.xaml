@@ -9,7 +9,7 @@
     Title="Account Authentication"
     x:DataType="local:OnboardingAuthenticationViewModel">
 
-    <Grid Margin="18,0" RowDefinitions="Auto,*,*,Auto,40">
+    <Grid Margin="18,0" RowDefinitions="Auto,*,Auto,40">
 
         <VerticalStackLayout Grid.Row="0">
 
@@ -32,14 +32,24 @@
 
         </VerticalStackLayout>
 
-        <ListView
+        <CollectionView
             Grid.Row="1"
-            ItemSelected="ListView_ItemSelected"
             ItemsSource="{Binding FilteredInstitutions}"
-            SelectionMode="Single" />
+            SelectedItem="{Binding SelectedItem}"
+            SelectionChangedCommand="{Binding SelectionChangedCommand}"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:InstitutionModel">
+                    <Label
+                        Margin="5,10"
+                        Text="{Binding Name}"
+                        VerticalOptions="Center" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <ActivityIndicator
-            Grid.Row="2"
+            Grid.Row="1"
             HeightRequest="150"
             HorizontalOptions="Center"
             IsRunning="{Binding IsWorking}"
@@ -48,7 +58,7 @@
             WidthRequest="200" />
 
         <Button
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="10,20"
             Command="{Binding AuthenticateCommand}"
             Text="Authenticate" />

@@ -18,7 +18,10 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     private string? _institutionName;
 
     [ObservableProperty]
-    private List<string> _filteredInstitutions = [];
+    private List<InstitutionModel> _filteredInstitutions = [];
+
+    [ObservableProperty]
+    private InstitutionModel? _selectedItem;
 
     private ICollection<Integration> _allInstitutions = [];
     private readonly Client _apiClient = new(new());
@@ -123,19 +126,11 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
             return;
         }
 
-        FilteredInstitutions = _allInstitutions
+        FilteredInstitutions = [.. _allInstitutions
             .Where(i => string.IsNullOrEmpty(InstitutionName) || i.Name.Contains(InstitutionName, StringComparison.OrdinalIgnoreCase))
-            .Select(i => i.Name)
-            .OrderBy(i => i)
-            .Take(30) // Limit to 30 institutions for performance
-            .ToList();
-    }
-
-    public void SetSelectedInstitution(string institutionName)
-    {
-        InstitutionId = _allInstitutions.FirstOrDefault(i => i.Name.Equals(institutionName, StringComparison.OrdinalIgnoreCase))?.Id;
-        InstitutionName = institutionName;
-        FilteredInstitutions = [];
+            .OrderBy(i => i.Name)
+            .Select(i => new InstitutionModel(i.Id, i.Name))
+            .Take(30)];
     }
 
     private bool IsAuthenticateExecutable()
@@ -147,5 +142,21 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     private void InstitutionNameChanged()
     {
         FilterInstitutions();
+    }
+
+    [RelayCommand]
+    private async Task SelectionChanged()
+    {
+        if (SelectedItem == null)
+        {
+            return;
+        }
+
+        InstitutionName = SelectedItem.Name;
+        InstitutionId = SelectedItem.Id;
+
+        FilteredInstitutions = [];
+
+        SelectedItem = null;
     }
 }
