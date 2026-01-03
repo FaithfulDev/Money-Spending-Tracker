@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="de.faithfuldevapps.moneyspendingtracker.TagBalanceWidgetConfigActivity"
+	android:targetCellWidth="2"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="20000"
+    android:initialLayout="@layout/tag_balance_widget_layout"
+    android:previewImage="@drawable/tag_balance_widget_preview"
+	android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen" />

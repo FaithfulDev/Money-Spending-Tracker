@@ -50,4 +50,32 @@ internal static class AppCache
         get { return Preferences.Default.Get(nameof(ReAuthenticationInProgress), false); }
         set { Preferences.Default.Set(nameof(ReAuthenticationInProgress), value); }
     }
+
+    public static void SetWidget(int widgetId, int tagId, string tagName)
+    {
+        Preferences.Default.Set($"Widget_{widgetId}_TagId", tagId);
+        Preferences.Default.Set($"Widget_{widgetId}_TagName", tagName);
+    }
+
+    public static (int TagId, string TagName) GetWidget(int widgetId)
+    {
+        int tagId = Preferences.Default.Get($"Widget_{widgetId}_TagId", -1);
+        string tagName = Preferences.Default.Get($"Widget_{widgetId}_TagName", string.Empty);
+        return (tagId, tagName);
+    }
+
+    public static void SetTagValue(int tagId, double value)
+    {
+        Preferences.Default.Set($"Tag_{tagId}_Value", value);
+    }
+
+    public static double GetTagValue(int tagId)
+    {
+        return Preferences.Default.Get<double>($"Tag_{tagId}_Value", 0);
+    }
+
+    public static void ClearTagValue(int tagId)
+    {
+        Preferences.Default.Remove($"Tag_{tagId}_Value");
+    }
 }

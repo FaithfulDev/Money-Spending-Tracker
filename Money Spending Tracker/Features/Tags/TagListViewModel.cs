@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Money_Spending_Tracker.Features.Database;
+using Money_Spending_Tracker.Features.Storage;
 using System.Collections.ObjectModel;
 
 namespace Money_Spending_Tracker.Features.Tags;
@@ -79,6 +80,12 @@ public partial class TagListViewModel : ObservableObject
 
         dbContext.Tags.Remove(tag);
         await dbContext.SaveChangesAsync();
+
+        AppCache.ClearTagValue(tag.Id);
+
+#if ANDROID
+        MainApplication.TriggerWidgetUpdate();
+#endif
 
         Items.Remove(tagModel);
     }

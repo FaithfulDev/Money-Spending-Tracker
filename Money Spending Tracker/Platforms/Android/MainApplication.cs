@@ -20,15 +20,28 @@ namespace Money_Spending_Tracker
         {
             var context = Context;
             var widgetManager = AppWidgetManager.GetInstance(context);
-            var widgetComponent = new ComponentName(context, Java.Lang.Class.FromType(typeof(MonthlyBudgetWidgetProvider)));
 
-            int[] widgetIds = widgetManager!.GetAppWidgetIds(widgetComponent)!;
+            List<(ComponentName component, Type providerType)> widgetComponents = [
+                (new ComponentName(context, Java.Lang.Class.FromType(typeof(MonthlyBudgetWidgetProvider))), typeof(MonthlyBudgetWidgetProvider)),
+                (new ComponentName(context, Java.Lang.Class.FromType(typeof(TagBalanceWidgetProvider))), typeof(TagBalanceWidgetProvider)),
+            ];
 
-            Intent updateIntent = new(context, typeof(MonthlyBudgetWidgetProvider));
-            updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-            updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, widgetIds);
+            TriggerWidgetUpdate_Internal(context, widgetManager!, widgetComponents);
+        }
 
-            context.SendBroadcast(updateIntent);
+        private static void TriggerWidgetUpdate_Internal(Context context, AppWidgetManager appWidgetManager,
+             List<(ComponentName component, Type providerType)> widgetComponents)
+        {
+            foreach (var (component, providerType) in widgetComponents)
+            {
+                int[] widgetIds = appWidgetManager.GetAppWidgetIds(component)!;
+
+                Intent updateIntent = new(context, providerType);
+                updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+                updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, widgetIds);
+
+                context.SendBroadcast(updateIntent);
+            }
         }
     }
 }

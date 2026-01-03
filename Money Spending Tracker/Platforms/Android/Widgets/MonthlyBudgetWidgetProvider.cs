@@ -31,8 +31,8 @@ public class MonthlyBudgetWidgetProvider : AppWidgetProvider
             // Choose color based on value
             bool isOverBudget = remainingBudget < 0;
             var color = isOverBudget
-                ? AndroidNamespace.Graphics.Color.Red
-                : AndroidNamespace.Graphics.Color.Black;
+                ? AndroidNamespace.Graphics.Color.Rgb(255, 0, 0) //red
+                : AndroidNamespace.Graphics.Color.Rgb(0, 0, 0); //black
 
             views.SetTextViewText(Resource.Id.budget_number, budgetAmountFormatted);
             views.SetTextColor(Resource.Id.budget_number, color);

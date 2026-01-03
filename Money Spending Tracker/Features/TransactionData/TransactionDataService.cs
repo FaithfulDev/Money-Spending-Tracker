@@ -76,12 +76,25 @@ internal class TransactionDataService : ITransactionDataService
 
         var balance = await GetMonthsBalance(dbContext, new DateOnly(now.Year, now.Month, 1));
         var spendings = await GetMonthsSpendings(dbContext, new DateOnly(now.Year, now.Month, 1));
-        var tagBalances = await GetTagBalances(dbContext, new DateOnly(now.Year, now.Month, 1));
 
         AppCache.CurrentBalance = balance;
         AppCache.RemainingMonthlyBudget = AppSettings.MonthlyBudget + spendings;
 
-        //TODO store tag balances in cache
+        // Store tag balances in cache
+        var tagBalances = await GetTagBalances(dbContext, new DateOnly(now.Year, now.Month, 1));
+
+        foreach (var (tag, tagBalance) in tagBalances)
+        {
+            AppCache.SetTagValue(tag.Id, tagBalance);
+        }
+
+        // Clear cache for tags that have no balance this month
+        var tagsInDb = await dbContext.Tags.AsNoTracking().ToListAsync();
+
+        foreach (var tag in tagsInDb.Where(t => !tagBalances.Any(tb => tb.tag.Id == t.Id)))
+        {
+            AppCache.ClearTagValue(tag.Id);
+        }
 
 #if ANDROID
         MainApplication.TriggerWidgetUpdate();
