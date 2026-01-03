@@ -31,7 +31,7 @@ internal partial class OnboardingDatabaseViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(Password))
         {
-            await Shell.Current.DisplayAlert("Error", "Password cannot be empty.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Password cannot be empty.", "OK");
             return;
         }
 
@@ -45,7 +45,7 @@ internal partial class OnboardingDatabaseViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
 
             // In case the database was created, but some other error occurred.
             _databaseService.DeleteDatabase();

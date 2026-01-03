@@ -27,13 +27,13 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(TransactionListPage), typeof(TransactionListPage));
     }
 
-    private static void MauiExceptions_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static async void MauiExceptions_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         Debug.WriteLine("Exception: " + ((Exception)e.ExceptionObject).Message);
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            Current.DisplayAlert("Exception", ((Exception)e.ExceptionObject).Message, "OK");
+            Current.DisplayAlertAsync("Exception", ((Exception)e.ExceptionObject).Message, "OK");
         });
     }
 }

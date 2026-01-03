@@ -113,7 +113,7 @@ internal partial class AccountsViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteAccount(AccountModel accountModel)
     {
-        if (!await Shell.Current.DisplayAlert(
+        if (!await Shell.Current.DisplayAlertAsync(
             "Delete Account",
             $"Are you sure you want to delete the account '{accountModel.AccountName}' ({accountModel.AccountIban})?",
             "Yes", "No"))
@@ -144,7 +144,7 @@ internal partial class AccountsViewModel : ObservableObject
     [RelayCommand]
     private async Task ReAuthenticateAccount(AccountModel accountModel)
     {
-        if (!await Shell.Current.DisplayAlert(
+        if (!await Shell.Current.DisplayAlertAsync(
             "Re-Authenticate Account",
             $"Do you want to try to re-authenticate the account '{accountModel.AccountName}' ({accountModel.AccountIban})?",
             "Yes", "No"))

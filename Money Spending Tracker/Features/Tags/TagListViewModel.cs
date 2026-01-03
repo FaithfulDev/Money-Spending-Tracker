@@ -59,7 +59,7 @@ public partial class TagListViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteTag(TagListModel tagModel)
     {
-        if (!await Shell.Current.DisplayAlert(
+        if (!await Shell.Current.DisplayAlertAsync(
             "Delete Tag",
             $"Are you sure you want to delete the tag '{tagModel.Name}'?",
             "Yes", "No"))

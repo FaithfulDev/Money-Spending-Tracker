@@ -40,7 +40,7 @@ internal partial class OnboardingApiViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(ApiSecretId) || string.IsNullOrEmpty(ApiSecretKey))
         {
-            await Shell.Current.DisplayAlert("Error", "Please check inputs.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Please check inputs.", "OK");
             return;
         }
 
@@ -65,7 +65,7 @@ internal partial class OnboardingApiViewModel : ObservableObject
         catch (Exception ex)
         {
             IsWorking = false;
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
 
             //Restore original api credentials
             await SecureStorage.SetAsync(StorageKeys.API_SECRET_ID, originalApiSecretId ?? string.Empty);

@@ -70,20 +70,20 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", $"An error occurred while retrieving the requisition: {ex.Message}. " +
+            await Shell.Current.DisplayAlertAsync("Error", $"An error occurred while retrieving the requisition: {ex.Message}. " +
                 $"Please repeat process.", "OK");
             return false;
         }
 
         if (requisition == null)
         {
-            await Shell.Current.DisplayAlert("Error", "Requisition not found. Please repeat process.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Requisition not found. Please repeat process.", "OK");
             return false;
         }
 
         if (requisition.Status != StatusEnum.LN)
         {
-            await Shell.Current.DisplayAlert("Error", "Requisition authentication was unsuccessful. Please repeat process.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Requisition authentication was unsuccessful. Please repeat process.", "OK");
             return false;
         }
 
@@ -95,7 +95,7 @@ internal partial class OnboardingAuthenticationViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(InstitutionId))
         {
-            await Shell.Current.DisplayAlert("Error", "Please check inputs.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Please check inputs.", "OK");
             return;
         }
 

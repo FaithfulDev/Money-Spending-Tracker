@@ -70,7 +70,7 @@ internal partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteTransactions()
     {
-        if (await Shell.Current.DisplayAlert(
+        if (await Shell.Current.DisplayAlertAsync(
             "Delete Transactions",
             "Are you sure you want to delete all transactions? This action cannot be undone.",
             "Yes", "No"))
@@ -95,7 +95,7 @@ internal partial class SettingsViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Failed to delete transactions: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete transactions: {ex.Message}", "OK");
             }
             finally
             {
@@ -107,7 +107,7 @@ internal partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private async Task DeleteAllData()
     {
-        if (await Shell.Current.DisplayAlert(
+        if (await Shell.Current.DisplayAlertAsync(
             "Delete All Data",
             "Are you sure you want to delete all data? This action cannot be undone.",
             "Yes", "No"))
@@ -129,7 +129,7 @@ internal partial class SettingsViewModel : ObservableObject
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", $"Failed to delete all data: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete all data: {ex.Message}", "OK");
             }
             finally
             {

@@ -48,7 +48,7 @@ internal partial class StartViewModel : ObservableObject
     {
         if (string.IsNullOrEmpty(Password))
         {
-            await Shell.Current.DisplayAlert("Error", "Password cannot be empty.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Password cannot be empty.", "OK");
             return;
         }
 
@@ -62,7 +62,7 @@ internal partial class StartViewModel : ObservableObject
         }
         catch (ArgumentException ex)
         {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
             IsWorking = false;
             return;
         }
@@ -70,7 +70,7 @@ internal partial class StartViewModel : ObservableObject
         if (!isUnlocked)
         {
             IsWorking = false;
-            await Shell.Current.DisplayAlert("Error", "Invalid password. Please try again.", "OK");
+            await Shell.Current.DisplayAlertAsync("Error", "Invalid password. Please try again.", "OK");
             return;
         }
 
