@@ -30,7 +30,7 @@ public class UpdateTransactionsJobWorker : Worker
             Debug.WriteLine("Database password is not set. Cannot unlock the database.");
 
             // We don't want the work manager to retry this job if the password is not set.
-            return Result.InvokeSuccess();
+            return Result.InvokeSuccess()!;
         }
 
         // "o" = ISO 8601 format
@@ -68,7 +68,7 @@ public class UpdateTransactionsJobWorker : Worker
 
         await CreateJobLogAsync(startedAt, finishedAt, errorMessage, errorStackTrace);
 
-        return Result.InvokeSuccess(output);
+        return Result.InvokeSuccess(output)!;
     }
 
     private static async Task CreateJobLogAsync(string startedAt, string finishedAt, string? errorMessage, string? errorStackTrace)
