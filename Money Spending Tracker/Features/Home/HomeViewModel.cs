@@ -59,7 +59,6 @@ internal partial class HomeViewModel : ObservableObject
     private DateOnly _monthYear = new(DateTime.Now.Year, DateTime.Now.Month, 1);
 
     private readonly ITransactionDataService _transactionDataService;
-    private readonly Guid _updateLockGuid = Guid.NewGuid();
 
     public HomeViewModel(ITransactionDataService transactionDataService)
     {
@@ -123,7 +122,7 @@ internal partial class HomeViewModel : ObservableObject
         // Reset the timeout flag
         DidTimeout = false;
 
-        var result = await _transactionDataService.UpdateTransactionsAndCacheAsync(_updateLockGuid);
+        var result = await _transactionDataService.UpdateTransactionsAndCacheAsync();
 
         if (result == UpdateResult.UPDATE_ALREADY_IN_PROGRESS)
         {

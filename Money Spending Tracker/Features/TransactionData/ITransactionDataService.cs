@@ -16,7 +16,7 @@ public interface ITransactionDataService
     /// Pulls transaction data from the API and updates the database. 
     /// Updates the cache with the new values.
     /// </summary>
-    public Task<UpdateResult> UpdateTransactionsAndCacheAsync(Guid lockGuid);
+    public Task<UpdateResult> UpdateTransactionsAndCacheAsync();
 
     /// <summary>
     /// Recalculates the current balance and remaining budget based on the transactions for the current month.

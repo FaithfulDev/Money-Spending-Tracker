@@ -45,10 +45,8 @@ public class UpdateTransactionsJobWorker : Worker
 
         try
         {
-            var lockGuid = Guid.NewGuid();
-
             await databaseService!.UnlockAndInitializeAsync(dbPassword);
-            await transactionDataService!.UpdateTransactionsAndCacheAsync(lockGuid);
+            await transactionDataService!.UpdateTransactionsAndCacheAsync();
 
             Debug.WriteLine("Daily job worker completed successfully.");
         }

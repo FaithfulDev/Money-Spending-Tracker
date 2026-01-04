@@ -99,9 +99,9 @@ internal class TransactionDataService : ITransactionDataService
 #endif
     }
 
-    public async Task<UpdateResult> UpdateTransactionsAndCacheAsync(Guid lockGuid)
+    public async Task<UpdateResult> UpdateTransactionsAndCacheAsync()
     {
-        if (!TryGetLock(lockGuid))
+        if (!TryGetLock())
         {
             // If the lock is already held, we return early to prevent concurrent updates.
             Debug.WriteLine("UpdateTransactionsAndCacheAsync is already running, skipping this call.");
@@ -501,8 +501,10 @@ internal class TransactionDataService : ITransactionDataService
         return untaggedBalance;
     }
 
-    private static bool TryGetLock(Guid lockGuid)
+    private static bool TryGetLock()
     {
+        var lockGuid = Guid.NewGuid();
+
         // Check if there is an existing lock
         (Guid currentLockGuid, DateTime currentLockDateTime)? currentLock = AppCache.UpdateLock;
 
