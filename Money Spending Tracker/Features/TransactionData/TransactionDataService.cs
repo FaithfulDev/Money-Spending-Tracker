@@ -6,6 +6,7 @@ using Money_Spending_Tracker.Features.Settings;
 using Money_Spending_Tracker.Features.Storage;
 using Money_Spending_Tracker.Features.Tags;
 using System.Diagnostics;
+using System.Net;
 using static Money_Spending_Tracker.Features.TransactionData.ITransactionDataService;
 
 namespace Money_Spending_Tracker.Features.TransactionData;
@@ -28,7 +29,8 @@ internal class TransactionDataService : ITransactionDataService
         _databaseService = databaseService;
     }
 
-    public async Task<List<(Guid accountId, bool isLinked, int expiresInDays)>> CheckAccountLinkStatus()
+    public async Task<List<(Guid accountId, bool isLinked, int expiresInDays)>> CheckAccountLinkStatus(
+        CancellationToken cancellationToken)
     {
         List<(Guid accountId, bool isLinked, int expiresInDays)> results = [];
 
@@ -36,10 +38,29 @@ internal class TransactionDataService : ITransactionDataService
         var accountIds = dbContext.Accounts.Select(a => a.AccountId);
 
         var apiClient = new Client(new());
-        var requisitions = (await apiClient.Retrieve_all_requisitionsAsync()).Results;
+
+        ICollection<Requisition> requisitions;
+
+        try
+        {
+            requisitions = (await apiClient.Retrieve_all_requisitionsAsync(cancellationToken: cancellationToken)).Results;
+        }
+        catch (WebException ex)
+        {
+            // Check if this is a wrapped cancellation
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.WriteLine("Retrieval was cancelled.");
+                throw new OperationCanceledException("The operation was canceled.", ex, cancellationToken);
+            }
+
+            throw;
+        }
 
         foreach (var accountId in accountIds)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var requisition = requisitions.FirstOrDefault(r => r.Accounts.Contains(accountId) && r.Status == StatusEnum.LN);
 
             if (requisition == null)
@@ -99,7 +120,7 @@ internal class TransactionDataService : ITransactionDataService
 #endif
     }
 
-    public async Task<UpdateResult> UpdateTransactionsAndCacheAsync()
+    public async Task<UpdateResult> UpdateTransactionsAndCacheAsync(CancellationToken cancellationToken)
     {
         if (!TryGetLock())
         {
@@ -110,10 +131,15 @@ internal class TransactionDataService : ITransactionDataService
 
         try
         {
-            _accountLinkStatusCache = await CheckAccountLinkStatus();
+            _accountLinkStatusCache = await CheckAccountLinkStatus(cancellationToken);
 
-            await Task.Run(UpdateRecentTransactionsAsync);
+            await Task.Run(async () => await UpdateRecentTransactionsAsync(cancellationToken), cancellationToken);
             await UpdateCacheAsync();
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.WriteLine("UpdateTransactionsAndCacheAsync was cancelled.");
+            return UpdateResult.CANCELLED;
         }
         finally
         {
@@ -123,19 +149,21 @@ internal class TransactionDataService : ITransactionDataService
         return UpdateResult.SUCCSES;
     }
 
-    private async Task UpdateRecentTransactionsAsync()
+    private async Task UpdateRecentTransactionsAsync(CancellationToken cancellationToken)
     {
         using var dbContext = _databaseService.CreateDbContext();
 
         var HundredDaysAgo = DateTime.UtcNow.AddDays(-100);
 
         var apiClient = new Client(new() { Timeout = TimeSpan.FromSeconds(120) });
-        var accounts = await dbContext.Accounts.Select(a => new { a.AccountId, a.AccountIban }).ToListAsync();
+        var accounts = await dbContext.Accounts.Select(a => new { a.AccountId, a.AccountIban }).ToListAsync(cancellationToken);
 
         List<Transaction> newTransactions = [];
 
         foreach (var account in accounts)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             await OnAccountUpdateStarted(account.AccountIban);
             await OnAccountUpdateProgress("Fetching transactions...");
 
@@ -144,11 +172,11 @@ internal class TransactionDataService : ITransactionDataService
                     .Where(t => t.ValueDate >= HundredDaysAgo)
                     .Where(t => t.AccountId == account.AccountId)
                     .Select(t => t.InternalTransactionId)
-                    .ToListAsync()
+                    .ToListAsync(cancellationToken)
             );
 
             var transactionsToAdd =
-                await GetNewTransactionsForAccountAsync(recentTransactionIds, apiClient, account.AccountId);
+                await GetNewTransactionsForAccountAsync(recentTransactionIds, apiClient, account.AccountId, cancellationToken);
 
             if (transactionsToAdd.Count == 0)
             {
@@ -160,9 +188,13 @@ internal class TransactionDataService : ITransactionDataService
             using var tagPredictionService = new TagPredictionService();
             await tagPredictionService.InitializeAsync();
 
+            int counter = 0;
+
             // Add new transactions to the database
             foreach (var transaction in transactionsToAdd)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 byte[]? embeddingBytes = null;
 
                 var combinedText =
@@ -206,33 +238,43 @@ internal class TransactionDataService : ITransactionDataService
                 dbContext.Transactions.Add(newTransaction);
                 newTransactions.Add(newTransaction);
 
-                if (newTransactions.Count % 10 == 0)
+                counter++;
+
+                if (counter % 10 == 0 || transactionsToAdd.Count == counter)
                 {
                     await OnAccountUpdateProgress(
-                        $"Processing {newTransactions.Count}/{transactionsToAdd.Count} " +
+                        $"Processing {counter}/{transactionsToAdd.Count} " +
                         $"({Math.Round((double)newTransactions.Count / transactionsToAdd.Count * 100, 0)}%)");
                 }
             }
         }
 
-        await dbContext.SaveChangesAsync();
+        var taggingData = await PrepareTaggingData(newTransactions, dbContext, cancellationToken);
 
-        await TryAutomaticallyTagging(newTransactions, dbContext);
+        await OnAccountUpdateProgress($"Finalizing...");
+        using var dbTransaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+        await ApplyTags(taggingData, dbContext, cancellationToken);
+
+        // Commit transactions + tagging
+        await dbTransaction.CommitAsync(cancellationToken);
 
         AppCache.LastTransactionUpdate = DateTime.UtcNow;
     }
 
-    private async Task TryAutomaticallyTagging(List<Transaction> transactions, AppDbContext dbContext)
+    private async Task<List<(Transaction transaction, List<int> tagIds)>> PrepareTaggingData(
+        List<Transaction> transactions, AppDbContext dbContext, CancellationToken cancellationToken)
     {
         if (transactions.Count == 0)
         {
-            return;
+            return [];
         }
 
         await OnAccountUpdateProgress($"Tagging 0/{transactions.Count}");
 
         var negativeEmbeddingsRaw = await dbContext.TagNegativeEmbeddings
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         var transactionEmbeddingsRaw = await dbContext.TransactionTags
             .Include(tt => tt.Transaction)
@@ -241,7 +283,7 @@ internal class TransactionDataService : ITransactionDataService
             {
                 Embedding = tt.Transaction!.Embedding!,
                 tt.TagId
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken);
 
         List<(float[] embedding, int tagId)> negativeEmbeddings = [..
             negativeEmbeddingsRaw.Select(ne => (
@@ -258,24 +300,19 @@ internal class TransactionDataService : ITransactionDataService
         ];
 
         int counter = 0;
+        List<(Transaction Transaction, List<int> TagIds)> taggingData = [];
 
         foreach (var transaction in transactions.Where(t => t.Embedding != null))
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var bestTagIds = TagPredictionService.PredictTags(
                 newEmbedding: ByteFloatConversionHelper.ByteArrayToFloatArray(transaction.Embedding!)!,
                 positiveEmbeddings: positiveEmbeddings,
                 negativeEmbeddings: negativeEmbeddings
             );
 
-            foreach (var tagId in bestTagIds)
-            {
-                dbContext.TransactionTags.Add(new(
-                    internalTransactionId: transaction.InternalTransactionId,
-                    accountId: transaction.AccountId,
-                    tagId: tagId,
-                    taggedBy: TaggedBy.SYSTEM
-                ));
-            }
+            taggingData.Add((transaction, bestTagIds));
 
             counter++;
             await OnAccountUpdateProgress(
@@ -283,12 +320,30 @@ internal class TransactionDataService : ITransactionDataService
                 $"({Math.Round((double)counter / transactions.Count * 100, 0)}%)");
         }
 
-        await OnAccountUpdateProgress($"Finalizing...");
-        await dbContext.SaveChangesAsync();
+        return taggingData;
+    }
+
+    private static async Task ApplyTags(List<(Transaction transaction, List<int> tagIds)> taggingData,
+        AppDbContext dbContext, CancellationToken cancellationToken)
+    {
+        foreach (var (transaction, tagIds) in taggingData)
+        {
+            foreach (var tagId in tagIds)
+            {
+                dbContext.TransactionTags.Add(new(
+                    transaction.InternalTransactionId,
+                    transaction.AccountId,
+                    tagId,
+                    TaggedBy.SYSTEM
+                ));
+            }
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private async Task<List<TransactionSchema>> GetNewTransactionsForAccountAsync(
-        HashSet<Guid> recentTransactionIds, Client apiClient, Guid accountId)
+        HashSet<Guid> recentTransactionIds, Client apiClient, Guid accountId, CancellationToken cancellationToken)
     {
         try
         {
@@ -299,7 +354,7 @@ internal class TransactionDataService : ITransactionDataService
             }
 
             var newTransactions = await apiClient.Retrieve_account_transactionsAsync(
-                accountId.ToString());
+                accountId.ToString(), cancellationToken: cancellationToken);
 
             var transactionsToAdd = newTransactions.Transactions.Booked
                 .Where(t => !recentTransactionIds.Contains(Guid.Parse(t.InternalTransactionId)))
@@ -317,14 +372,16 @@ internal class TransactionDataService : ITransactionDataService
         }
         catch (System.Net.WebException ex)
         {
+            // Check if this is a wrapped cancellation
+            if (cancellationToken.IsCancellationRequested)
+            {
+                Debug.WriteLine("Transaction retrieval was cancelled.");
+                throw new OperationCanceledException("The operation was canceled.", ex, cancellationToken);
+            }
+
             // We show a warning to the user if there is a WebException, but we don't throw it.
             Debug.WriteLine($"WebException while retrieving transactions: {ex.Message}");
             await OnTimeoutOccurred();
-        }
-        catch (OperationCanceledException)
-        {
-            // Operation was cancelled, we can ignore this
-            return [];
         }
 
         return [];
@@ -503,8 +560,6 @@ internal class TransactionDataService : ITransactionDataService
 
     private static bool TryGetLock()
     {
-        var lockGuid = Guid.NewGuid();
-
         // Check if there is an existing lock
         (Guid currentLockGuid, DateTime currentLockDateTime)? currentLock = AppCache.UpdateLock;
 
@@ -516,6 +571,7 @@ internal class TransactionDataService : ITransactionDataService
         }
 
         // Set the new lock
+        var lockGuid = Guid.NewGuid();
         AppCache.UpdateLock = (lockGuid, DateTime.UtcNow);
 
         // Check if we successfully acquired the lock

@@ -16,7 +16,7 @@ public interface ITransactionDataService
     /// Pulls transaction data from the API and updates the database. 
     /// Updates the cache with the new values.
     /// </summary>
-    public Task<UpdateResult> UpdateTransactionsAndCacheAsync();
+    public Task<UpdateResult> UpdateTransactionsAndCacheAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Recalculates the current balance and remaining budget based on the transactions for the current month.
@@ -24,7 +24,7 @@ public interface ITransactionDataService
     /// </summary>
     public Task UpdateCacheAsync();
 
-    public Task<List<(Guid accountId, bool isLinked, int expiresInDays)>> CheckAccountLinkStatus();
+    public Task<List<(Guid accountId, bool isLinked, int expiresInDays)>> CheckAccountLinkStatus(CancellationToken cancellationToken);
 
     public Task<(List<(DateOnly date, double balance)> data, bool hasMore)> GetBalancesGroupedByMonth(int page, int pageSize);
 

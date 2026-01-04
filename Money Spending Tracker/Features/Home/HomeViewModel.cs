@@ -58,7 +58,12 @@ internal partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private DateOnly _monthYear = new(DateTime.Now.Year, DateTime.Now.Month, 1);
 
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(CancelUpdateCommand))]
+    private bool _canBeCancelled = true;
+
     private readonly ITransactionDataService _transactionDataService;
+    private CancellationTokenSource? _cancellationTokenSource = null;
 
     public HomeViewModel(ITransactionDataService transactionDataService)
     {
@@ -119,10 +124,13 @@ internal partial class HomeViewModel : ObservableObject
 
     private async Task UpdateTransactionsAndWidgetAsync()
     {
-        // Reset the timeout flag
+        // Reset flags
         DidTimeout = false;
+        CanBeCancelled = true;
 
-        var result = await _transactionDataService.UpdateTransactionsAndCacheAsync();
+        _cancellationTokenSource = new();
+
+        var result = await _transactionDataService.UpdateTransactionsAndCacheAsync(_cancellationTokenSource.Token);
 
         if (result == UpdateResult.UPDATE_ALREADY_IN_PROGRESS)
         {
@@ -138,7 +146,7 @@ internal partial class HomeViewModel : ObservableObject
 
     private async Task CheckAccountLinks()
     {
-        var linkStatus = await _transactionDataService.CheckAccountLinkStatus();
+        var linkStatus = await _transactionDataService.CheckAccountLinkStatus(CancellationToken.None);
         if (linkStatus.Any(ls => !ls.isLinked || ls.expiresInDays <= 15))
         {
             ShowExpireWarning = true;
@@ -158,13 +166,12 @@ internal partial class HomeViewModel : ObservableObject
 
         if (linkStatus.Any(ls => ls.isLinked && ls.expiresInDays <= 15))
         {
-            var minExpiryItem = linkStatus
-                .Where(ls => ls.isLinked && ls.expiresInDays <= 15)
+            var (_, _, expiresInDays) = linkStatus
                 .OrderBy(ls => ls.expiresInDays)
                 .First();
 
             ShowExpiresInDaysWarning = true;
-            DaysUntilExpiry = minExpiryItem.expiresInDays;
+            DaysUntilExpiry = expiresInDays;
         }
     }
 
@@ -184,14 +191,28 @@ internal partial class HomeViewModel : ObservableObject
 
         await CheckAccountLinks();
         await UpdateTransactionsAndWidgetAsync();
-
-        // Ending logic happens in transactionDataService_TransactionUpdateEnded event handler.
     }
 
     [RelayCommand]
     private async Task CheckAccounts()
     {
         await Shell.Current.GoToAsync($"//{nameof(AccountsPage)}");
+    }
+
+    [RelayCommand(CanExecute = nameof(IsCancelUpdateExecutable))]
+    private async Task CancelUpdate()
+    {
+        if (_cancellationTokenSource != null)
+        {
+            await _cancellationTokenSource.CancelAsync();
+        }
+
+        CanBeCancelled = false;
+    }
+
+    private bool IsCancelUpdateExecutable()
+    {
+        return CanBeCancelled;
     }
 
     private void SetIsWorking(bool value)
@@ -237,5 +258,8 @@ internal partial class HomeViewModel : ObservableObject
         SetIsWorking(false);
 
         await UpdateUIValues();
+
+        _cancellationTokenSource?.Dispose();
+        _cancellationTokenSource = null;
     }
 }

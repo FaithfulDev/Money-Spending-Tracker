@@ -64,7 +64,7 @@ internal partial class AccountsViewModel : ObservableObject
     {
         IsWorking = true;
 
-        var linkStatus = await _transactionDataService.CheckAccountLinkStatus();
+        var linkStatus = await _transactionDataService.CheckAccountLinkStatus(CancellationToken.None);
 
         var dbContext = _databaseService.CreateDbContext();
         var thisViewModel = this;
@@ -87,7 +87,7 @@ internal partial class AccountsViewModel : ObservableObject
         // This indicates that new accounts were added and we came back to this page
         if (accountsAdded)
         {
-            await _transactionDataService.UpdateTransactionsAndCacheAsync();
+            await _transactionDataService.UpdateTransactionsAndCacheAsync(CancellationToken.None);
 
             // Navigate to clear the navigation stack.
             await Shell.Current.GoToAsync($"//{nameof(AccountsPage)}");

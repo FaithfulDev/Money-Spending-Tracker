@@ -46,7 +46,7 @@ public class UpdateTransactionsJobWorker : Worker
         try
         {
             await databaseService!.UnlockAndInitializeAsync(dbPassword);
-            await transactionDataService!.UpdateTransactionsAndCacheAsync();
+            await transactionDataService!.UpdateTransactionsAndCacheAsync(CancellationToken.None);
 
             Debug.WriteLine("Daily job worker completed successfully.");
         }
