@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using CommunityToolkit.Maui.Storage;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Money_Spending_Tracker.Data;
@@ -143,6 +144,30 @@ public class DatabaseService
         if (DoesDatabaseExist())
         {
             File.Delete(_dbPath);
+        }
+    }
+
+    public async Task ExportDatabase()
+    {
+        if (!DoesDatabaseExist())
+        {
+            throw new FileNotFoundException("Database file not found.");
+        }
+
+        string exportDbFileName = $"money_spending_tracker_export_{DateTime.Now:yyyyMMddHHmmss}.db";
+        string exportDbPath = Path.Combine(FileSystem.CacheDirectory, exportDbFileName);
+        File.Copy(_dbPath, exportDbPath, overwrite: true);
+
+        string? exportDbPassword = await SecureStorage.GetAsync(StorageKeys.DB_PASSWORD);
+
+        using var dbStream = File.OpenRead(exportDbPath);
+        await FileSaver.Default.SaveAsync(exportDbFileName, dbStream, CancellationToken.None);
+
+        if (!string.IsNullOrEmpty(exportDbPassword))
+        {
+            using var passwordStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(exportDbPassword));
+            string exportPasswordFileName = Path.ChangeExtension(exportDbFileName, ".txt");
+            await FileSaver.Default.SaveAsync(exportPasswordFileName, passwordStream, CancellationToken.None);
         }
     }
 
