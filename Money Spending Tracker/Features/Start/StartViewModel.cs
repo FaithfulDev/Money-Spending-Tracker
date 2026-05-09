@@ -33,10 +33,17 @@ internal partial class StartViewModel : ObservableObject
         }
 
         // Try to unlock the database using fingerprint authentication.
-        if (await _databaseService.UnlockAndInitializeAsync())
+        try
         {
-            await PostUnlock();
-            return;
+            if (await _databaseService.UnlockAndInitializeAsync())
+            {
+                await PostUnlock();
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Error", ex.Message, "OK");
         }
 
         //Unlock failed. User will need to enter password.
