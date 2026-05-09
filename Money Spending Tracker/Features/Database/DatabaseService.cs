@@ -84,6 +84,20 @@ public class DatabaseService
     private async Task InitializeDatabaseAsync()
     {
         using var context = CreateDbContext();
+
+        // Clear any stale migration lock left from a previous interrupted migration.
+        // If MigrateAsync() is killed mid-run (e.g. Android killing the background job process),
+        // the lock row in __EFMigrationsLock is never deleted, causing all future MigrateAsync()
+        // calls to hang indefinitely.
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("DELETE FROM \"__EFMigrationsLock\" WHERE \"Id\" = 1");
+        }
+        catch
+        {
+            // Table may not exist on first run — that's fine.
+        }
+
         await context.Database.MigrateAsync();
 
 #if DEBUG
