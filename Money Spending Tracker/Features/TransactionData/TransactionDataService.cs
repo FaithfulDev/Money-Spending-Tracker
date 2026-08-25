@@ -199,8 +199,8 @@ internal class TransactionDataService : ITransactionDataService
 
                 var combinedText =
                     (transaction.UltimateCreditor ?? transaction.CreditorName ?? transaction.DebtorName ?? "") +
-                    " " + (transaction.RemittanceInformationStructured ?? transaction.RemittanceInformationUnstructured ?? "" +
-                    " " + (transaction.AdditionalInformation ?? ""));
+                    " " + (transaction.RemittanceInformationStructured ?? transaction.RemittanceInformationUnstructured ?? "") +
+                    " " + (transaction.AdditionalInformation ?? "");
 
                 if (!string.IsNullOrWhiteSpace(combinedText))
                 {
